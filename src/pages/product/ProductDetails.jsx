@@ -4,6 +4,7 @@ import imageChildSatu from "../../assets/product-details/child-image1.png"
 import imageChildDua from "../../assets/product-details/child-image2.png"
 import imageChildTiga from "../../assets/product-details/child-image3.png"
 import thumbsup from "../../assets/product-details/like.svg"
+import liked from "../../assets/product-details/liked.svg"
 import shoppingCart from "../../assets/product-details/shoppingCart.svg"
 import prev from "../../assets/product-details/arrow-right.svg"
 import Card from "../../components/Card"
@@ -19,7 +20,7 @@ const ProductDetails = (data) => {
       discount: 0.5,
     },
   }
-  const [isRecommended, setIsRecommended] = useState(dataTest.isRecommended)
+  const [isRecommended, setIsRecommended] = useState(false)
 
   const [order, setOrder] = useState({
     size: dataTest.size[0],
@@ -97,7 +98,17 @@ const ProductDetails = (data) => {
               Recommendation
             </span>
             <div className='mb-1'>
-              <img src={thumbsup} alt='thumsup' width={24} height={24} />
+              <button
+                className='cursor-pointer'
+                onClick={() => setIsRecommended(!isRecommended)}
+              >
+                {isRecommended ? (
+                  <img src={liked} alt='thumsup' width={24} height={24} />
+                ) : (
+                  <img src={thumbsup} alt='thumsup' width={24} height={24} />
+                )}
+                {isRecommended}
+              </button>
             </div>
           </div>
           <p className='text-[#4F5665] leading-[100%] mb-4 max-sm:text-sm'>
@@ -107,7 +118,7 @@ const ProductDetails = (data) => {
           </p>
           <div className='flex gap-4 items-center mb-4 lg:mb-14'>
             <button
-              className='w-[33.6px] h-[33.6px] rounded-[4px] border border-[#FF8906] text-[#0B132A] font-semibold text-lg'
+              className='w-[33.6px] h-[33.6px] rounded-[4px] border border-(--secondary-color) text-[#0B132A] font-semibold text-lg cursor-pointer hover:text-[#0B0909] hover:bg-(--secondary-color) transition duration-150 ease-linear'
               onClick={() =>
                 setOrder((prev) => ({
                   ...prev,
@@ -121,7 +132,7 @@ const ProductDetails = (data) => {
               {order.qty}
             </span>
             <button
-              className='w-[33.6px] h-[33.6px] rounded-[4px] bg-[#FF8906] text-[#0B132A] font-semibold text-lg'
+              className='w-[33.6px] h-[33.6px] rounded-[4px] bg-(--secondary-color) text-[#0B132A] font-semibold text-lg  cursor-pointer hover:text-[#0B0909] hover:bg-(--secondary-color) transition duration-150 ease-linear '
               onClick={() =>
                 setOrder((prev) => ({
                   ...prev,
@@ -142,9 +153,9 @@ const ProductDetails = (data) => {
                   onClick={() => setOrder((prev) => ({ ...prev, size: item }))}
                   className={`${
                     order.size === item
-                      ? "border border-[#FF8906] text-[#0B0909]"
-                      : "border border-[#E8E8E8] text-[#4F5665] "
-                  }  leading-[100%] flex-1 p-[10px]`}
+                      ? "border bg-(--secondary-color) text-(--color-white)"
+                      : "border border-(--color-white) text-[#4F5665]"
+                  }  leading-[100%] flex-1 p-[10px] cursor-pointer hover:bg-(--secondary-color) hover:bg-(--secondary-color) hover:text-white`}
                 >
                   {item}
                 </button>
@@ -163,19 +174,19 @@ const ProductDetails = (data) => {
                   }
                   className={`${
                     order.toping === item
-                      ? "border border-[#FF8906] text-[#0B0909]"
-                      : "border border-[#E8E8E8] text-[#4F5665] "
-                  }  leading-[100%] flex-1 p-[10px]`}
+                      ? "border bg-(--secondary-color) text-(--color-white)"
+                      : "border border-(--color-white) text-[#4F5665]"
+                  }  leading-[100%] flex-1 p-[10px] cursor-pointer hover:bg-(--secondary-color) hover:bg-(--secondary-color) hover:text-white`}
                 >
                   {item}
                 </button>
               ))}
             </div>
             <div className=' w-full gap-5 md:flex'>
-              <button className='text-[#0B132A] p-3 font-medium text-sm leading-5 bg-[#FF8906] rounded-md flex-1 w-full max-md:mb-4'>
+              <button className='text-(--color-white) p-3 font-medium text-sm leading-5 bg-[#FF8906] rounded-md flex-1 w-full max-md:mb-4 cursor-pointer'>
                 Buy
               </button>
-              <button className='flex flex-1 items-center justify-center border border-[#FF8906] rounded-md w-full p-3 font-medium text-sm'>
+              <button className='flex flex-1 items-center justify-center border border-[#FF8906] rounded-md w-full p-3 font-medium text-sm cursor-pointer'>
                 <img src={shoppingCart} alt='shopping cart icon' />
                 <span className='text-[#FF8906] max-sm:hidden'>
                   add to cart
@@ -190,39 +201,39 @@ const ProductDetails = (data) => {
           Recommendation
           <strong className='font-medium text-[#8E6447]'> For You</strong>
         </h3>
-        <div className='h-[800px] flex '>
+        <div className='  flex gap-4 mt-4 max-sm:overflow-x-scroll max-sm:overflow-y-hidden min-h-[540px]'>
           <Card />
           <Card />
           <Card />
         </div>
-        <div className='flex my-14 gap-5 justify-center'>
+        <div className='flex my-14 gap-5 justify-center '>
           <button
             type='button'
-            className='text-[#0B0909] bg-[#FF8906] leading-5 flex items-center justify-center  rounded-full w-10 h-10'
+            className='text-[#0B0909] bg-[#FF8906] leading-5 flex items-center justify-center  cursor-pointer rounded-full w-10 h-10'
           >
             1
           </button>
           <button
             type='button'
-            className='text-[#A0A3BD] bg-[#E8E8E8] font-medium font-medium leading-5 flex items-center justify-center  rounded-full w-10 h-10'
+            className='text-[#A0A3BD] bg-[#E8E8E8] font-medium font-medium leading-5 flex items-center justify-center  rounded-full w-10 h-10 cursor-pointer hover:text-[#0B0909] hover:bg-[#FF8906] transition duration-150 ease-in-out '
           >
             2
           </button>
           <button
             type='button'
-            className='text-[#A0A3BD] bg-[#E8E8E8] font-medium leading-5 flex items-center justify-center  rounded-full w-10 h-10 '
+            className='text-[#A0A3BD] bg-[#E8E8E8] font-medium leading-5 flex items-center justify-center  rounded-full w-10 h-10 cursor-pointer hover:text-[#0B0909] hover:bg-[#FF8906] transition duration-150 ease-in-out '
           >
             3
           </button>
           <button
             type='button'
-            className='text-[#A0A3BD] bg-[#E8E8E8] font-mediumleading-5 flex items-center justify-center  rounded-full w-10 h-10'
+            className='text-[#A0A3BD] bg-[#E8E8E8] font-mediumleading-5 flex items-center justify-center  rounded-full w-10 h-10 cursor-pointer hover:text-[#0B0909] hover:bg-[#FF8906] transition duration-150 ease-linear'
           >
             4
           </button>
           <button
             type='button'
-            className='text-[#0B0909] bg-[#FF8906] leading-5 flex items-center justify-center  rounded-full w-10 h-10'
+            className='text-[#0B0909] bg-[#FF8906] leading-5 flex items-center justify-center  rounded-full w-10 h-10 cursor-pointer'
           >
             <img src={prev} alt='next icon' />
           </button>
