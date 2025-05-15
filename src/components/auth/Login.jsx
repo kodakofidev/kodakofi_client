@@ -7,10 +7,12 @@ import eyeslash from "/icons/EyeSlash.svg";
 import eye from "/icons/eye.svg";
 import fbIcon from "/icons/fb_icon.svg";
 import googleIcon from "/icons/google_icon.svg";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -18,10 +20,17 @@ function Login() {
 
   return (
     <>
-      <main className="flex gap-5 max-lg:bg-[url(/loginBG.svg)] bg-no-repeat bg-cover lg:flex ">
+      <main className="flex gap-5 max-lg:bg-[url(/loginBG.svg)] bg-no-repeat bg-cover lg:flex h-screen">
         <img src={loginBG} className="max-lg:hidden" />
         <section className="px-5 w-full py-20 bg-white/80 lg:px-10 lg:py-40">
-          <img src={logo} alt="coffee shop" />
+          <img
+            src={logo}
+            alt="coffee shop"
+            onClick={() => {
+              navigate("/");
+            }}
+            className="cursor-pointer"
+          />
           <form action="" className="flex flex-col gap-3.5 py-5">
             <h1 className="text-[18px] text-(--primary-color)">Login</h1>
             <p className="text-[14px]">Fill out the form correctly</p>
@@ -53,11 +62,18 @@ function Login() {
                   placeholder="Enter Your Password"
                   className="outline-none w-full h-full"
                 />
-                <img src={showPassword ? eyeslash : eye} alt={showPassword ? "show password" : "hide password"} 
-                onClick={togglePasswordVisibility} className="cursor-pointer"/>
+                <img
+                  src={showPassword ? eyeslash : eye}
+                  alt={showPassword ? "show password" : "hide password"}
+                  onClick={togglePasswordVisibility}
+                  className="cursor-pointer"
+                />
               </div>
             </div>
-            <Link to="/auth/forgotpassword" className="font-semibold text-(--secondary-color) w-fit self-end hover:font-bold cursor-pointer">
+            <Link
+              to="/auth/forgotpassword"
+              className="font-semibold text-(--secondary-color) w-fit self-end hover:font-bold cursor-pointer"
+            >
               Lupa Password?
             </Link>
             <button className="w-full py-2.5 rounded-md bg-(--secondary-color) hover:scale-[0.9] hover:text-white duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer">
@@ -65,7 +81,10 @@ function Login() {
             </button>
             <p className="text-center">
               Not Have An Account?{" "}
-              <Link to="/auth/register" className="text-(--secondary-color) hover:font-semibold cursor-pointer">
+              <Link
+                to="/auth/register"
+                className="text-(--secondary-color) hover:font-semibold cursor-pointer"
+              >
                 Register
               </Link>
             </p>
