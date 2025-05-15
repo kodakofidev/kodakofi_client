@@ -5,13 +5,19 @@ import imageChildDua from "../../assets/product-details/child-image2.png"
 import imageChildTiga from "../../assets/product-details/child-image3.png"
 import thumbsup from "../../assets/product-details/like.svg"
 import shoppingCart from "../../assets/product-details/shoppingCart.svg"
-import star from "../../assets/product-details/star.svg"
+import prev from "../../assets/product-details/arrow-right.svg"
+import Card from "../../components/Card"
 const ProductDetails = (data) => {
   const dataTest = {
     name: "Hazelnut Latte",
     size: ["regular", "medium", "large"],
     toping: ["ice", "hot"],
     isRecommended: false,
+    price: 20000,
+    discount: {
+      name: "flash sale",
+      discount: 0.5,
+    },
   }
   const [isRecommended, setIsRecommended] = useState(dataTest.isRecommended)
 
@@ -32,7 +38,7 @@ const ProductDetails = (data) => {
   ])
   const [selectedImage, setSelectedImage] = useState(imageProductUtama)
   return (
-    <main className=' w-full p-5 lg:px-[130px] md:py-[87px]  '>
+    <main className=' px-4 lg:px-8 md:px-12 xl:px-24 mt-40 '>
       <section className=' gap-5 lg:flex mb-[55px]'>
         <div className='  basis-[500px] shrink-0 mb-4'>
           <div className='mb-[27px] flex justify-center'>
@@ -180,18 +186,46 @@ const ProductDetails = (data) => {
         </div>
       </section>
       <section>
-        <h3 className='font-medium text-2xl leading-[100%] text-center text-[#0B132A]  mb-6'>
+        <h3 className='font-medium max-md:text-2xl max-md:text-center text-5xl text-left leading-[100%] text-center text-[#0B132A]  '>
           Recommendation
           <strong className='font-medium text-[#8E6447]'> For You</strong>
         </h3>
-        <div>
-          <div className='relative w-[377px]'>
-            <img src={imageProductUtama} alt='' height={360} />
-            <p className='bg-[#D00000] text-sm text-white leading-6 p-[10px] rounded-3xl font-bold md:text-lg w-max mb-4 p-[10px] absolute top-3 left-3'>
-              FLASH SALE!
-            </p>
-            <div></div>
-          </div>
+        <div className='h-[800px] flex '>
+          <Card />
+          <Card />
+          <Card />
+        </div>
+        <div className='flex my-14 gap-5 justify-center'>
+          <button
+            type='button'
+            className='text-[#0B0909] bg-[#FF8906] leading-5 flex items-center justify-center  rounded-full w-10 h-10'
+          >
+            1
+          </button>
+          <button
+            type='button'
+            className='text-[#A0A3BD] bg-[#E8E8E8] font-medium font-medium leading-5 flex items-center justify-center  rounded-full w-10 h-10'
+          >
+            2
+          </button>
+          <button
+            type='button'
+            className='text-[#A0A3BD] bg-[#E8E8E8] font-medium leading-5 flex items-center justify-center  rounded-full w-10 h-10 '
+          >
+            3
+          </button>
+          <button
+            type='button'
+            className='text-[#A0A3BD] bg-[#E8E8E8] font-mediumleading-5 flex items-center justify-center  rounded-full w-10 h-10'
+          >
+            4
+          </button>
+          <button
+            type='button'
+            className='text-[#0B0909] bg-[#FF8906] leading-5 flex items-center justify-center  rounded-full w-10 h-10'
+          >
+            <img src={prev} alt='next icon' />
+          </button>
         </div>
       </section>
     </main>
