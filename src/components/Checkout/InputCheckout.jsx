@@ -24,7 +24,7 @@ export default function InputCheckout({
             type={type}
             name={name}
             id={id}
-            className="border-gray-300 rounded-lg border-2 p-2 w-full pl-10 active:border-none active:outline-orange"
+            className="border-gray-300 rounded-lg border-2 p-2 w-full pl-10 focus:outline-orange"
             placeholder={placeHolder}
           />
         </div>

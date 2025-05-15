@@ -9,9 +9,9 @@ import Paypal from "../../assets/iconCheckoutPage/Paypal.svg";
 export default function TotalPayment() {
   return (
     <>
-      <div className="py-4 md:col-start-3 md:row-start-1">
-        <h1 className="text-xl font-semibold pb-5">Total</h1>
-        <div className="grid grid-cols-2 gap-1">
+      <div className="py-4 md:pl-8 md:col-start-5 md:row-start-1 md:col-span-3">
+        <h1 className="text-xl font-semibold pb-4 md:pb-8">Total</h1>
+        <div className="grid grid-cols-2 gap-1 bg-gray-100 rounded-sm p-4">
           <h1 className="font-semibold">Order</h1>
           <p className="place-self-end font-semibold">Idr. 40.000</p>
           <h1>Delivery</h1>
@@ -27,7 +27,7 @@ export default function TotalPayment() {
             Checkout
           </button>
           <p className="col-span-2 py-2 text-gray-500">We Accept</p>
-          <div className="col-span-2 flex justify-between flex-wrap pb-2">
+          <div className="col-span-2 grid grid-cols-6 items-center">
             <img src={BRI} alt="icon" />
             <img src={Dana} alt="icon" />
             <img src={BCA} alt="icon" />

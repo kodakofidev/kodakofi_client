@@ -8,7 +8,7 @@ import RadioCheckout from "../../components/Checkout/RadioCheckout";
 export default function PaymentAndInfoDelivery() {
   return (
     <>
-      <div className="py-8 md:col-span-2">
+      <div className="py-8 md:col-span-4">
         <h1 className="flex text-2xl pb-4">Payment & Info Delivery</h1>
         <div className="flex flex-col gap-4">
           <InputCheckout

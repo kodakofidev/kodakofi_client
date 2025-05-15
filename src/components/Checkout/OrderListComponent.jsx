@@ -5,7 +5,7 @@ import CardCheckout from "./CardCheckout";
 export default function OrderListComponent() {
   return (
     <>
-      <div className="md:col-span-2">
+      <div className="md:col-span-4 py-4">
         <div className="flex justify-between items-center pt-2 pb-4">
           <h1 className="flex text-2xl">Your Order</h1>
           <button
