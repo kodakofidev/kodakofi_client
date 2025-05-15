@@ -9,7 +9,7 @@ export default function HeroSection() {
         <div className="hidden h-[600px] overflow-hidden md:col-start-2 md:block">
           <img src={Hero1} alt="hero" className="scale-[1.3]" />
         </div>
-        <div className="px-4 lg:px-8 md:px-12 xl:px-24 pt-[100px] pb-[64px] w-full  bg-linear-to-t from-black to-darkbrown flex flex-col justify-center md:row-start-1 select-none">
+        <div className="px-4 lg:px-8 md:px-12 xl:px-24 pt-[100px] pb-[64px] w-full bg-linear-to-t from-black to-darkbrown flex flex-col justify-center md:row-start-1 select-none">
           <h1 className="text-white text-4xl pb-5">
             Start Your Day with Coffee and Good Meals
           </h1>
@@ -31,19 +31,19 @@ export default function HeroSection() {
           <div className="grid grid-cols-3 text-white relative">
             <div className="flex flex-col gap-3 items-start relative before:absolute before:right-0 before:w-[2px] before:h-20 before:bg-white">
               <div className="flex flex-col gap-2">
-                <h1 className="text-orange text-4xl">90+</h1>
+                <h1 className="text-orange text-3xl lg:text-4xl">90+</h1>
                 <p>Staff</p>
               </div>
             </div>
             <div className="flex flex-col gap-3 items-center">
               <div className="flex flex-col gap-2">
-                <h1 className="text-orange text-4xl">30+</h1>
+                <h1 className="text-orange text-3xl lg:text-4xl">30+</h1>
                 <p>Stores</p>
               </div>
             </div>
             <div className="flex flex-col gap-3 items-end relative after:absolute after:left-0 after:w-[2px] after:h-20 after:bg-white">
               <div className="flex flex-col gap-2">
-                <h1 className="text-orange text-4xl">800+</h1>
+                <h1 className="text-orange text-3xl lg:text-4xl">800+</h1>
                 <p>Customer</p>
               </div>
             </div>
