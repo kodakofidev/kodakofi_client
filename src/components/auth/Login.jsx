@@ -18,7 +18,7 @@ function Login() {
 
   return (
     <>
-      <main className="flex gap-5 max-lg:bg-[url(/loginBG.svg)] bg-no-repeat bg-cover lg:flex">
+      <main className="flex gap-5 max-lg:bg-[url(/loginBG.svg)] bg-no-repeat bg-cover lg:flex ">
         <img src={loginBG} className="max-lg:hidden" />
         <section className="px-5 w-full py-20 bg-white/80 lg:px-10 lg:py-40">
           <img src={logo} alt="coffee shop" />
