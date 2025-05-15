@@ -1,13 +1,14 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router"
+import ProductDetails from "./pages/product/ProductDetails"
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<h1> WELCOME TO KODA KOFI </h1>} />
+        <Route path='/' element={<ProductDetails />} />
       </Routes>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default Router;
+export default Router
