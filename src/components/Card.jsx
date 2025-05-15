@@ -1,12 +1,15 @@
 // import pic from '../assets/image-30.png'
 import star from '../assets/star.svg'
 import Cart from '../assets/ShoppingCart.svg'
+import kopi from '../assets/kopi.jpg'
 
 function Card() {
   return (
-    <div className='relative w-full h-full'>
+    <div className='relative w-full h-full border'>
         <div className='w-full h-full bg-[#FF8906]'>
-            <div className='h-2/3'></div>
+            <div className='h-2/3 w-2/3'>
+                <img src={kopi} alt="ini kopi" />
+            </div>
             <div className='h-1/3 bg-white'></div>
         </div>
         <div className='flex flex-col gap-[40vh] p-10 absolute top-0'>
