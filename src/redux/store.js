@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit"
 import {
   persistStore,
   persistCombineReducers,
@@ -8,18 +8,18 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import AuthProvider from "./slices/auth";
+} from "redux-persist"
+import storage from "redux-persist/lib/storage"
+import AuthProvider from "./slices/auth"
 
 const persistConfig = {
   key: "kodakofi",
   storage,
-};
+}
 
 const persistedReducer = persistCombineReducers(persistConfig, {
   auth: AuthProvider,
-});
+})
 
 const store = configureStore({
   reducer: persistedReducer,
@@ -28,9 +28,9 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [REGISTER, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE],
       },
-    });
+    })
   },
-});
+})
 
-export const persistor = persistStore(store);
-export default store;
+export const persistor = persistStore(store)
+export default store
