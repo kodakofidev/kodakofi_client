@@ -1,4 +1,5 @@
 import React from "react";
+import Card from "../Card";
 
 export default function MenuFavorite() {
   return (
@@ -12,7 +13,7 @@ export default function MenuFavorite() {
           taste and make your day better.
         </p>
         <div>LIST MENU</div>
-        {/* Product List */}
+        <div className="flex gap-2 h-max flex-wrap"></div>
       </section>
     </>
   );
