@@ -5,6 +5,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import AuthRoutes from "./routing/auth";
 import MainLayout from "./layouts/MainLayouts";
 import Card from "./components/Card";
+import ProfilePage from "./pages/ProfilePage";
 // import ProductList from "./pages/products/ProductList";
 
 const Router = () => {
@@ -19,6 +20,7 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Card />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Routes>
 
