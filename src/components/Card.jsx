@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
 
-import pic from '../assets/image-30.png'
-import thumbs from '../assets/ThumbsUp.svg'
-import Cart from '../assets/ShoppingCart.svg'
+import thumbs from '../assets/icon/ThumbsUp.svg'
+import Cart from '../assets/icon/ShoppingCart.svg'
+import kopi from '../assets/kopi.jpg'
 
 function Card() {
     const [product, setProduct] = useState(
         {
         name: "Matcha Latte",
-        image: {pic},
+        image: {kopi},
         desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae excepturi debitis dolorem tempore, a quae rerum, fugiat sit reprehenderit deserunt dicta expedita voluptates magnam hic minus porro placeat architecto natus?",
         review: "200 users like this product",
         price: "20,000"
-            }
+        }
     )
 
     const getProduct = async () => {

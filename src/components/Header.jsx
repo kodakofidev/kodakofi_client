@@ -47,12 +47,12 @@ const Header = () => {
         <div className="hidden md:flex gap-4 items-center">
           <img src={searchLogo} alt="Search" className="w-8 h-8 inline-block" />
           <img src={cartLogo} alt="Cart" className="w-8 h-8 inline-block" />
-          <button className="border-2 border-white bg-transparent text-white px-3 py-2 font-bold rounded-md transition-all cursor-pointer duration-300 ease-in-out hover:bg-[#FF8906] hover:text-black active:scale-95">
-            Sign In
-          </button>
-          <button className="bg-[#FF8906] text-black px-3 py-2 font-bold rounded-md border-2 border-[#FF8906] transition-all duration-300 ease-in-out hover:bg-transparent hover:text-white hover:border-white active:scale-95 cursor-pointer">
-            Sign Up
-          </button>
+          <Link to={"/auth"} className="border-2 border-white bg-transparent text-white px-3 py-2 font-bold rounded-md transition-all duration-300 ease-in-out hover:bg-[#FF8906] hover:text-black active:scale-95 cursor-pointer">
+              Sign In
+            </Link>
+            <Link to={"/auth/register"} className="bg-[#FF8906] text-black px-3 py-2 font-bold rounded-md border-2 border-[#FF8906] transition-all duration-300 ease-in-out hover:bg-transparent hover:text-white hover:border-white active:scale-95 cursor-pointer">
+              Sign Up
+            </Link>
         </div>
         <button
           className="md:hidden flex flex-col gap-1 w-6 h-6 justify-center items-center cursor-pointer"
@@ -90,12 +90,12 @@ const Header = () => {
             Product
           </Link>
           <div className="flex gap-4 mt-4">
-            <button className="border-2 border-white bg-transparent text-white px-3 py-2 font-bold rounded-md transition-all duration-300 ease-in-out hover:bg-[#FF8906] hover:text-black active:scale-95 cursor-pointer">
+            <Link to={"/auth"} className="border-2 border-white bg-transparent text-white px-3 py-2 font-bold rounded-md transition-all duration-300 ease-in-out hover:bg-[#FF8906] hover:text-black active:scale-95 cursor-pointer">
               Sign In
-            </button>
-            <button className="bg-[#FF8906] text-black px-3 py-2 font-bold rounded-md border-2 border-[#FF8906] transition-all duration-300 ease-in-out hover:bg-transparent hover:text-white hover:border-white active:scale-95 cursor-pointer">
+            </Link>
+            <Link to={"/auth/register"} className="bg-[#FF8906] text-black px-3 py-2 font-bold rounded-md border-2 border-[#FF8906] transition-all duration-300 ease-in-out hover:bg-transparent hover:text-white hover:border-white active:scale-95 cursor-pointer">
               Sign Up
-            </button>
+            </Link>
           </div>
         </div>
       </div>
