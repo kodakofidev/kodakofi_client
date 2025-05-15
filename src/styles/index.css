@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-default: "Plus Jakarta Sans", "sans-serif";
+    background-color: var(--color-base);
+    /* @apply bg-blue-400; */
+  }
+}
+
+@theme {
+  --primary-color: #542915; /* brown*/
+  --secondary-color: #ff8906; /*orange*/
+  --color-black: #0b0909;
+  --color-white: #e8e8e8;
+  --color-grey: #c3beb7;
+  --color-slategrey: #777c82;
+  --color-darkbrown: #542915;
+  --color-brown: #8e6447;
+  --color-orange: #ff8906;
+}
