@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import registerBG from "/registerBG.svg";
 import logo from "/Logo.svg";
 import profileIcon from "/icons/Profile.svg";
@@ -14,6 +14,8 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showCheckPassword, setCheckShowPassword] = useState(false);
 
+  const navigate = useNavigate();
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -24,10 +26,17 @@ function Register() {
 
   return (
     <>
-      <main className="flex gap-5 max-lg:bg-[url(/registerBG.svg)] bg-no-repeat bg-cover lg:flex">
+      <main className="flex gap-5 max-lg:bg-[url(/registerBG.svg)] bg-no-repeat bg-cover lg:flex h-100vh">
         <img src={registerBG} className="max-lg:hidden" />
         <section className="px-5 w-full py-20 bg-white/80 lg:px-10">
-          <img src={logo} alt="coffee shop" />
+          <img
+            src={logo}
+            alt="coffee shop"
+            onClick={() => {
+              navigate("/");
+            }}
+            className="cursor-pointer"
+          />
           <form action="" className="flex flex-col gap-3.5 py-5">
             <h1 className="text-[18px] text-(--primary-color)">Register</h1>
             <p className="text-[14px]">Fill out the form correctly</p>
@@ -131,26 +140,12 @@ function Register() {
             </div>
             <div className="flex justify-evenly">
               <div className="relative bg-white/80 p-5 flex gap-2.5 justify-center rounded-[15px] shadow-[0_2px_10px_rgba(0,0,0,0.4)] overflow-hidden group hover:scale-[0.9] duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer lg:w-2/5 lg:order-2 lg:p-3">
-                <img
-                  src={googleIcon}
-                  alt="google"                  
-                />
-                <p
-                  className="max-lg:hidden"
-                >
-                  Google
-                </p>
+                <img src={googleIcon} alt="google" />
+                <p className="max-lg:hidden">Google</p>
               </div>
               <div className="relative bg-white/80 p-5 flex gap-2.5 justify-center rounded-[15px] shadow-[0_2px_10px_rgba(0,0,0,0.4)] overflow-hidden group hover:scale-[0.9] duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]  cursor-pointer lg:w-2/5 lg:order-1 lg:p-3">
-                <img
-                  src={fbIcon}
-                  alt="facebook"                  
-                />
-                <p
-                  className="max-lg:hidden"
-                >
-                  Facebook
-                </p>
+                <img src={fbIcon} alt="facebook" />
+                <p className="max-lg:hidden">Facebook</p>
               </div>
             </div>
           </form>
