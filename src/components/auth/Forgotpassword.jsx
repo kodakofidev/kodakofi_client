@@ -36,7 +36,7 @@ function ForgotPassword() {
             </div>
             
             
-            <button className="w-full py-2.5 rounded-md bg-(--secondary-color) hover:scale-[1.05] cursor-pointer">
+            <button className="w-full py-2.5 rounded-md bg-(--secondary-color) hover:scale-[0.9] hover:text-white duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer">
               Submit
             </button>
             
