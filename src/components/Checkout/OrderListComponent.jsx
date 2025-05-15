@@ -2,7 +2,7 @@ import React from "react";
 import Plus from "../../assets/iconCheckoutPage/plus.svg";
 import CardCheckout from "./CardCheckout";
 
-export default function OrderListComponent() {
+export default function OrderListComponent({ productList, setProductList }) {
   return (
     <>
       <div className="md:col-span-4 py-4">
@@ -17,33 +17,20 @@ export default function OrderListComponent() {
           </button>
         </div>
         <div className="flex flex-col gap-2">
-          <CardCheckout
-            product={"Hazelnut Latte"}
-            quantity={2}
-            size={"Regular"}
-            variant={"Ice"}
-            typeOrder={"Dine In"}
-            discountPrice={40000}
-            originalPrice={20000}
-          />
-          <CardCheckout
-            product={"Hazelnut Latte"}
-            quantity={2}
-            size={"Regular"}
-            variant={"Ice"}
-            typeOrder={"Dine In"}
-            discountPrice={40000}
-            originalPrice={20000}
-          />
-          <CardCheckout
-            product={"Hazelnut Latte"}
-            quantity={2}
-            size={"Regular"}
-            variant={"Ice"}
-            typeOrder={"Dine In"}
-            discountPrice={40000}
-            originalPrice={20000}
-          />
+          {productList.map((order) => (
+            <CardCheckout
+              product={order.productName}
+              quantity={order.quantity}
+              size={order.size}
+              variant={order.variant}
+              typeOrder={order.typeOrder}
+              discountPrice={order.discountPrice}
+              originalPrice={order.originalPrice}
+              id={order.id}
+              productList={productList}
+              setProductList={setProductList}
+            />
+          ))}
         </div>
       </div>
     </>

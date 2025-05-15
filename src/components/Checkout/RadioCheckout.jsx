@@ -1,10 +1,17 @@
 import React from "react";
 
-export default function RadioCheckout({ name, id, value, label }) {
+export default function RadioCheckout({
+  name,
+  id,
+  value,
+  label,
+  deliveryCostHandler,
+}) {
   return (
     <>
       <div>
         <input
+          onChange={deliveryCostHandler}
           type="radio"
           name={name}
           id={id}

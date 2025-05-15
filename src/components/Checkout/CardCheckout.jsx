@@ -10,7 +10,14 @@ export default function CardCheckout({
   typeOrder,
   originalPrice,
   discountPrice,
+  id,
+  productList,
+  setProductList,
 }) {
+  function deleteProductOrder(id) {
+    const filterProduct = productList.filter((product) => product.id !== id);
+    setProductList(filterProduct);
+  }
   return (
     <>
       <div className="grid grid-cols-3 md:grid-cols-4 gap-3 items-center relative p-4 bg-gray-100 rounded-sm md:p-0">
@@ -42,7 +49,12 @@ export default function CardCheckout({
             </p>
           </div>
         </div>
-        <div className="absolute top-3 right-3 md:top-1/2 md:-translate-y-1/2 md:right-4 cursor-pointer">
+        <div
+          className="absolute top-3 right-3 md:top-1/2 md:-translate-y-1/2 md:right-4 cursor-pointer"
+          onClick={() => {
+            deleteProductOrder(id);
+          }}
+        >
           <img src={XCircle} alt="icon" className="scale-[0.97]" />
         </div>
       </div>
