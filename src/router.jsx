@@ -6,6 +6,7 @@ import CheckoutPage from "./pages/CheckoutPage"
 import AuthRoutes from "./routing/auth"
 import MainLayout from "./layouts/MainLayouts"
 import Card from "./components/Card"
+// import ProductList from "./pages/products/ProductList";
 
 const Router = () => {
   return (
@@ -17,7 +18,7 @@ const Router = () => {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path='/' element={<Home />} />
-          <Route path='/product/:id' element={<ProductDetails />} />
+          <Route path='/products' element={<Card />} />
           <Route path='/checkout' element={<CheckoutPage />} />
         </Route>
       </Routes>
