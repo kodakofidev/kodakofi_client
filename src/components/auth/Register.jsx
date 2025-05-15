@@ -133,8 +133,7 @@ function Register() {
               <div className="relative bg-white/80 p-5 flex gap-2.5 justify-center rounded-[15px] shadow-[0_2px_10px_rgba(0,0,0,0.4)] overflow-hidden group hover:scale-[0.9] duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer lg:w-2/5 lg:order-2 lg:p-3">
                 <img
                   src={googleIcon}
-                  alt="google"
-                  className="transition-all duration-500"
+                  alt="google"                  
                 />
                 <p
                   className="max-lg:hidden"
@@ -145,8 +144,7 @@ function Register() {
               <div className="relative bg-white/80 p-5 flex gap-2.5 justify-center rounded-[15px] shadow-[0_2px_10px_rgba(0,0,0,0.4)] overflow-hidden group hover:scale-[0.9] duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]  cursor-pointer lg:w-2/5 lg:order-1 lg:p-3">
                 <img
                   src={fbIcon}
-                  alt="facebook"
-                  className="transition-all duration-500"
+                  alt="facebook"                  
                 />
                 <p
                   className="max-lg:hidden"
