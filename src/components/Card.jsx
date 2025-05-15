@@ -30,9 +30,9 @@ function Card() {
       }, [])
 
   return (
-    <div className='relative w-full h-full mt-20'>
-        <div className='w-[370px] max-w-[370px] h-[370px] max-h-[370px] bg-[#FF8906]'>
-            <div className='h-[370px] max-h-[370px] w-[370px] max-w-[370px]'><img src={product.image.kopi} alt="product" className='h-full w-full' /></div>
+    <div className='relative w-full h-full'>
+        <div className='w-[300px] lg:w-[370px] max-w-[300px] lg:max-w-[370px] h-[300px] lg:h-[370px] max-h-[300px] lg:max-h-[370px] bg-[#FF8906]'>
+            <div className='h-[300px] lg:h-[370px] max-h-[300px] lg:max-h-[370px] w-[300px] lg:w-[370px] max-w-[300px] lg:max-w-[370px]'><img src={product.image.kopi} alt="product" className='h-full w-full' /></div>
             <div className='bg-white'></div>
         </div>
         <div className='flex flex-col gap-[40vh] p-5 absolute top-0'>
@@ -46,8 +46,8 @@ function Card() {
                 </div>
                 <div className='text-[#FF8906] text-2xl'>IDR. {product.price}</div>
                 <div className='flex flex-row gap-[10px]'>
-                    <button className='bg-[#FF8906] rounded-md py-2 w-9/10'>Buy</button>
-                    <button className='border border-[#FF8906] rounded-md p-2 w-1/10 flex flex-col items-center justify-center'><img src={Cart} alt="Add to cart" /></button>
+                    <button className='bg-[#FF8906] rounded-md py-2 w-7/8'>Buy</button>
+                    <button className='border border-[#FF8906] rounded-md p-2 w-1/8 flex flex-col items-center justify-center'><img src={Cart} alt="Add to cart" /></button>
                 </div>
             </div>
         </div>
