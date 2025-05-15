@@ -5,11 +5,11 @@ import ChatIcon from "/landingPage/ChatCircleDots.svg";
 export default function HeroSection() {
   return (
     <>
-      <section className="grid grid-cols-1 md:grid-cols-2">
+      <section className="grid grid-cols-1 md:grid-cols-2 relative">
         <div className="w-full h-[600px] overflow-hidden md:col-start-2">
           <img src={Hero1} alt="hero" className="scale-[1.3]" />
         </div>
-        <div className="bg-linear-to-t from-black to-darkbrown p-7 flex flex-col justify-center md:row-start-1 md:px-20">
+        <div className="bg-linear-to-t from-black to-darkbrown p-7 flex flex-col justify-center md:row-start-1 md:px-20 select-none">
           <h1 className="text-white text-3xl pb-5">
             Start Your Day with Coffee and Good Meals
           </h1>
@@ -24,7 +24,7 @@ export default function HeroSection() {
             >
               Get Started
             </button>
-            <div className="h-10 w-10 bg-orange rounded-full flex items-center justify-center cursor-pointer md:hidden hover:scale-[1.03] active:scale-[1]">
+            <div className="h-10 w-10 bg-orange rounded-full flex items-center justify-center cursor-pointer md:absolute md:bottom-16 md:right-16 md:scale-[1.4] md:hover:scale-[1.45] md:active:scale-[1.4] hover:scale-[1.03] active:scale-[1]">
               <img src={ChatIcon} alt="icon" />
             </div>
           </div>

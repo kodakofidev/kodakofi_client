@@ -64,7 +64,7 @@ export default function Testimonial() {
 
   return (
     <>
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-3 bg-black text-white p-6">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-3 bg-black text-white p-6 select-none">
         <div className="row-span-2 md:col-start-1 px-4">
           <div className="aspect-[4/3] overflow-hidden px-6">
             {(() => {

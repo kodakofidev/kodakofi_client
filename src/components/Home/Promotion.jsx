@@ -5,7 +5,7 @@ import Check from "/landingPage/Check.svg";
 export default function Promotion() {
   return (
     <>
-      <section className="grid grid-cols-1 md:grid-cols-2">
+      <section className="grid grid-cols-1 md:grid-cols-2 select-none">
         <div className="w-full h-[600px] overflow-hidden md:col-start-2">
           <img src={Hero2} alt="hero" className="scale-[1.3]" />
         </div>
