@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 
 import Home from "./pages/Home";
 import CheckoutPage from "./pages/orders/CheckoutPage";
+import HistoryOrderPage from "./pages/orders/HistoryOrderPage";
 import AuthRoutes from "./routing/auth";
 import MainLayout from "./layouts/MainLayouts";
 import Card from "./components/Card";
@@ -24,6 +25,7 @@ const Router = () => {
           {/* <Route path='/products/:id' element={<ProductDetails />} /> */}
           {/* <Route path='/order/:id' element={<OrderDetails />} /> */}
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/history-order" element={<HistoryOrderPage />} />
         </Route>
 
         {/* Layouting Admin */}
