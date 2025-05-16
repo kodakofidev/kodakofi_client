@@ -6,10 +6,10 @@ export default function Promotion() {
   return (
     <>
       <section className="grid grid-cols-1 md:grid-cols-2 select-none">
-        <div className="w-full h-[600px] overflow-hidden md:col-start-2">
+        <div className="w-full h-[300px] lg:h-[600px] overflow-hidden md:col-start-2">
           <img src={Hero2} alt="hero" className="scale-[1.3]" />
         </div>
-        <div className="p-7 flex flex-col justify-center md:row-start-1 md:px-20">
+        <div className="py-10 px-4 lg:px-8 md:px-12 xl:px-24 flex flex-col justify-center md:row-start-1">
           <h1 className="text-3xl pl-5 pb-5 relative before:absolute before:left-0 before:content-[''] before:w-2 before:h-17 before:bg-amber-600 before:rounded-lg">
             We Provide <span className="text-brown">Good Coffee</span> and{" "}
             <span className="text-brown">Healthy Meals</span>

@@ -1,12 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router"
-import ProductDetails from "./pages/product/ProductDetails"
-
-import Home from "./pages/Home"
-import CheckoutPage from "./pages/CheckoutPage"
-import AuthRoutes from "./routing/auth"
-import MainLayout from "./layouts/MainLayouts"
-import AdminLayouts from "./layouts/AdminLayouts"
-import ProductList from "./components/product/ProductList"
+import { BrowserRouter, Routes, Route } from "react-router";
+import ProductDetails from "./pages/product/ProductDetails";
+import Home from "./pages/Home";
+import CheckoutPage from "./pages/CheckoutPage";
+import AuthRoutes from "./routing/auth";
+import MainLayout from "./layouts/MainLayouts";
+import AdminLayouts from "./layouts/AdminLayouts";
+import ProfilePage from "./pages/ProfilePage";
+import HistoryOrderPage from "./pages/orders/HistoryOrderPage";
+import ProductList from "./components/product/ProductList";
 
 const Router = () => {
   return (
@@ -17,9 +18,17 @@ const Router = () => {
 
         {/* Main Layouts */}
         <Route element={<MainLayout />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/products' element={<ProductList />} />
-          <Route path='/checkout' element={<CheckoutPage />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<ProductList />} />
+
+          <Route path='/products/:id' element={<ProductDetails />} />
+          {/* <Route path='/order/:id' element={<OrderDetails />} /> */}
+          <Route path="/history" element={<HistoryOrderPage />} />
+          <Route path='/products/:id' element={<ProductDetails />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
+
         </Route>
 
         {/* Layouting Admin */}
@@ -28,7 +37,7 @@ const Router = () => {
         </Route>
       </Routes>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default Router
+export default Router;
