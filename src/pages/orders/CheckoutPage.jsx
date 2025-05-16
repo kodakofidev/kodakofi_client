@@ -10,6 +10,15 @@ export default function CheckoutPage() {
   const [dataOrder, setDataOrder] = useState({});
   const [paymentMethodeModal, setPaymentMethodeModal] = useState(false);
 
+  // validasi
+  const [validationPaymentMethode, setValidationPaymentMethode] =
+    useState(false);
+  const [validationEmail, setValidationEmail] = useState(false);
+  const [validationFullName, setValidationFullName] = useState(false);
+  const [validationAddress, setValidationAddress] = useState(false);
+  const [validationDelivery, setValidationDelivery] = useState(false);
+  const [validationProducts, setValidationProducts] = useState(false);
+
   const chart = [
     {
       id: 1,
@@ -54,15 +63,53 @@ export default function CheckoutPage() {
     const fullName = e.target.fullName.value;
     const address = e.target.address.value;
     const delivery = e.target.delivery.value;
-    console.log({
-      email,
-      fullName,
-      address,
-      delivery,
-      paymentMethode,
-      ...dataOrder,
-      productList,
-    });
+
+    paymentMethode == ""
+      ? setValidationPaymentMethode(true)
+      : setValidationPaymentMethode(false);
+
+    email == "" ? setValidationEmail(true) : setValidationEmail(true);
+
+    fullName == "" ? setValidationFullName(true) : setValidationFullName(false);
+
+    address == "" ? setValidationAddress(true) : setValidationAddress(false);
+
+    delivery == "" ? setValidationDelivery(true) : setValidationDelivery(false);
+
+    if (
+      validationEmail &&
+      validationFullName &&
+      validationAddress &&
+      validationDelivery &&
+      validationPaymentMethode &&
+      validationProducts
+    ) {
+      console.log({
+        email,
+        fullName,
+        address,
+        delivery,
+        paymentMethode,
+        ...dataOrder,
+        productList,
+      });
+    } else {
+      paymentMethode == ""
+        ? setValidationPaymentMethode(true)
+        : setValidationPaymentMethode(false);
+
+      email == "" ? setValidationEmail(true) : setValidationEmail(false);
+
+      fullName == ""
+        ? setValidationFullName(true)
+        : setValidationFullName(false);
+
+      address == "" ? setValidationAddress(true) : setValidationAddress(false);
+
+      delivery == ""
+        ? setValidationDelivery(true)
+        : setValidationDelivery(false);
+    }
   }
 
   return (
@@ -77,7 +124,13 @@ export default function CheckoutPage() {
             productList={productList}
             setProductList={setProductList}
           />
-          <PaymentAndInfoDelivery setDeliveryCost={setDeliveryCost} />
+          <PaymentAndInfoDelivery
+            setDeliveryCost={setDeliveryCost}
+            validationEmail={validationEmail}
+            validationFullName={validationFullName}
+            validationAddress={validationAddress}
+            validationDelivery={validationDelivery}
+          />
           <TotalPayment
             productList={productList}
             deliveryCost={deliveryCost}
@@ -88,6 +141,7 @@ export default function CheckoutPage() {
         <ModalPaymentMethode
           setPaymentMethodeModal={setPaymentMethodeModal}
           paymentMethodeModal={paymentMethodeModal}
+          validationPaymentMethode={validationPaymentMethode}
         />
       </form>
     </>
