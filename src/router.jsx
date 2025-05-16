@@ -22,13 +22,14 @@ const Router = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Card />} />
+          <Route path='/products/:id' element={<ProductDetails />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           {/* <Route path="/products/details" element={<ProductDetails />} /> */}
         </Route>
 
         {/* Layouting Admin */}
-        <Route path="admin" element={<AdminLayouts />}>
+        <Route path='admin' element={<AdminLayouts />}>
           {/* <Route index element={<Dashboard />}></Route> */}
         </Route>
       </Routes>
