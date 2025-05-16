@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 
-import ProductDetails from "./pages/product/ProductDetails";
 import Home from "./pages/Home";
 import CheckoutPage from "./pages/orders/CheckoutPage";
 import AuthRoutes from "./routing/auth";
@@ -24,7 +23,6 @@ const Router = () => {
 
           <Route path="/products" element={<Card />} />
           <Route path="/history" element={<HistoryOrderPage />} />
-          <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
