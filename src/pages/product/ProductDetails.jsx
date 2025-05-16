@@ -24,14 +24,14 @@ const ProductDetails = (data) => {
   }
   const [isRecommended, setIsRecommended] = useState(false)
 
-  const [order, setOrder] = useState({
-    size: dataTest.size[0],
-    toping: dataTest.toping[0],
-    qty: 1,
-    discount: "flash sale",
-  })
+  //   const [order, setOrder] = useState({
+  //     size: dataTest.size[0],
+  //     toping: dataTest.toping[0],
+  //     qty: 1,
+  //     discount: "flash sale",
+  //   })
 
-  useEffect(() => {}, [])
+  //   useEffect(() => {}, [])
 
   const [image, setImage] = useState([
     // imageProductUtama,
@@ -73,20 +73,7 @@ const ProductDetails = (data) => {
             >
               {order.discount}
             </p>
-
-            <p className='max-sm:text-2xl text-5xl leading-[100%] text-[#0B0909] font-medium mb-4 '>
-              {dataTest.name}
-            </p>
           </div>
-          <div className='flex items-center gap-3 mb-4'>
-            <span className='text-[#D00000] text-[12px] stricke line-through '>
-              IDR 20.000
-            </span>
-            <span className='text-[#FF8906] font-medium text-[22px] leading-[100%] tracking-normal'>
-              IDR 10.000
-            </span>
-          </div>
-
           <div className='flex gap-4 items-center mb-4'>
             <span className='text-[#4F5665] max-sm:text-sm text-lg leading-[100%] tracking-normal '>
               200+Review
@@ -128,7 +115,6 @@ const ProductDetails = (data) => {
             >
               -
             </button>
-
             <input
               type='text'
               value={order.qty}
@@ -137,9 +123,6 @@ const ProductDetails = (data) => {
                 const value = e.target.value
                 if (value === "" || /^[0-9]+$/.test(value)) {
                   setOrder((prev) => ({ ...prev, qty: value }))
-                }
-                if (value > dataTest.stock) {
-                  setOrder((prev) => ({ ...prev, qty: dataTest.stock }))
                 }
               }}
             />

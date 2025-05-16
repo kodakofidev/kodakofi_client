@@ -64,9 +64,9 @@ export default function Testimonial() {
 
   return (
     <>
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-3 bg-black text-white p-6 select-none">
-        <div className="row-span-2 md:col-start-1 px-4">
-          <div className="aspect-[4/3] overflow-hidden px-6">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-linear-to-t from-black to-darkbrown text-white py-10 px-4 lg:px-8 md:px-12 xl:px-24 select-none">
+        <div className="row-span-2 md:col-start-1">
+          <div className="aspect-[4/3] overflow-hidden">
             {(() => {
               switch (testimonial) {
                 case 1:
@@ -81,10 +81,10 @@ export default function Testimonial() {
             })()}
           </div>
         </div>
-        <div className="h-7 px-6 row-start-1 md:col-start-2 text-center md:text-left self-end">
+        <div className="h-7 row-start-1 md:col-start-2 text-center md:text-left self-end">
           Testimonial
         </div>
-        <div className=" px-6 flex flex-col gap-3">
+        <div className="flex flex-col gap-3">
           <h1 className="text-3xl font-semibold pl-3 relative before:absolute before:left-0 before:content-[''] before:bg-orange before:w-[4px] before:rounded-lg before:h-10">
             {testimonials[testimonial - 1].name}
           </h1>
