@@ -24,17 +24,7 @@ const ProductDetails = (data) => {
   }
   const [isRecommended, setIsRecommended] = useState(false)
 
-  //   const [order, setOrder] = useState({
-  //     size: dataTest.size[0],
-  //     toping: dataTest.toping[0],
-  //     qty: 1,
-  //     discount: "flash sale",
-  //   })
-
-  //   useEffect(() => {}, [])
-
   const [image, setImage] = useState([
-    // imageProductUtama,
     imageChildSatu,
     imageChildDua,
     imageChildTiga,
