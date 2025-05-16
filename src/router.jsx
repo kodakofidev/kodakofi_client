@@ -24,7 +24,7 @@ const Router = () => {
           <Route path="/products" element={<Card />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/products/details" element={<ProductDetails />} />
+          {/* <Route path="/products/details" element={<ProductDetails />} /> */}
         </Route>
 
         {/* Layouting Admin */}
