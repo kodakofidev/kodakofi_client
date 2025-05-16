@@ -76,7 +76,7 @@ const ProductDetails = () => {
     console.log(order)
   }
   return (
-    <main className=' px-4 lg:px-8 md:px-12 xl:px-24 mt-20 md:mt-40 '>
+    <main className=' px-4 lg:px-8 md:px-12 xl:px-24 mt-20 md:mt-25 '>
       <section className=' gap-5 lg:flex mb-[55px]'>
         <div className='  basis-[500px] shrink-0 mb-4'>
           <div className='mb-[27px] flex justify-center'>
@@ -112,6 +112,22 @@ const ProductDetails = () => {
               {dataTest.discount.name}
             </p>
           </div>
+
+          <h3 className='max-sm:text-2xl text-5xl leading-[100%] text-(-color-text-black) font-medium mb-4 '>
+            {dataTest.name}
+          </h3>
+          <div className='flex items-center gap-3 mb-4'>
+            <span className='text-[#D00000] text-[12px] stricke line-through '>
+              IDR {dataTest.price.toLocaleString("id-ID")}
+            </span>
+            <span className='text-[#FF8906] font-medium text-[22px] leading-[100%] tracking-normal'>
+              IDR{" "}
+              {(
+                dataTest.price -
+                dataTest.price * dataTest.discount.discount
+              ).toLocaleString("id-ID")}
+            </span>
+          </div>
           <div className='flex gap-4 items-center mb-4'>
             <span className='text-[#4F5665] max-sm:text-sm text-lg leading-[100%] tracking-normal '>
               200+Review
@@ -141,7 +157,7 @@ const ProductDetails = () => {
             cool water and uses time instead of heat to extract the flavor. It
             is brewed in small batches and steeped for as long as 48 hours.
           </p>
-          <div className='flex gap-4 items-center mb-4 lg:mb-14'>
+          <div className='flex gap-4 items-center mb-4 lg:mb-10'>
             <button
               className='w-[33.6px] h-[33.6px] rounded-[4px] border border-(--secondary-color) text-[#0B132A] font-semibold text-lg cursor-pointer hover:text-[#0B0909] hover:bg-(--secondary-color) transition duration-150 ease-linear'
               onClick={() =>
@@ -215,7 +231,7 @@ const ProductDetails = () => {
             <h3 className='text-lg font-bold text-[#0B0909]  leading-6 mb-4'>
               Hot/Ice?
             </h3>
-            <div className='flex gap-8 w-full mb-[58px] flex-wrap'>
+            <div className='flex gap-8 w-full mb-10 lg:mb-24 flex-wrap'>
               {dataTest.toping.map((item, index) => (
                 <button
                   key={index}
@@ -253,18 +269,16 @@ const ProductDetails = () => {
         </div>
       </section>
       <section>
-        <h3 className='font-medium max-md:text-2xl max-md:text-center text-5xl text-left leading-[100%] sm:text-center text-[#0B132A]'>
+        <h3 className='font-medium max-md:text-2xl max-sm:text-center text-5xl text-left leading-[100%]  text-[#0B132A]'>
           Recommendation
           <strong className='font-medium text-[#8E6447]'> For You</strong>
         </h3>
-
-        <div className='flex gap-4 mt-4 max-sm:overflow-x-scroll max-sm:overflow-y-hidden min-h-[540px] justify-center'>
+        <div className='flex ms:overflow-x-auto gap-4 mt-4 py-4   max-sm:overflow-y-hidden min-h-[540px] scrollbar-hide '>
           {getCurrentCards().map((card) => (
-            <div>
-              <Card key={card.id} />
-            </div>
+            <Card key={card.id} />
           ))}
         </div>
+
         <div className='flex my-14 gap-5 justify-center'>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
