@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-// import ProductDetails from "./pages/product/ProductDetails"
-
+import ProductDetails from "./pages/product/ProductDetails";
 import Home from "./pages/Home";
-import CheckoutPage from "./pages/orders/CheckoutPage";
-import HistoryOrderPage from "./pages/orders/HistoryOrderPage";
+import CheckoutPage from "./pages/CheckoutPage";
 import AuthRoutes from "./routing/auth";
 import MainLayout from "./layouts/MainLayouts";
 import Card from "./components/Card";
 import AdminLayouts from "./layouts/AdminLayouts";
-// import OrderDetails from "./pages/product/OrderDetails"
+import ProfilePage from "./pages/ProfilePage";
+import HistoryOrderPage from "./pages/orders/HistoryOrderPage";
+
 // import ProductList from "./pages/products/ProductList";
 
 const Router = () => {
@@ -22,10 +22,15 @@ const Router = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Card />} />
+
           {/* <Route path='/products/:id' element={<ProductDetails />} /> */}
           {/* <Route path='/order/:id' element={<OrderDetails />} /> */}
+          <Route path="/history" element={<HistoryOrderPage />} />
+          <Route path='/products/:id' element={<ProductDetails />} />
           <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/history-order" element={<HistoryOrderPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
+
         </Route>
 
         {/* Layouting Admin */}
