@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router";
+
 import ProductDetails from "./pages/product/ProductDetails";
 import Home from "./pages/Home";
 import CheckoutPage from "./pages/CheckoutPage";
@@ -20,15 +21,12 @@ const Router = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ProductList />} />
-
-          <Route path='/products/:id' element={<ProductDetails />} />
           {/* <Route path='/order/:id' element={<OrderDetails />} /> */}
           <Route path="/history" element={<HistoryOrderPage />} />
-          <Route path='/products/:id' element={<ProductDetails />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/products/:id" element={<ProductDetails />} />
-
         </Route>
 
         {/* Layouting Admin */}
