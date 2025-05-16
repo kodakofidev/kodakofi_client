@@ -23,7 +23,7 @@ export default function HistoryOrdersSection() {
               value="Finish Order"
             />
           </div>
-          <div className="grid col-span-2">
+          <div className="grid col-span-2 ">
             <div>okeeee</div>
           </div>
         </div>

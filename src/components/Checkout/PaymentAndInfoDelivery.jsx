@@ -8,9 +8,9 @@ import RadioCheckout from "../../components/Checkout/RadioCheckout";
 export default function PaymentAndInfoDelivery({ setDeliveryCost }) {
   function deliveryCostHandler(e) {
     if (e.target.value === "Door Delivery") {
-      setDeliveryCost(10000);
-    } else if (e.target.value === "Pick Up") {
       setDeliveryCost(15000);
+    } else if (e.target.value === "Pick Up") {
+      setDeliveryCost(0);
     } else {
       setDeliveryCost(0);
     }

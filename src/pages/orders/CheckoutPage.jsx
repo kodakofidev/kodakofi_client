@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import OrderListComponent from "../../components/Checkout/OrderListComponent";
 import PaymentAndInfoDelivery from "../../components/Checkout/PaymentAndInfoDelivery";
 import TotalPayment from "../../components/Checkout/TotalPayment";
+import ModalPaymentMethode from "../../components/Checkout/ModalPaymentMethode";
 
 export default function CheckoutPage() {
   const [productList, setProductList] = useState([]);
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [dataOrder, setDataOrder] = useState({});
+  const [paymentMethodeModal, setPaymentMethodeModal] = useState(false);
 
   const chart = [
     {
@@ -47,7 +49,7 @@ export default function CheckoutPage() {
 
   function submitCheckoutHandler(e) {
     e.preventDefault();
-
+    const paymentMethode = e.target.paymentMethode.value;
     const email = e.target.email.value;
     const fullName = e.target.fullName.value;
     const address = e.target.address.value;
@@ -57,6 +59,7 @@ export default function CheckoutPage() {
       fullName,
       address,
       delivery,
+      paymentMethode,
       ...dataOrder,
       productList,
     });
@@ -79,8 +82,13 @@ export default function CheckoutPage() {
             productList={productList}
             deliveryCost={deliveryCost}
             setDataOrder={setDataOrder}
+            setPaymentMethodeModal={setPaymentMethodeModal}
           />
         </div>
+        <ModalPaymentMethode
+          setPaymentMethodeModal={setPaymentMethodeModal}
+          paymentMethodeModal={paymentMethodeModal}
+        />
       </form>
     </>
   );
