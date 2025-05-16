@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import OrderListComponent from "../components/Checkout/OrderListComponent";
-import PaymentAndInfoDelivery from "../components/Checkout/PaymentAndInfoDelivery";
-import TotalPayment from "../components/Checkout/TotalPayment";
+import OrderListComponent from "../../components/Checkout/OrderListComponent";
+import PaymentAndInfoDelivery from "../../components/Checkout/PaymentAndInfoDelivery";
+import TotalPayment from "../../components/Checkout/TotalPayment";
 
 export default function CheckoutPage() {
   const [productList, setProductList] = useState([]);
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [dataOrder, setDataOrder] = useState({});
-
-  console.log(deliveryCost, "hehe");
 
   const chart = [
     {
