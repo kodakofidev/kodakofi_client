@@ -1,13 +1,14 @@
-import { BrowserRouter, Routes, Route } from "react-router"
-import ProductDetails from "./pages/product/ProductDetails"
+import { BrowserRouter, Routes, Route } from "react-router";
+import ProductDetails from "./pages/product/ProductDetails";
+import Home from "./pages/Home";
+import CheckoutPage from "./pages/CheckoutPage";
+import AuthRoutes from "./routing/auth";
+import MainLayout from "./layouts/MainLayouts";
+import Card from "./components/Card";
+import AdminLayouts from "./layouts/AdminLayouts";
 
-import Home from "./pages/Home"
-import CheckoutPage from "./pages/CheckoutPage"
-import AuthRoutes from "./routing/auth"
-import MainLayout from "./layouts/MainLayouts"
-import Card from "./components/Card"
-import AdminLayouts from "./layouts/AdminLayouts"
-// import OrderDetails from "./pages/product/OrderDetails"
+import ProfilePage from "./pages/ProfilePage";
+
 // import ProductList from "./pages/products/ProductList";
 
 const Router = () => {
@@ -19,11 +20,12 @@ const Router = () => {
 
         {/* Main Layouts */}
         <Route element={<MainLayout />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/products' element={<Card />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Card />} />
           <Route path='/products/:id' element={<ProductDetails />} />
-          {/* <Route path='/order/:id' element={<OrderDetails />} /> */}
-          <Route path='/checkout' element={<CheckoutPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          {/* <Route path="/products/details" element={<ProductDetails />} /> */}
         </Route>
 
         {/* Layouting Admin */}
@@ -32,7 +34,7 @@ const Router = () => {
         </Route>
       </Routes>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default Router
+export default Router;
