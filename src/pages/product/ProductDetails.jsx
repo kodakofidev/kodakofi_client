@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react"
-import imageProductUtama from "../../assets/product-details/image_utama.png"
+import { useState } from "react"
 import imageChildSatu from "../../assets/product-details/child-image1.png"
 import imageChildDua from "../../assets/product-details/child-image2.png"
 import imageChildTiga from "../../assets/product-details/child-image3.png"
@@ -8,8 +7,39 @@ import liked from "../../assets/product-details/liked.svg"
 import shoppingCart from "../../assets/product-details/shoppingCart.svg"
 import prev from "../../assets/product-details/arrow-right.svg"
 import Card from "../../components/Card"
-const ProductDetails = (data) => {
-  const dataTest = {
+const ProductDetails = () => {
+  const [currentPage, setCurrentPage] = useState(1)
+  const cardsPerPage = 3
+
+  const allCards = [
+    { id: 1, content: "Card 1" },
+    { id: 2, content: "Card 2" },
+    { id: 3, content: "Card 3" },
+    { id: 4, content: "Card 4" },
+    { id: 5, content: "Card 5" },
+    { id: 6, content: "Card 6" },
+    { id: 7, content: "Card 7" },
+    { id: 8, content: "Card 8" },
+    { id: 9, content: "Card 9" },
+    { id: 10, content: "Card 10" },
+    { id: 11, content: "Card 11" },
+    { id: 12, content: "Card 12" },
+  ]
+
+  const totalPages = Math.ceil(allCards.length / cardsPerPage)
+  const getCurrentCards = () => {
+    const startIndex = (currentPage - 1) * cardsPerPage
+    const endIndex = startIndex + cardsPerPage
+    return allCards.slice(startIndex, endIndex)
+  }
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page)
+    }
+  }
+  const [dataTest, setDataTest] = useState({
+    id: 1,
     name: "Hazelnut Latte",
     size: ["regular", "medium", "large"],
     toping: ["ice", "hot"],
@@ -21,17 +51,32 @@ const ProductDetails = (data) => {
     },
     image: [imageChildSatu, imageChildDua, imageChildTiga],
     stock: 10,
-  }
-  const [isRecommended, setIsRecommended] = useState(false)
+  })
 
-  const [image, setImage] = useState([
-    imageChildSatu,
-    imageChildDua,
-    imageChildTiga,
-  ])
+  const [isRecommended, setIsRecommended] = useState(false)
   const [selectedImage, setSelectedImage] = useState(dataTest.image[0])
+  const [order, setOrder] = useState({
+    id: dataTest.id,
+    size: dataTest.size ? dataTest.size[0] : null,
+    toping: dataTest.toping ? dataTest.toping[0] : null,
+    qty: 1,
+  })
+  const [error, setError] = useState({
+    qty: "",
+  })
+
+  const handleBuyProduct = () => {
+    if (order.qty > dataTest.stock) {
+      console.log(error.qty)
+      return
+    }
+    console.log(order)
+  }
+  const handleAddToCart = () => {
+    console.log(order)
+  }
   return (
-    <main className=' px-4 lg:px-8 md:px-12 xl:px-24 mt-40 '>
+    <main className=' px-4 lg:px-8 md:px-12 xl:px-24 mt-20 md:mt-40 '>
       <section className=' gap-5 lg:flex mb-[55px]'>
         <div className='  basis-[500px] shrink-0 mb-4'>
           <div className='mb-[27px] flex justify-center'>
@@ -42,9 +87,12 @@ const ProductDetails = (data) => {
             />
           </div>
           <div className='flex w-full gap-5 justify-center  max-sm:snap-x max-sm:snap-mandatory '>
-            {dataTest.image.map((item) => {
+            {dataTest.image.map((item, idx) => {
               return (
-                <div className='max-sm:snap-center max-sm:snap-always '>
+                <div
+                  key={idx}
+                  className='max-sm:snap-center max-sm:snap-always '
+                >
                   <img
                     src={item}
                     alt='product image'
@@ -61,7 +109,7 @@ const ProductDetails = (data) => {
             <p
               className={`bg-[#D00000] max-sm:text-sm text-lg text-white leading-6  rounded-3xl font-bold md:text-lg w-max mb-4 p-[10px] uppercase`}
             >
-              {order.discount}
+              {dataTest.discount.name}
             </p>
           </div>
           <div className='flex gap-4 items-center mb-4'>
@@ -112,17 +160,31 @@ const ProductDetails = (data) => {
               onChange={(e) => {
                 const value = e.target.value
                 if (value === "" || /^[0-9]+$/.test(value)) {
-                  setOrder((prev) => ({ ...prev, qty: value }))
+                  setOrder((prev) => ({ ...prev, qty: parseInt(value) }))
+                }
+                if (value > dataTest.stock) {
+                  setError((prev) => ({
+                    ...prev,
+                    qty: `You cannot order more than ${dataTest.stock} items`,
+                  }))
                 }
               }}
             />
             <button
-              className='w-[33.6px] h-[33.6px] rounded-[4px] bg-(--secondary-color) text-[#0B132A] font-semibold text-lg  cursor-pointer hover:text-[#0B0909] hover:bg-(--secondary-color) transition duration-150 ease-linear '
+              className={` 
+               ${
+                 parseInt(order.qty) > parseInt(dataTest.stock)
+                   ? "hover:disabled"
+                   : ""
+               }
+                 w-[33.6px] h-[33.6px] rounded-[4px] bg-(--secondary-color) text-[#0B132A] font-semibold text-lg  cursor-pointer hover:text-[#0B0909] hover:bg-(--secondary-color) transition duration-150 ease-linear`}
               onClick={() =>
                 setOrder((prev) => ({
                   ...prev,
                   qty:
-                    prev.qty == dataTest.stock ? dataTest.stock : prev.qty + 1,
+                    prev.qty == dataTest.stock || prev.qty > dataTest.stock
+                      ? dataTest.stock
+                      : prev.qty + 1,
                 }))
               }
             >
@@ -134,8 +196,9 @@ const ProductDetails = (data) => {
               Choose Size
             </h3>
             <div className='flex gap-8 w-full mb-4 flex-wrap'>
-              {dataTest.size.map((item) => (
+              {dataTest.size.map((item, idx) => (
                 <button
+                  key={idx}
                   onClick={() => setOrder((prev) => ({ ...prev, size: item }))}
                   className={`${
                     order.size === item
@@ -170,10 +233,16 @@ const ProductDetails = (data) => {
               ))}
             </div>
             <div className=' w-full gap-5 md:flex'>
-              <button className='text-[#0B0909] p-3 font-medium text-sm leading-5 bg-[#FF8906] rounded-md flex-1 w-full max-md:mb-4 cursor-pointer hover:font-semibold hover:scale-105 transition duration-150 ease-linear '>
+              <button
+                className='text-[#0B0909] p-3 font-medium text-sm leading-5 bg-[#FF8906] rounded-md flex-1 w-full max-md:mb-4 cursor-pointer hover:font-semibold hover:scale-105 transition duration-150 ease-linear '
+                onClick={() => handleBuyProduct()}
+              >
                 Buy
               </button>
-              <button className='flex flex-1 gap-[10px] items-center justify-center border border-[#FF8906] rounded-md w-full p-3 font-medium text-sm cursor-pointer hover:scale-105 hover:font-semibold transition duration-150 ease-linear '>
+              <button
+                className='flex flex-1 gap-[10px] items-center justify-center border border-[#FF8906] rounded-md w-full p-3 font-medium text-sm cursor-pointer hover:scale-105 hover:font-semibold transition duration-150 ease-linear '
+                onClick={() => handleAddToCart()}
+              >
                 <img src={shoppingCart} alt='shopping cart icon' />
                 <span className='text-[#FF8906] max-sm:hidden'>
                   add to cart
@@ -184,43 +253,41 @@ const ProductDetails = (data) => {
         </div>
       </section>
       <section>
-        <h3 className='font-medium max-md:text-2xl max-md:text-center text-5xl text-left leading-[100%] sm:text-center text-[#0B132A]  '>
+        <h3 className='font-medium max-md:text-2xl max-md:text-center text-5xl text-left leading-[100%] sm:text-center text-[#0B132A]'>
           Recommendation
           <strong className='font-medium text-[#8E6447]'> For You</strong>
         </h3>
-        <div className='  flex gap-4 mt-4 max-sm:overflow-x-scroll max-sm:overflow-y-hidden min-h-[540px] justify-center'>
-          <Card />
-          <Card />
-          <Card />
+
+        <div className='flex gap-4 mt-4 max-sm:overflow-x-scroll max-sm:overflow-y-hidden min-h-[540px] justify-center'>
+          {getCurrentCards().map((card) => (
+            <div>
+              <Card key={card.id} />
+            </div>
+          ))}
         </div>
-        <div className='flex my-14 gap-5 justify-center '>
+        <div className='flex my-14 gap-5 justify-center'>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              type='button'
+              onClick={() => handlePageChange(page)}
+              className={`${
+                currentPage === page
+                  ? "text-[#0B0909] bg-[#FF8906]"
+                  : "text-[#A0A3BD] bg-[#E8E8E8] hover:text-[#0B0909] hover:bg-[#FF8906]"
+              } font-medium leading-5 flex items-center justify-center rounded-full w-10 h-10 cursor-pointer transition duration-150 ease-in-out`}
+            >
+              {page}
+            </button>
+          ))}
           <button
+            key='next'
             type='button'
-            className='text-[#0B0909] bg-[#FF8906] leading-5 flex items-center justify-center  cursor-pointer rounded-full w-10 h-10'
-          >
-            1
-          </button>
-          <button
-            type='button'
-            className='text-[#A0A3BD] bg-[#E8E8E8]  font-medium leading-5 flex items-center justify-center  rounded-full w-10 h-10 cursor-pointer hover:text-[#0B0909] hover:bg-[#FF8906] transition duration-150 ease-in-out '
-          >
-            2
-          </button>
-          <button
-            type='button'
-            className='text-[#A0A3BD] bg-[#E8E8E8] font-medium leading-5 flex items-center justify-center  rounded-full w-10 h-10 cursor-pointer hover:text-[#0B0909] hover:bg-[#FF8906] transition duration-150 ease-in-out '
-          >
-            3
-          </button>
-          <button
-            type='button'
-            className='text-[#A0A3BD] bg-[#E8E8E8] font-mediumleading-5 flex items-center justify-center  rounded-full w-10 h-10 cursor-pointer hover:text-[#0B0909] hover:bg-[#FF8906] transition duration-150 ease-linear'
-          >
-            4
-          </button>
-          <button
-            type='button'
-            className='text-[#0B0909] bg-[#FF8906] leading-5 flex items-center justify-center  rounded-full w-10 h-10 cursor-pointer '
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`text-[#0B0909] ${
+              currentPage === totalPages ? "bg-[#E8E8E8]" : "bg-[#FF8906]"
+            } leading-5 flex items-center justify-center rounded-full w-10 h-10 cursor-pointer disabled:cursor-not-allowed`}
           >
             <img src={prev} alt='next icon' />
           </button>
