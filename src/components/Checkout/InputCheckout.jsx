@@ -10,7 +10,7 @@ export default function InputCheckout({
 }) {
   return (
     <>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 pt-3">
         <label htmlFor={id} className="text-sm font-semibold">
           {label}
         </label>
