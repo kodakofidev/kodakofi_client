@@ -21,8 +21,6 @@ const Router = () => {
           <Route path="/" element={<Home />} />
 
           <Route path="/products" element={<ProductList />} />
-          {/* <Route path='/order/:id' element={<OrderDetails />} /> */}
-
           <Route path="/history" element={<HistoryOrderPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/profile" element={<ProfilePage />} />
