@@ -2,11 +2,21 @@ import React, { useEffect, useState } from "react";
 import OrderListComponent from "../../components/Checkout/OrderListComponent";
 import PaymentAndInfoDelivery from "../../components/Checkout/PaymentAndInfoDelivery";
 import TotalPayment from "../../components/Checkout/TotalPayment";
+import ModalPaymentMethode from "../../components/Checkout/ModalPaymentMethode";
 
 export default function CheckoutPage() {
   const [productList, setProductList] = useState([]);
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [dataOrder, setDataOrder] = useState({});
+  const [paymentMethodeModal, setPaymentMethodeModal] = useState(false);
+
+  // validasi
+  const [validationPaymentMethode, setValidationPaymentMethode] =
+    useState(true);
+  const [validationEmail, setValidationEmail] = useState(true);
+  const [validationFullName, setValidationFullName] = useState(true);
+  const [validationAddress, setValidationAddress] = useState(true);
+  const [validationDelivery, setValidationDelivery] = useState(true);
 
   const chart = [
     {
@@ -47,19 +57,60 @@ export default function CheckoutPage() {
 
   function submitCheckoutHandler(e) {
     e.preventDefault();
-
+    const paymentMethode = e.target.paymentMethode.value;
     const email = e.target.email.value;
     const fullName = e.target.fullName.value;
     const address = e.target.address.value;
     const delivery = e.target.delivery.value;
-    console.log({
-      email,
-      fullName,
-      address,
-      delivery,
-      ...dataOrder,
-      productList,
-    });
+
+    paymentMethode != ""
+      ? setValidationPaymentMethode(true)
+      : setValidationPaymentMethode(false);
+
+    email != "" ? setValidationEmail(true) : setValidationEmail(true);
+
+    fullName != "" ? setValidationFullName(true) : setValidationFullName(false);
+
+    address != "" ? setValidationAddress(true) : setValidationAddress(false);
+
+    delivery != "" ? setValidationDelivery(true) : setValidationDelivery(false);
+
+    if (
+      email != "" &&
+      fullName != "" &&
+      address != "" &&
+      delivery != "" &&
+      paymentMethode != "" &&
+      productList.length !== 0
+    ) {
+      console.log("ok");
+      console.log({
+        email,
+        fullName,
+        address,
+        delivery,
+        paymentMethode,
+        ...dataOrder,
+        productList,
+      });
+    } else {
+      paymentMethode != ""
+        ? setValidationPaymentMethode(true)
+        : setValidationPaymentMethode(false);
+
+      email != "" ? setValidationEmail(true) : setValidationEmail(false);
+
+      fullName != ""
+        ? setValidationFullName(true)
+        : setValidationFullName(false);
+
+      address != "" ? setValidationAddress(true) : setValidationAddress(false);
+
+      delivery != ""
+        ? setValidationDelivery(true)
+        : setValidationDelivery(false);
+      console.log("not ok");
+    }
   }
 
   return (
@@ -74,13 +125,26 @@ export default function CheckoutPage() {
             productList={productList}
             setProductList={setProductList}
           />
-          <PaymentAndInfoDelivery setDeliveryCost={setDeliveryCost} />
+          <PaymentAndInfoDelivery
+            setDeliveryCost={setDeliveryCost}
+            validationEmail={validationEmail}
+            validationFullName={validationFullName}
+            validationAddress={validationAddress}
+            validationDelivery={validationDelivery}
+          />
           <TotalPayment
             productList={productList}
             deliveryCost={deliveryCost}
             setDataOrder={setDataOrder}
+            setPaymentMethodeModal={setPaymentMethodeModal}
+            validationPaymentMethode={validationPaymentMethode}
           />
         </div>
+        <ModalPaymentMethode
+          setPaymentMethodeModal={setPaymentMethodeModal}
+          paymentMethodeModal={paymentMethodeModal}
+          validationPaymentMethode={validationPaymentMethode}
+        />
       </form>
     </>
   );

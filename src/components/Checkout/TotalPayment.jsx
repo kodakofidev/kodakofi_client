@@ -10,6 +10,8 @@ export default function TotalPayment({
   productList,
   deliveryCost,
   setDataOrder,
+  setPaymentMethodeModal,
+  validationPaymentMethode,
 }) {
   const totalOrder = productList.reduce((total, item) => {
     return total + item.discountPrice;
@@ -54,7 +56,7 @@ export default function TotalPayment({
 
   return (
     <>
-      <div className="py-4 md:pl-8 md:col-start-5 md:row-start-1 md:col-span-3">
+      <div className="py-4 md:pl-8 md:col-start-5 md:row-start-1 md:col-span-3 md:row-span-2">
         <h1 className="text-xl font-semibold pb-4 md:pb-8">Total</h1>
         <div className="grid grid-cols-2 gap-1 bg-gray-100 rounded-sm p-4">
           <h1 className="font-semibold">Order</h1>
@@ -71,8 +73,18 @@ export default function TotalPayment({
           <p className="place-self-end font-semibold pb-2">
             Idr {subTotalFormat}
           </p>
+          <p
+            className={`${
+              !validationPaymentMethode ? "block" : "hidden"
+            } block text-sm text-red-600 italic col-span-2`}
+          >
+            Payment methode cannot be empty
+          </p>
           <button
-            type="submit"
+            onClick={() => {
+              setPaymentMethodeModal(true);
+            }}
+            type="button"
             className="col-span-2 bg-orange py-1 rounded-sm hover:scale-[1.01] active:scale-[1] cursor-pointer select-none font-medium"
           >
             Checkout

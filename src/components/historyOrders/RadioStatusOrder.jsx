@@ -13,7 +13,7 @@ export default function RadioStatusOrder({ name, id, value }) {
         />
         <label
           htmlFor={id}
-          className="block py-1 w-full bg-gray-200 rounded-md peer-checked:bg-[#fff] cursor-pointer md:w-[160px]"
+          className="block py-1 w-full bg-gray-200 rounded-md peer-checked:bg-[#fff] cursor-pointer"
         >
           <h1 className="text-sm text-center">{value}</h1>
         </label>
