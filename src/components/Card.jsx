@@ -28,7 +28,7 @@ function Card() {
   }, [])
 
   return (
-    <div className='relative min-w-[158px] max w-1/3 max-w-[377px] max-h-[360px]  top-8 hover:scale-105 transition duration-150 ease-linear  '>
+    <div className='relative min-w-[158px] max w-3/4 max-w-[377px] max-h-[360px] top-8 hover:scale-105 transition duration-150 ease-linear  '>
       <img
         src={product.image.kopi}
         alt='product'

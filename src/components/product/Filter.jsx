@@ -3,7 +3,7 @@
 function Filter() {
 
   return (
-    <section className='hidden lg:block xl:block bg-black rounded-lg my-5 p-5 w-1/4 h-[550px]'>
+    <section className='hidden md:block lg:block xl:block bg-black rounded-lg my-5 p-5 w-1/3 h-[550px]'>
       <div className='flex flex-row justify-between items-center'>
         <p className='text-white text-sm font-semibold'>Filter</p>
         <p className='text-white text-xs font-semibold cursor-pointer'>Reset filter</p>
