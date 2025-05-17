@@ -198,10 +198,6 @@ export default function HistoryOrdersSection() {
     setFilterByDate(null);
   }
 
-  // function setInitPage() {
-  //   setChecked(1);
-  // }
-
   return (
     <>
       <section className="pt-6 lg:col-span-5 pb-8">
@@ -243,49 +239,61 @@ export default function HistoryOrdersSection() {
             </div>
           </div>
           <div className="col-span-5 grid gap-4">
-            {filterByDate === null ? (
+            {ordersHistory.length === 0 ? (
               <>
-                {ordersHistory.map((order, index) => {
-                  {
-                    const newDate = new Date(order.date);
-                    const dateFormat = Intl.DateTimeFormat("id-ID", {
-                      day: "2-digit",
-                      month: "long",
-                      year: "numeric",
-                    }).format(newDate);
-                    return (
-                      <CardProductHistoryOrder
-                        key={index}
-                        order={order.noOrder}
-                        date={dateFormat}
-                        total={1000}
-                        status={order.onProgress}
-                      />
-                    );
-                  }
-                })}
+                <div className="flex items-center justify-center flex-col gap-2">
+                  <h1 className="text-3xl font-semibold">
+                    History orders is empty :(
+                  </h1>
+                </div>
               </>
             ) : (
               <>
-                {ordersHistory.map((order, index) => {
-                  {
-                    const newDate = new Date(order.date);
-                    const dateFormat = Intl.DateTimeFormat("id-ID", {
-                      day: "2-digit",
-                      month: "long",
-                      year: "numeric",
-                    }).format(newDate);
-                    return (
-                      <CardProductHistoryOrder
-                        key={index}
-                        order={order.noOrder}
-                        date={dateFormat}
-                        total={1000}
-                        status={order.onProgress}
-                      />
-                    );
-                  }
-                })}
+                {filterByDate === null ? (
+                  <>
+                    {ordersHistory.map((order, index) => {
+                      {
+                        const newDate = new Date(order.date);
+                        const dateFormat = Intl.DateTimeFormat("id-ID", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        }).format(newDate);
+                        return (
+                          <CardProductHistoryOrder
+                            key={index}
+                            order={order.noOrder}
+                            date={dateFormat}
+                            total={1000}
+                            status={order.onProgress}
+                          />
+                        );
+                      }
+                    })}
+                  </>
+                ) : (
+                  <>
+                    {ordersHistory.map((order, index) => {
+                      {
+                        const newDate = new Date(order.date);
+                        const dateFormat = Intl.DateTimeFormat("id-ID", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        }).format(newDate);
+                        return (
+                          <CardProductHistoryOrder
+                            key={index}
+                            order={order.noOrder}
+                            date={dateFormat}
+                            total={1000}
+                            status={order.onProgress}
+                          />
+                        );
+                      }
+                    })}
+                  </>
+                )}
               </>
             )}
           </div>

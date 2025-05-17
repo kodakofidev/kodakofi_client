@@ -11,7 +11,7 @@ export default function HistoryOrderPage() {
             <h1 className="text-3xl">History Order</h1>
             <div className="w-6 h-6 bg-gray-200 leading-6 text-center">2</div>
           </div>
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
+          <div className="grid grid-cols-1 gap-y-4 md:gap-4 lg:grid-cols-7">
             <HistoryOrdersSection />
             <SendMessage />
           </div>
