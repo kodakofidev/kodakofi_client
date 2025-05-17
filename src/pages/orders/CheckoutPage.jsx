@@ -11,8 +11,7 @@ export default function CheckoutPage() {
   const [paymentMethodeModal, setPaymentMethodeModal] = useState(false);
 
   // validasi
-  const [validationPaymentMethode, setValidationPaymentMethode] =
-    useState(true);
+  const [validationPaymentMethode, setValidationPaymentMethode] = useState(0);
   const [validationEmail, setValidationEmail] = useState(true);
   const [validationFullName, setValidationFullName] = useState(true);
   const [validationAddress, setValidationAddress] = useState(true);
@@ -63,10 +62,6 @@ export default function CheckoutPage() {
     const address = e.target.address.value;
     const delivery = e.target.delivery.value;
 
-    paymentMethode != ""
-      ? setValidationPaymentMethode(true)
-      : setValidationPaymentMethode(false);
-
     email != "" ? setValidationEmail(true) : setValidationEmail(true);
 
     fullName != "" ? setValidationFullName(true) : setValidationFullName(false);
@@ -80,24 +75,26 @@ export default function CheckoutPage() {
       fullName != "" &&
       address != "" &&
       delivery != "" &&
-      paymentMethode != "" &&
       productList.length !== 0
     ) {
-      console.log("ok");
-      console.log({
-        email,
-        fullName,
-        address,
-        delivery,
-        paymentMethode,
-        ...dataOrder,
-        productList,
-      });
-    } else {
       paymentMethode != ""
-        ? setValidationPaymentMethode(true)
-        : setValidationPaymentMethode(false);
-
+        ? setValidationPaymentMethode(0)
+        : setValidationPaymentMethode(validationPaymentMethode + 1);
+      setPaymentMethodeModal(true);
+      if (paymentMethode != "") {
+        console.log("ok");
+        console.log({
+          email,
+          fullName,
+          address,
+          delivery,
+          paymentMethode,
+          ...dataOrder,
+          productList,
+        });
+        setPaymentMethodeModal(false);
+      }
+    } else {
       email != "" ? setValidationEmail(true) : setValidationEmail(false);
 
       fullName != ""
