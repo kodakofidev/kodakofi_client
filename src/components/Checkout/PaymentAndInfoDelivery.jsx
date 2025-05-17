@@ -37,7 +37,7 @@ export default function PaymentAndInfoDelivery({
           />
           <p
             className={`${
-              validationEmail ? "block" : "hidden"
+              !validationEmail ? "block" : "hidden"
             } text-sm text-red-600 italic`}
           >
             Email cannot be empty
@@ -52,7 +52,7 @@ export default function PaymentAndInfoDelivery({
           />
           <p
             className={`${
-              validationFullName ? "block" : "hidden"
+              !validationFullName ? "block" : "hidden"
             } text-sm text-red-600 italic`}
           >
             Fullname cannot be empty
@@ -67,7 +67,7 @@ export default function PaymentAndInfoDelivery({
           />
           <p
             className={`${
-              validationAddress ? "block" : "hidden"
+              !validationAddress ? "block" : "hidden"
             } text-sm text-red-600 italic`}
           >
             Address cannot be empty
@@ -98,7 +98,7 @@ export default function PaymentAndInfoDelivery({
           </div>
           <p
             className={`${
-              validationDelivery ? "block" : "hidden"
+              !validationDelivery ? "block" : "hidden"
             } text-sm text-red-600 italic`}
           >
             Delivery cannot be empty

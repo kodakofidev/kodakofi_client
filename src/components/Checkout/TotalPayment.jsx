@@ -11,6 +11,7 @@ export default function TotalPayment({
   deliveryCost,
   setDataOrder,
   setPaymentMethodeModal,
+  validationPaymentMethode,
 }) {
   const totalOrder = productList.reduce((total, item) => {
     return total + item.discountPrice;
@@ -71,6 +72,13 @@ export default function TotalPayment({
           <h1 className="font-semibold">Sub Total</h1>
           <p className="place-self-end font-semibold pb-2">
             Idr {subTotalFormat}
+          </p>
+          <p
+            className={`${
+              !validationPaymentMethode ? "block" : "hidden"
+            } block text-sm text-red-600 italic col-span-2`}
+          >
+            Payment methode cannot be empty
           </p>
           <button
             onClick={() => {

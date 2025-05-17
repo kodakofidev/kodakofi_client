@@ -12,12 +12,11 @@ export default function CheckoutPage() {
 
   // validasi
   const [validationPaymentMethode, setValidationPaymentMethode] =
-    useState(false);
-  const [validationEmail, setValidationEmail] = useState(false);
-  const [validationFullName, setValidationFullName] = useState(false);
-  const [validationAddress, setValidationAddress] = useState(false);
-  const [validationDelivery, setValidationDelivery] = useState(false);
-  const [validationProducts, setValidationProducts] = useState(false);
+    useState(true);
+  const [validationEmail, setValidationEmail] = useState(true);
+  const [validationFullName, setValidationFullName] = useState(true);
+  const [validationAddress, setValidationAddress] = useState(true);
+  const [validationDelivery, setValidationDelivery] = useState(true);
 
   const chart = [
     {
@@ -64,26 +63,27 @@ export default function CheckoutPage() {
     const address = e.target.address.value;
     const delivery = e.target.delivery.value;
 
-    paymentMethode == ""
+    paymentMethode != ""
       ? setValidationPaymentMethode(true)
       : setValidationPaymentMethode(false);
 
-    email == "" ? setValidationEmail(true) : setValidationEmail(true);
+    email != "" ? setValidationEmail(true) : setValidationEmail(true);
 
-    fullName == "" ? setValidationFullName(true) : setValidationFullName(false);
+    fullName != "" ? setValidationFullName(true) : setValidationFullName(false);
 
-    address == "" ? setValidationAddress(true) : setValidationAddress(false);
+    address != "" ? setValidationAddress(true) : setValidationAddress(false);
 
-    delivery == "" ? setValidationDelivery(true) : setValidationDelivery(false);
+    delivery != "" ? setValidationDelivery(true) : setValidationDelivery(false);
 
     if (
-      validationEmail &&
-      validationFullName &&
-      validationAddress &&
-      validationDelivery &&
-      validationPaymentMethode &&
-      validationProducts
+      email != "" &&
+      fullName != "" &&
+      address != "" &&
+      delivery != "" &&
+      paymentMethode != "" &&
+      productList.length !== 0
     ) {
+      console.log("ok");
       console.log({
         email,
         fullName,
@@ -94,21 +94,22 @@ export default function CheckoutPage() {
         productList,
       });
     } else {
-      paymentMethode == ""
+      paymentMethode != ""
         ? setValidationPaymentMethode(true)
         : setValidationPaymentMethode(false);
 
-      email == "" ? setValidationEmail(true) : setValidationEmail(false);
+      email != "" ? setValidationEmail(true) : setValidationEmail(false);
 
-      fullName == ""
+      fullName != ""
         ? setValidationFullName(true)
         : setValidationFullName(false);
 
-      address == "" ? setValidationAddress(true) : setValidationAddress(false);
+      address != "" ? setValidationAddress(true) : setValidationAddress(false);
 
-      delivery == ""
+      delivery != ""
         ? setValidationDelivery(true)
         : setValidationDelivery(false);
+      console.log("not ok");
     }
   }
 
@@ -136,6 +137,7 @@ export default function CheckoutPage() {
             deliveryCost={deliveryCost}
             setDataOrder={setDataOrder}
             setPaymentMethodeModal={setPaymentMethodeModal}
+            validationPaymentMethode={validationPaymentMethode}
           />
         </div>
         <ModalPaymentMethode

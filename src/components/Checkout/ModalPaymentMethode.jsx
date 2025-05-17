@@ -26,7 +26,7 @@ export default function ModalPaymentMethode({
           </h1>
           <p
             className={`${
-              validationPaymentMethode ? "block" : "hidden"
+              !validationPaymentMethode ? "block" : "hidden"
             } block text-sm text-red-600 -translate-y-4 italic`}
           >
             Payment methode cannot be empty
