@@ -2,14 +2,13 @@ import Card from "../Card"
 import next from '../../assets/icon/arrow-right2.svg'
 
 function Product({ products, currentPage, setCurrentPage, totalPages }) {
-   console.log("Product data in Card:", products);
   const handlePage = (page) => {
     setCurrentPage(page)
   }
 
   return (
     <div className="w-full lg:w-2/3 xl:w-3/4">
-      <div className='grid grid-cols-2 auto-rows-[550px] auto-cols-[300px]'>
+      <div className='grid grid-cols-2 auto-rows-[420px] lg:auto-rows-[550px] auto-cols-[300px]'>
         {products.length === 0 ? (
           <p>No products found.</p>
         ) : (
