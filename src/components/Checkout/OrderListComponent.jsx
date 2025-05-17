@@ -17,20 +17,31 @@ export default function OrderListComponent({ productList, setProductList }) {
           </button>
         </div>
         <div className="flex flex-col gap-2">
-          {productList.map((order) => (
-            <CardCheckout
-              product={order.productName}
-              quantity={order.quantity}
-              size={order.size}
-              variant={order.variant}
-              typeOrder={order.typeOrder}
-              discountPrice={order.discountPrice}
-              originalPrice={order.originalPrice}
-              id={order.id}
-              productList={productList}
-              setProductList={setProductList}
-            />
-          ))}
+          {productList.length === 0 ? (
+            <>
+              <div className="flex items-center justify-center flex-col gap-2">
+                <h1 className="text-3xl font-semibold">Order is empty :(</h1>
+                <p>Please select a product to order</p>
+              </div>
+            </>
+          ) : (
+            <>
+              {productList.map((order) => (
+                <CardCheckout
+                  product={order.productName}
+                  quantity={order.quantity}
+                  size={order.size}
+                  variant={order.variant}
+                  typeOrder={order.typeOrder}
+                  discountPrice={order.discountPrice}
+                  originalPrice={order.originalPrice}
+                  id={order.id}
+                  productList={productList}
+                  setProductList={setProductList}
+                />
+              ))}
+            </>
+          )}
         </div>
       </div>
     </>
