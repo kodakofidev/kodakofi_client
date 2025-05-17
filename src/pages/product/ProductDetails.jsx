@@ -38,6 +38,7 @@ const ProductDetails = () => {
       setCurrentPage(page)
     }
   }
+
   const [dataTest, setDataTest] = useState({
     id: 1,
     name: "Hazelnut Latte",
@@ -75,15 +76,16 @@ const ProductDetails = () => {
   const handleAddToCart = () => {
     console.log(order)
   }
+
   return (
-    <main className=' px-4 lg:px-8 md:px-12 xl:px-24 mt-20 md:mt-25 '>
+    <main className=' px-4 lg:px-8 md:px-12 xl:px-24 mt-20 md:mt-25 lg:mx-auto '>
       <section className=' gap-5 lg:flex mb-[55px]'>
         <div className='  basis-[500px] shrink-0 mb-4'>
           <div className='mb-[27px] flex justify-center'>
             <img
               src={selectedImage}
               alt='image product'
-              className=' max-sm:max-h-[320px] max-md:w-[357px] md:w-[578px] lg:w-[580px] lg:h-[554px]'
+              className='  max-md:w-[357px] md:w-[578px] lg:w-[580px]  aspect-square'
             />
           </div>
           <div className='flex w-full gap-5 justify-center  max-sm:snap-x max-sm:snap-mandatory '>
@@ -104,16 +106,14 @@ const ProductDetails = () => {
             })}
           </div>
         </div>
-        <div className='shrink-2'>
-          <div className=''>
-            <p
-              className={`bg-[#D00000] max-sm:text-sm text-lg text-white leading-6  rounded-3xl font-bold md:text-lg w-max mb-4 p-[10px] uppercase`}
-            >
-              {dataTest.discount.name}
-            </p>
-          </div>
+        <div className='shrink-2  '>
+          <p
+            className={`bg-[#D00000] max-sm:text-sm text-white max-md:-ml-4 leading-6  rounded-3xl font-bold md:text-base w-max mb-4 p-[10px] uppercase max-sm:scale-75 sm:scale-90 `}
+          >
+            {dataTest.discount.name}
+          </p>
 
-          <h3 className='max-sm:text-2xl text-5xl leading-[100%] text-(-color-text-black) font-medium mb-4 '>
+          <h3 className='max-sm:text-2xl text-4xl leading-[100%] text-(-color-text-black) font-medium mb-4 '>
             {dataTest.name}
           </h3>
           <div className='flex items-center gap-3 mb-4'>
@@ -280,6 +280,17 @@ const ProductDetails = () => {
         </div>
 
         <div className='flex my-14 gap-5 justify-center'>
+          <button
+            key='prev'
+            type='button'
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`text-[#0B0909] ${
+              currentPage === 1 ? "bg-[#E8E8E8]" : "bg-[#FF8906]"
+            } leading-5 flex items-center justify-center rounded-full w-10 h-10 cursor-pointer disabled:cursor-not-allowed `}
+          >
+            <img src={prev} alt='next icon' className='rotate-180' />
+          </button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
@@ -301,7 +312,7 @@ const ProductDetails = () => {
             disabled={currentPage === totalPages}
             className={`text-[#0B0909] ${
               currentPage === totalPages ? "bg-[#E8E8E8]" : "bg-[#FF8906]"
-            } leading-5 flex items-center justify-center rounded-full w-10 h-10 cursor-pointer disabled:cursor-not-allowed`}
+            } leading-5 flex items-center justify-center rounded-full w-10 h-10 cursor-pointer disabled:cursor-not-allowed `}
           >
             <img src={prev} alt='next icon' />
           </button>

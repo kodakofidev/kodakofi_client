@@ -13,22 +13,22 @@ function Card() {
     price: "20,000",
   })
 
-  const getProduct = async () => {
-    try {
-      const res = await fetch(`localhost:8080/api/products`)
-      const products = await res.json()
-      setProduct(products.data)
-    } catch (error) {
-      console.error("Failed to load product", error)
-    }
-  }
+  // const getProduct = async () => {
+  //   try {
+  //     const res = await fetch(`localhost:8080/api/products`)
+  //     const products = await res.json()
+  //     setProduct(products.data)
+  //   } catch (error) {
+  //     console.error("Failed to load product", error)
+  //   }
+  // }
 
-  useEffect(() => {
-    getProduct()
-  }, [])
+  // useEffect(() => {
+  //   getProduct()
+  // }, [])
 
   return (
-    <div className='relative min-w-[158px] max w-1/3 max-w-[377px] max-h-[360px]  top-8 hover:scale-105 transition duration-150 ease-linear  '>
+    <div className='relative min-w-[158px] max  max-w-[377px] max-h-[360px]  top-8 hover:scale-105 transition duration-150 ease-linear '>
       <img
         src={product.image.kopi}
         alt='product'
