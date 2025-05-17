@@ -1,62 +1,51 @@
-import { useEffect, useState } from "react"
-
 import thumbs from "../assets/icon/ThumbsUp.svg"
 import Cart from "../assets/icon/ShoppingCart.svg"
-import kopi from "../assets/kopi.jpg"
+import image from '../assets/icon/default-image.jpg'
 
-function Card() {
-  const [product, setProduct] = useState({
-    name: "Matcha Latte",
-    image: { kopi },
-    desc: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-    review: 200,
-    price: "20,000",
-  })
-
-  const getProduct = async () => {
-    try {
-      const res = await fetch(`localhost:8080/api/products`)
-      const products = await res.json()
-      setProduct(products.data)
-    } catch (error) {
-      console.error("Failed to load product", error)
-    }
-  }
-
-  useEffect(() => {
-    getProduct()
-  }, [])
+function Card({product}) {
+   console.log("Product data in Card:", product);
 
   return (
-    <div className='relative min-w-[158px] max w-3/4 max-w-[377px] max-h-[360px] top-8 hover:scale-105 transition duration-150 ease-linear  '>
+    <div className='relative min-w-[158px] max-w-[377px] h-[360px] top-8 hover:scale-105 transition duration-150 ease-linear'>
       <img
-        src={product.image.kopi}
-        alt='product'
-        className='h-[215px] sm:h-[240px] lg:h-[360px] w-full'
+        src={product?.images?.[0] || image }
+        alt={product?.name || 'image'}
+        className='h-[215px] sm:h-[240px] lg:h-[360px] w-full object-cover'
       />
-      <div className='bg-[#D00000]  absolute top-[10px] left-[10px] p-[10px]  rounded-full text-white text-center  px-3 py-2 font-lg font-bold max-sm:text-[12px]'>
+      <div className='bg-[#D00000] absolute top-[10px] left-[10px] p-[10px] rounded-full text-white text-center px-3 py-2 font-lg font-bold max-sm:text-[12px]'>
         FLASH SALE
       </div>
-      <div className='flex flex-col justify-center px-1 sm:px-2 relative -top-16  '>
+      <div className='flex flex-col justify-center px-1 sm:px-2 relative -top-16'>
         <div className='bg-[#fff] flex flex-col gap-[10px] md:p-[10px] max-sm:p-2 p-3'>
-          <div className='text-lg md:text-2xl text-(--color-text-black) leading-[100%] font-medium'>
-            {product.name}
+          <div
+            className='text-lg md:text-2xl text-black leading-[100%] font-medium'
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+            >
+            {product?.name || 'Product Name'}
           </div>
-          <div className='text-[#4F5665] max-sm:text-[12px] sm:text-sm'>
-            {product.desc}
+          <div 
+            className='text-[#4F5665] max-sm:text-[12px] sm:text-sm'
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}>
+            {product?.description || 'Product Description'}
           </div>
           <div className='flex flex-row items-center gap-[10px]'>
-            <div>
-              <img src={thumbs} alt='rating' width={16} height={16} />
-            </div>
-            <p className='text-sm sm:text-lg leading-[100%] text-(--color-text-gray)'>
-              {product.review} + Review
+            <img src={thumbs} alt='rating' width={16} height={16} />
+            <p className='text-sm sm:text-lg leading-[100%] text-gray-600'>
+              {product?.review || 0 } + Review
             </p>
           </div>
-          <div className='text-[#FF8906] text-lg font-medium sm:text-2xl '>
-            IDR. {product.price}
+          <div className='text-[#FF8906] text-lg font-medium sm:text-2xl'>
+            IDR. {product?.price || 0 }
           </div>
-          <div className='flex flex-row gap-[10px] max-sm:flex-col '>
+          <div className='flex flex-row gap-[10px] max-sm:flex-col'>
             <button className='bg-[#FF8906] max-sm:w-full rounded-md py-2 w-3/4 cursor-pointer'>
               Buy
             </button>
