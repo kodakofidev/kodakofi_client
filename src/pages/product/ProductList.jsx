@@ -4,6 +4,7 @@ import Product from '../../components/product/Product'
 import Promo from '../../components/product/Promo'
 import Tagline from '../../components/product/Tagline'
 import Search from '../../components/product/Search'
+import { useNavigate } from 'react-router'
 
 function ProductList() {
   const [products, setProducts] = useState([])
@@ -33,6 +34,8 @@ function ProductList() {
     }
     fetchProducts()
   }, [currentPage, name])
+
+  
 
   return (
     <div className='h-full'>

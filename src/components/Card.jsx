@@ -1,12 +1,16 @@
+import { useNavigate } from "react-router";
 import thumbs from "../assets/icon/ThumbsUp.svg"
 import Cart from "../assets/icon/ShoppingCart.svg"
 import image from '../assets/icon/default-image.jpg'
 
 function Card({product}) {
-   console.log("Product data in Card:", product);
+  const navigate = useNavigate()
+  const nextPage = () => {
+    navigate(`/products/${product.id}`)
+  }
 
   return (
-    <div className='relative min-w-[158px] max-w-[377px] h-[360px] top-8 hover:scale-105 transition duration-150 ease-linear'>
+    <div className='relative min-w-[158px] max-w-[377px] max-h-[360px] top-8 hover:scale-105 transition duration-150 ease-linear'>
       <img
         src={product?.images?.[0] || image }
         alt={product?.name || 'image'}
@@ -18,7 +22,7 @@ function Card({product}) {
       <div className='flex flex-col justify-center px-1 sm:px-2 relative -top-16'>
         <div className='bg-[#fff] flex flex-col gap-[10px] md:p-[10px] max-sm:p-2 p-3'>
           <div
-            className='text-lg md:text-2xl text-black leading-[100%] font-medium'
+            className='text-lg md:text-2xl text-black leading-[100%] font-medium md:h-7 lg:h-10'
             style={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -46,7 +50,7 @@ function Card({product}) {
             IDR. {product?.price || 0 }
           </div>
           <div className='flex flex-row gap-[10px] max-sm:flex-col'>
-            <button className='bg-[#FF8906] max-sm:w-full rounded-md py-2 w-3/4 cursor-pointer'>
+            <button onClick={nextPage} className='bg-[#FF8906] max-sm:w-full rounded-md py-2 w-3/4 cursor-pointer'>
               Buy
             </button>
             <button className='max-sm:w-full border border-[#FF8906] rounded-md p-2 w-1/3 flex flex-col items-center justify-center cursor-pointer'>
