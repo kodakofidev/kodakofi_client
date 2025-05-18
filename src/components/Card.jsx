@@ -10,7 +10,7 @@ function Card({ product }) {
   };
 
   return (
-    <div className="relative top-8 max-h-[360px] max-w-[377px] min-w-[158px] transition duration-150 ease-linear hover:scale-105">
+    <div className="relative top-8 max-h-[360px] max-w-[377px] min-w-[158px] snap-center transition duration-150 ease-linear hover:scale-105">
       <img
         src={product?.images?.[0] || image}
         alt={product?.name || "image"}

@@ -4,12 +4,6 @@ import Product from "../../components/product/Product"
 import Promo from "../../components/product/Promo"
 import Tagline from "../../components/product/Tagline"
 import Search from "../../components/product/Search"
-import { useEffect, useState } from "react"
-import Filter from "../../components/product/Filter"
-import Product from "../../components/product/Product"
-import Promo from "../../components/product/Promo"
-import Tagline from "../../components/product/Tagline"
-import Search from "../../components/product/Search"
 import { useNavigate } from "react-router"
 
 function ProductList() {

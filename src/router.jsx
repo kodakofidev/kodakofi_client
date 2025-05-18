@@ -8,7 +8,7 @@ import MainLayout from "./layouts/MainLayouts"
 import AdminLayouts from "./layouts/AdminLayouts"
 import ProfilePage from "./pages/ProfilePage"
 import HistoryOrderPage from "./pages/orders/HistoryOrderPage"
-import ProductList from "./components/product/ProductList"
+import ProductList from "./pages/product/ProductList"
 
 const Router = () => {
   return (
