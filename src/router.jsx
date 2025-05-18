@@ -8,6 +8,7 @@ import AdminLayouts from "./layouts/AdminLayouts";
 import ProfilePage from "./pages/ProfilePage";
 import HistoryOrderPage from "./pages/orders/HistoryOrderPage";
 import ProductList from "./components/product/ProductList";
+import ProductListAdmin from "./pages/admin/ProductListAdmin";
 
 const Router = () => {
   return (
@@ -28,6 +29,7 @@ const Router = () => {
 
         {/* Layouting Admin */}
         <Route path="admin" element={<AdminLayouts />}>
+          <Route path="products" element={<ProductListAdmin />} />
           {/* <Route index element={<Dashboard />}></Route> */}
         </Route>
       </Routes>
