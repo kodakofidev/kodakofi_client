@@ -29,7 +29,7 @@ function Filter({ name, setName }) {
   }
 
   return (
-    <section className='hidden md:block lg:block xl:block bg-black rounded-lg my-5 p-5 w-1/3 h-[580px]'>
+    <section className='hidden md:block lg:block xl:block bg-black rounded-lg my-5 p-5 w-1/3 h-[650px]'>
       <div className='flex flex-row justify-between items-center'>
         <p className='text-white text-sm font-semibold'>Filter</p>
         <p onClick={handleReset} className='text-white text-xs font-semibold cursor-pointer'>Reset filter</p>
