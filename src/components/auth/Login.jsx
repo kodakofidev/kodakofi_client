@@ -90,7 +90,7 @@ function Login() {
       });
 
       const data = await response.json();
-      
+      // console.log("Login response:", data.data.fullname);
       if (response.ok) {
         toast.success("Login successful!");
         
@@ -100,7 +100,8 @@ function Login() {
             id: data.data.id,
             role: data.data.role || "user",
             token: data.data.token,
-            email: email
+            email: email,
+            name: data.data.fullname || email.split("@")[0]
           },
           isLogin: true
         }));
