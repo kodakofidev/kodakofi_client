@@ -164,7 +164,7 @@ const ProductDetails = () => {
                   src={item}
                   alt="product image"
                   onClick={() => setSelectedImage(item)}
-                  className="max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px]"
+                  className="cursor-pointer max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px]"
                 />
               </div>
             ))}
@@ -338,7 +338,7 @@ const ProductDetails = () => {
           <strong className="font-medium text-[#8E6447]"> For You</strong>
         </h3>
 
-        <div className="ms:overflow-x-auto scrollbar-hide mt-4 flex min-h-[540px] snap-x justify-center gap-4 py-4 max-sm:overflow-y-hidden">
+        <div className="mt-4 flex min-h-[580px] w-full items-start justify-start gap-4 overflow-x-auto overflow-y-hidden px-4 py-2 max-sm:snap-x max-sm:snap-mandatory">
           {getCurrentCards().map((card) => (
             <Card key={card.id} />
           ))}
