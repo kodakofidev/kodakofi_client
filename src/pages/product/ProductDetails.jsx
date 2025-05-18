@@ -7,7 +7,6 @@ import liked from "../../assets/product-details/liked.svg";
 import shoppingCart from "../../assets/product-details/shoppingCart.svg";
 import prev from "../../assets/product-details/arrow-right.svg";
 import Card from "../../components/Card";
-
 const ProductDetails = () => {
   // State untuk pagination
   const [currentPage, setCurrentPage] = useState(1);

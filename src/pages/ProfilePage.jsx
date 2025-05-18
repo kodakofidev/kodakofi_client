@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import profilePicture from "/profilepicture.webp";
 import profileIcon from "/icons/Profile.svg";
 import mail from "/icons/mail.svg";
 import phoneIcon from "/icons/phoneCall.svg";
 import addressIcon from "/icons/location.svg";
-import password from "/icons/Password.svg";
 import eyeslash from "/icons/EyeSlash.svg";
 import eye from "/icons/eye.svg";
-import test from "/icons/download.jpg";
 
 function ProfilePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +15,13 @@ function ProfilePage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showCheckPassword, setCheckShowPassword] = useState(false);
+
+  // PROFILE PICTURE MODAL STATES
+  const [isProfilePicModalOpen, setIsProfilePicModalOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState(profilePicture);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState(null);
+  const fileInputRef = useRef(null);
 
   // SHOW CURRENT PASSWORD
   const togglePasswordVisibility = () => {
@@ -33,13 +38,65 @@ function ProfilePage() {
     setCheckShowPassword(!showCheckPassword);
   };
 
+  // Handle profile picture upload using Fetch API
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type and size
+    if (!file.type.match("image.*")) {
+      setUploadError("Please select an image file");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError("File size must be less than 2MB");
+      return;
+    }
+
+    setIsUploading(true);
+    setUploadError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("profileImage", file);
+      formData.append("userId", "123"); // Replace with actual user ID
+
+      const response = await fetch("/api/upload-profile-image", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // If using auth
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(await response.text());
+      }
+
+      const data = await response.json();
+      setProfileImage(data.imageUrl);
+      setIsProfilePicModalOpen(false);
+    } catch (error) {
+      console.error("Upload failed:", error);
+      setUploadError(error.message || "Failed to upload image");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  // Trigger file input click
+  const handleUploadClick = () => {
+    setUploadError(null);
+    fileInputRef.current.click();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Password change submitted");
     setIsModalOpen(false);
-    e.target.currentPassword.value = ""
-    e.target.newPassword.value = ""
-    e.target.confirmPassword.value = ""
+    e.target.currentPassword.value = "";
+    e.target.newPassword.value = "";
+    e.target.confirmPassword.value = "";
   };
   return (
     <main className="relative h-fit mb-28 px-4 lg:px-8 md:px-12 xl:px-24">
@@ -54,10 +111,17 @@ function ProfilePage() {
           <img
             src={profilePicture}
             alt=""
-            className="rounded-[50%] max-lg:w-20 max-lg:h-20 lg:w-28 lg:h-28"
+            onClick={() => setIsProfilePicModalOpen(true)}
+            className="rounded-[50%] max-lg:w-20 max-lg:h-20 lg:w-28 lg:h-28 cursor-pointer"
           />
-          <button className="w-2/3 h-12 bg-(--secondary-color) rounded-lg hover:scale-[0.9] hover:text-white duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer">
-            Upload New Photo
+          <button
+            onClick={handleUploadClick}
+            disabled={isUploading}
+            className={`w-2/3 h-12 bg-(--secondary-color) rounded-lg hover:scale-[0.9] hover:text-white duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer ${
+              isUploading ? "opacity-70" : ""
+            }`}
+          >
+            {isUploading ? "Uploading..." : "Upload New Photo"}
           </button>
           <p className="text-[14px]">
             Since <span className="font-semibold">January 20 2022</span>
@@ -150,7 +214,7 @@ function ProfilePage() {
         </form>
       </section>
 
-      {/* MODAL pop up */}
+      {/* MODAL pop up password*/}
       {isModalOpen && (
         <section className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg w-full max-w-md mx-4">
@@ -202,7 +266,7 @@ function ProfilePage() {
                   />
                   <img
                     src={showNewPassword ? eyeslash : eye}
-                    alt={showNewPassword ? "show password" : "hide password"}                    
+                    alt={showNewPassword ? "show password" : "hide password"}
                     onClick={toggleNewPasswordVisibility}
                     className="cursor-pointer"
                   />
@@ -250,6 +314,51 @@ function ProfilePage() {
           </div>
         </section>
       )}
+
+      {/* PROFILE PICTURE MODAL */}
+      {isProfilePicModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
+            {/* ... modal header ... */}
+            <div className="flex flex-col items-center gap-4">
+              <img
+                src={profileImage}
+                alt="Profile Preview"
+                className="w-40 h-40 rounded-full object-cover"
+              />
+              {uploadError && (
+                <p className="text-red-500 text-sm">{uploadError}</p>
+              )}
+              <div className="flex gap-3 w-full">
+                <button
+                  onClick={handleUploadClick}
+                  disabled={isUploading}
+                  className={`flex-1 py-2 bg-(--secondary-color) rounded-md hover:scale-[0.9] hover:text-white duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer ${
+                    isUploading ? 'opacity-70' : 'hover:opacity-90'
+                  }`}
+                >
+                  {isUploading ? 'Uploading...' : 'Change Photo'}
+                </button>
+                <button
+                  onClick={() => setIsProfilePicModalOpen(false)}
+                  className="flex-1 py-2 border rounded-md hover:bg-gray-100 hover:scale-[0.9] duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Hidden file input */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleImageUpload}
+        accept="image/*"
+        className="hidden"
+      />
     </main>
   );
 }
