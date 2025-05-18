@@ -3,8 +3,13 @@
 @layer base {
   :root {
     --font-default: "Plus Jakarta Sans", "sans-serif";
-    background-color: var(--color-base);
-    /* @apply bg-blue-400; */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 
+import ProductDetails from "./pages/product/ProductDetails"
 import Home from "./pages/Home";
 import CheckoutPage from "./pages/orders/CheckoutPage";
 import AuthRoutes from "./routing/auth";
@@ -19,22 +20,22 @@ const Router = () => {
 
         {/* Main Layouts */}
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/history" element={<HistoryOrderPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/products' element={<ProductList />} />
+          <Route path='/products/:id' element={<ProductDetails />} />
+          <Route path='/history' element={<HistoryOrderPage />} />
+          <Route path='/checkout' element={<CheckoutPage />} />
+          <Route path='/profile' element={<ProfilePage />} />
+          <Route path='/products/:id' element={<ProductDetails />} />
         </Route>
-
         {/* Layouting Admin */}
         <Route path="admin" element={<AdminLayouts />}>
-          <Route path="products" element={<ProductListAdmin />} />
+        <Route path="products" element={<ProductListAdmin />} />
           {/* <Route index element={<Dashboard />}></Route> */}
         </Route>
       </Routes>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default Router;
+export default Router

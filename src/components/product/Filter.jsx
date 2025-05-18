@@ -1,61 +1,111 @@
+import { useState, useRef } from "react"
 
+function Filter({ name, setName }) {
+  const formRef = useRef(null)
+  const min = 0
+  const max = 100000
 
-function Filter() {
+  const [minVal, setMinVal] = useState(0)
+  const [maxVal, setMaxVal] = useState(100000)
+  const [isMinActive, setIsMinActive] = useState(false)
+  const [isMaxActive, setIsMaxActive] = useState(false)
+
+  const handleMinInput = (e) => {
+    const inputMin = Number(e.target.value)
+    if (inputMin >= min && inputMin < maxVal) setMinVal(inputMin)
+  }
+
+  const handleMaxInput = (e) => {
+    const inputMax = Number(e.target.value)
+    if (inputMax <= max && inputMax > minVal) setMaxVal(inputMax)
+  }
+
+  const handleReset = () => {
+    if (formRef.current) {
+      formRef.current.reset()
+      setMinVal(min)
+      setMaxVal(max)
+    }
+  }
 
   return (
-    <section className='hidden lg:block xl:block bg-black rounded-lg my-5 p-5 w-1/4 h-[550px]'>
+    <section className='hidden md:block lg:block xl:block bg-black rounded-lg my-5 p-5 w-1/3 h-[650px]'>
       <div className='flex flex-row justify-between items-center'>
         <p className='text-white text-sm font-semibold'>Filter</p>
-        <p className='text-white text-xs font-semibold cursor-pointer'>Reset filter</p>
+        <p onClick={handleReset} className='text-white text-xs font-semibold cursor-pointer'>Reset filter</p>
       </div>
-      <form className='my-5'>
+      <form ref={formRef} className='my-5'>
         <div className='flex flex-col'>
           <label htmlFor="filter" className='text-white text-xs font-semibold'>Search</label>
-          <input type="text" name="filter" placeholder='Search Your Product' className='bg-white rounded-sm text-xs text-black my-1 p-3 w-full' />
+          <input type="text" 
+            name="filter" 
+            placeholder='Search Your Product'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+           className='bg-white rounded-sm text-xs text-black my-1 p-3 w-full' 
+          />
         </div>
         <div className='my-2'>
-          <label htmlFor="category" className='text-white text-xs font-semibold inline-block'>Category</label>
-          <div className='flex flex-row items-center gap-[7px] my-2 relative'>
-            <input type="checkbox" name='food' id='food' className="appearance-none w-4 h-4 bg-black border border-white rounded-md focus:ring-[#ff8906] checked:border-[#ff8906] checked:bg-[#ff8906] checked:after:content-['✔'] checked:after:absolute checked:after:top-0 checked:after:left-0 checked:after:text-xs checked:after:text-black cursor-pointer" />
-            <label htmlFor="food" className='text-white text-xs cursor-pointer'>Food</label>
-          </div>
-          <div className='flex flex-row items-center gap-[7px] my-2 relative'>
-            <input type="checkbox" name='beverage' id='beverage' className="appearance-none w-4 h-4 bg-black border border-white rounded-md focus:ring-[#ff8906] checked:border-[#ff8906] checked:bg-[#ff8906] checked:after:content-['✔'] checked:after:absolute checked:after:top-0 checked:after:left-0 checked:after:text-xs checked:after:text-black cursor-pointer" />
-            <label htmlFor="beverage" className='text-white text-xs cursor-pointer'>Beverage</label>
-          </div>
-          <div className='flex flex-row items-center gap-[7px] my-2 relative'>
-            <input type="checkbox" name='addon' id='addon'  className="appearance-none w-4 h-4 bg-black border border-white rounded-md focus:ring-[#ff8906] checked:border-[#ff8906] checked:bg-[#ff8906] checked:after:content-['✔'] checked:after:absolute checked:after:top-0 checked:after:left-0 checked:after:text-xs checked:after:text-black cursor-pointer" />
-            <label htmlFor="addon" className='text-white text-xs cursor-pointer'>Add-On</label>
-          </div>
+          <label className='text-white text-xs font-semibold'>Category</label>
+          {['Coffee', 'Non-Coffee', 'Food', 'Dessert', 'Snack', 'Topping'].map(type => (
+            <div key={type} className='flex flex-row items-center gap-2 my-2 relative'>
+              <input type="checkbox" name={type} id={type} className="appearance-none w-4 h-4 bg-black border border-white rounded-md focus:ring-[#ff8906] checked:border-[#ff8906] checked:bg-[#ff8906] checked:after:content-['✔'] checked:after:absolute checked:after:top-0 checked:after:left-0 checked:after:text-xs checked:after:text-black cursor-pointer" />
+              <label htmlFor={type} className='text-white text-xs cursor-pointer capitalize'>{type}</label>
+            </div>
+          ))}
         </div>
         <div className='my-2'>
-          <label htmlFor="sort" className='text-white text-xs font-semibold inline-block'>Sort by</label>
-          <div className='flex flex-row items-center gap-[7px] my-2 relative'>
-            <input type="radio" name='sortby' id='favorite'  className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] checked:after:bg-[#ff8906] cursor-pointer"  />
-            <label htmlFor="sortby" className='text-white text-xs'>Favorite</label>
+          <label className='text-white text-xs font-semibold'>Sort by</label>
+          {['favorite', 'newest', 'oldest', 'ascending', 'descending', 'cheapest'].map(sort => (
+            <div key={sort} className='flex flex-row items-center gap-2 my-2 relative'>
+              <input type="radio" name='sortby' id={sort} className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] cursor-pointer" />
+              <label htmlFor={sort} className='text-white text-xs capitalize'>{sort}</label>
+            </div>
+          ))}
+        </div>
+        <div className="w-full my-3">
+          <label className="text-xs text-white font-semibold">Price Range</label>
+          <div className="relative h-7">
+            <div className="absolute top-1/2 w-full h-1 bg-[#c3beb7] rounded-md transform -translate-y-1/2" />
+            <div className="absolute h-1 bg-[#ff8906] rounded top-1/2 transform -translate-y-1/2"
+              style={{
+                left: `${(minVal / max) * 100}%`,
+                width: `${((maxVal - minVal) / max) * 100}%`,
+              }}
+            />
+
+            {/* Minval input */}
+            <input type="range"
+              min={min}
+              max={max}
+              value={minVal}
+              onChange={handleMinInput}
+              onMouseDown={() => setIsMinActive(true)}
+              onMouseUp={() => setIsMinActive(false)}
+              className="absolute appearance-none w-full h-7 bg-transparent cursor-pointer"
+              style={{ zIndex: isMinActive ? 2 : 1 }}
+            />
+
+            {/* Maxval input */}
+            <input type="range"
+              min={min}
+              max={max}
+              value={maxVal}
+              onChange={handleMaxInput}
+              onMouseDown={() => setIsMaxActive(true)}
+              onMouseUp={() => setIsMaxActive(false)}
+              className="absolute appearance-none w-full h-7 bg-transparent cursor-pointer"
+              style={{ zIndex: isMaxActive ? 2 : 1 }}
+            />
           </div>
-          <div className='flex flex-row items-center gap-[7px] my-2 relative'>
-            <input type="radio" name='sortby' id='newest' className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] checked:after:bg-[#ff8906] cursor-pointer"  />
-            <label htmlFor="sortby" className='text-white text-xs'>Newest</label>
-          </div>
-          <div className='flex flex-row items-center gap-[7px] my-2 relative'>
-            <input type="radio" name='sortby' id='oldest' className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] checked:after:bg-[#ff8906] cursor-pointer"  />
-            <label htmlFor="sortby" className='text-white text-xs'>Oldest</label>
-          </div>
-          <div className='flex flex-row items-center gap-[7px] my-2 relative'>
-            <input type="radio" name='sortby' id='ascending' className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] checked:after:bg-[#ff8906] cursor-pointer"  />
-            <label htmlFor="sortby" className='text-white text-xs'>Ascending</label>
-          </div>
-          <div className='flex flex-row items-center gap-[7px] my-2 relative'>
-            <input type="radio" name='sortby' id='descending' className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] checked:after:bg-[#ff8906] cursor-pointer"  />
-            <label htmlFor="sortby" className='text-white text-xs'>Descending</label>
-          </div>
-          <div className='flex flex-row items-center gap-[7px] my-2 relative'>
-            <input type="radio" name='sortby' id='cheapest' className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] checked:after:bg-[#ff8906] cursor-pointer"  />
-            <label htmlFor="sortby" className='text-white text-xs'>Cheapest</label>
+            
+          {/* Display values */}
+          <div className="flex justify-between text-xs text-white font-semibold">
+            <span>IDR {minVal}</span>
+            <span>IDR {maxVal}</span>
           </div>
         </div>
-        <button type='submit' className='bg-[#ff8906] w-full rounded-md my-5 p-2 text-xs'>Apply filter</button>
+        <button type='submit' className='bg-[#ff8906] w-full rounded-md my-3 p-2 text-xs'>Apply filter</button>
       </form>
     </section>
   )
