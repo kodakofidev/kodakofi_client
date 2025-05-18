@@ -14,7 +14,7 @@ const ProductDetails = () => {
 const [product, setProduct] = useState(null)
 const [isRecommended, setIsRecommended] = useState(false);
 const [selectedImage, setSelectedImage] = useState(null);
-const [order, setOrder] = useState(null);
+const [order, setOrder] = useState(0);
 const [error, setError] = useState({
   qty: "",
 });
@@ -119,7 +119,7 @@ const handleAddToCart = () => {
         <div className="mb-4 shrink-0 basis-[500px]">
           <div className="mb-[27px] flex justify-center">
             <img
-              src={`${URL}${selectedImage}`}
+              src={selectedImage}
               alt={product?.name}
               className="aspect-square max-md:w-[357px] md:w-[578px] lg:w-[580px]"
             />
@@ -128,7 +128,7 @@ const handleAddToCart = () => {
             {product?.images?.map((item, idx) => (
               <div key={idx} className="max-sm:snap-center max-sm:snap-always">
                 <img
-                  src={`${URL}${item}`}
+                  src={item}
                   alt={product?.name}
                   onClick={() => setSelectedImage(item)}
                   className="max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px]"
