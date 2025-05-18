@@ -1,14 +1,15 @@
-import { BrowserRouter, Routes, Route } from "react-router"
+import { BrowserRouter, Routes, Route } from "react-router";
 
 import ProductDetails from "./pages/product/ProductDetails"
-import Home from "./pages/Home"
-import CheckoutPage from "./pages/orders/CheckoutPage"
-import AuthRoutes from "./routing/auth"
-import MainLayout from "./layouts/MainLayouts"
-import AdminLayouts from "./layouts/AdminLayouts"
-import ProfilePage from "./pages/ProfilePage"
-import HistoryOrderPage from "./pages/orders/HistoryOrderPage"
-import ProductList from "./pages/product/ProductList"
+import Home from "./pages/Home";
+import CheckoutPage from "./pages/orders/CheckoutPage";
+import AuthRoutes from "./routing/auth";
+import MainLayout from "./layouts/MainLayouts";
+import AdminLayouts from "./layouts/AdminLayouts";
+import ProfilePage from "./pages/ProfilePage";
+import HistoryOrderPage from "./pages/orders/HistoryOrderPage";
+import ProductList from "./pages/product/ProductList";
+import ProductListAdmin from "./pages/admin/ProductListAdmin";
 
 const Router = () => {
   return (
@@ -28,7 +29,8 @@ const Router = () => {
           <Route path='/products/:id' element={<ProductDetails />} />
         </Route>
         {/* Layouting Admin */}
-        <Route path='admin' element={<AdminLayouts />}>
+        <Route path="admin" element={<AdminLayouts />}>
+        <Route path="products" element={<ProductListAdmin />} />
           {/* <Route index element={<Dashboard />}></Route> */}
         </Route>
       </Routes>

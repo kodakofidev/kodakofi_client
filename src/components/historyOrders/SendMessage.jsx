@@ -4,7 +4,7 @@ import Message from "../../assets/iconHistoryOrders/Message.svg";
 export default function SendMessage() {
   return (
     <>
-      <section className="col-span-2 pt-7">
+      <section className="col-span-2 pt-6">
         <div className="p-4 bg-gray-100 flex flex-col gap-3">
           <img src={Message} alt="icon" className="self-start" />
           <h1 className="text-xl font-semibold text-brown">Send Us Message</h1>

@@ -10,50 +10,52 @@ export default function HistoryOrdersSection() {
   const [end, setEnd] = useState(4);
   const [more, setMore] = useState(0);
   const [checked, setChecked] = useState(1);
+  const [checkedStatus, setCheckedStatus] = useState("On Progress");
   const [filterByDate, setFilterByDate] = useState(null);
+  // const [filterByProgress, setFilterByProgress] = useState(null);
 
   const orders = [
     {
       noOrder: "#12351-09893",
       date: "2025-01-24",
       total: 40.0,
-      onProgress: "On Progress",
+      onProgress: "Finish Order",
     },
     {
       noOrder: "#12352-09893",
       date: "2025-01-26",
       total: 50.0,
-      onProgress: "On Progress",
+      onProgress: "Finish Order",
     },
     {
       noOrder: "#12353-09893",
       date: "2025-01-27",
       total: 40.0,
-      onProgress: "On Progress",
+      onProgress: "Finish Order",
     },
     {
       noOrder: "#12354-09893",
       date: "2025-02-03",
       total: 70.0,
-      onProgress: "On Progress",
+      onProgress: "Finish Order",
     },
     {
       noOrder: "#12355-09893",
       date: "2025-02-05",
       total: 37.0,
-      onProgress: "On Progress",
+      onProgress: "Finish Order",
     },
     {
       noOrder: "#12356-09893",
       date: "2025-02-06",
       total: 35.0,
-      onProgress: "On Progress",
+      onProgress: "Finish Order",
     },
     {
       noOrder: "#12367-09893",
       date: "2025-02-07",
       total: 31.0,
-      onProgress: "On Progress",
+      onProgress: "Finish Order",
     },
     {
       noOrder: "#12368-09893",
@@ -107,37 +109,37 @@ export default function HistoryOrdersSection() {
       noOrder: "#123616-09893",
       date: "2025-03-01",
       total: 35.0,
-      onProgress: "On Progress",
+      onProgress: "Sending Goods",
     },
     {
       noOrder: "#123617-09893",
       date: "2025-03-01",
       total: 35.0,
-      onProgress: "On Progress",
+      onProgress: "Sending Goods",
     },
     {
       noOrder: "#123618-09893",
       date: "2025-03-01",
       total: 35.0,
-      onProgress: "On Progress",
+      onProgress: "Sending Goods",
     },
     {
       noOrder: "#123619-09893",
       date: "2025-03-01",
       total: 35.0,
-      onProgress: "On Progress",
+      onProgress: "Sending Goods",
     },
     {
       noOrder: "#123620-09893",
       date: "2025-03-01",
       total: 35.0,
-      onProgress: "On Progress",
+      onProgress: "Sending Goods",
     },
     {
       noOrder: "#123621-09893",
       date: "2025-03-01",
       total: 35.0,
-      onProgress: "On Progress",
+      onProgress: "Sending Goods",
     },
     {
       noOrder: "#123622-09893",
@@ -153,21 +155,181 @@ export default function HistoryOrdersSection() {
     },
     {
       noOrder: "#123624-09893",
-      date: "2025-03-01",
+      date: "2025-03-02",
       total: 35.0,
       onProgress: "On Progress",
     },
     {
       noOrder: "#123625-09893",
-      date: "2025-03-01",
+      date: "2025-03-02",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123626-09893",
+      date: "2025-03-02",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123627-09893",
+      date: "2025-03-02",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123628-09893",
+      date: "2025-03-02",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123629-09893",
+      date: "2025-03-02",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123630-09893",
+      date: "2025-03-02",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123631-09893",
+      date: "2025-03-02",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123632-09893",
+      date: "2025-03-03",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123633-09893",
+      date: "2025-03-03",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123634-09893",
+      date: "2025-03-03",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123635-09893",
+      date: "2025-03-03",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123636-09893",
+      date: "2025-03-05",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123637-09893",
+      date: "2025-03-05",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123638-09893",
+      date: "2025-03-07",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123639-09893",
+      date: "2025-03-07",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123640-09893",
+      date: "2025-03-08",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123641-09893",
+      date: "2025-03-10",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123642-09893",
+      date: "2025-03-10",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123642-09893",
+      date: "2025-03-11",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123642-09893",
+      date: "2025-03-11",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123643-09893",
+      date: "2025-03-12",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123644-09893",
+      date: "2025-03-12",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123645-09893",
+      date: "2025-03-14",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123646-09893",
+      date: "2025-03-14",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123647-09893",
+      date: "2025-03-14",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123648-09893",
+      date: "2025-03-14",
+      total: 35.0,
+      onProgress: "On Progress",
+    },
+    {
+      noOrder: "#123649-09893",
+      date: "2025-03-14",
       total: 35.0,
       onProgress: "On Progress",
     },
   ];
 
+  const dataOrders = orders.filter(
+    (order) => order.onProgress === checkedStatus
+  );
+
   let totalPagination = 0;
   if (filterByDate === null) {
-    const pagination = Math.ceil(orders.length / 4);
+    const pagination = Math.ceil(dataOrders.length / 4);
     totalPagination += pagination;
   } else {
     const pagination = Math.ceil(filterByDate.length / 4);
@@ -178,9 +340,14 @@ export default function HistoryOrdersSection() {
     setStart(page * 4 - 4), setEnd(page * 4);
   }, [page]);
 
+  useEffect(() => {
+    setPage(1);
+    setChecked(1);
+  }, [checkedStatus, filterByDate]);
+
   const ordersHistory = [];
   if (filterByDate === null) {
-    const sliceOrder = orders.slice(start, end);
+    const sliceOrder = dataOrders.slice(start, end);
     ordersHistory.push(...sliceOrder);
   } else {
     const sliceOrder = filterByDate.slice(start, end);
@@ -188,10 +355,10 @@ export default function HistoryOrdersSection() {
   }
 
   function filterDate(e) {
-    const data = orders.filter((order) => order.date === e.target.value);
+    const data = dataOrders.filter((order) => order.date === e.target.value);
     setFilterByDate(data);
-    setPage(1);
-    setChecked(1);
+    // setPage(1);
+    // setChecked(1);
   }
 
   function clearFilterDate() {
@@ -207,16 +374,22 @@ export default function HistoryOrdersSection() {
               id="onProgress"
               name="status"
               value="On Progress"
+              checkedStatus={checkedStatus}
+              setCheckedStatus={setCheckedStatus}
             />
             <RadioStatusOrder
               id="sendingGoods"
               name="status"
               value="Sending Goods"
+              checkedStatus={checkedStatus}
+              setCheckedStatus={setCheckedStatus}
             />
             <RadioStatusOrder
               id="finishOrder"
               name="status"
               value="Finish Order"
+              checkedStatus={checkedStatus}
+              setCheckedStatus={setCheckedStatus}
             />
           </div>
           <h1
@@ -234,7 +407,7 @@ export default function HistoryOrdersSection() {
                 type="date"
                 name="historyDate"
                 id="historyDate"
-                className="py-2 px-3 bg-gray-100"
+                className="py-4 px-3 bg-gray-100"
               />
             </div>
           </div>
@@ -297,24 +470,58 @@ export default function HistoryOrdersSection() {
               </>
             )}
           </div>
-          <div className="col-span-5">
+          <div className="scale-[0.65] min-[400px]:scale-[0.85] min-[520px]:scale-[1] col-span-5 select-none">
             <div className="w-full flex justify-center gap-4 pt-3">
               {/* batas */}
               {(() => {
                 if (totalPagination > 3) {
                   return (
-                    <div>
-                      <div
-                        onClick={() => {
-                          if (more + totalPagination > totalPagination) {
-                            setMore(more - 1);
-                          }
-                        }}
-                        className="h-10 w-10 bg-orange rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[1] transition flex justify-center items-center"
-                      >
-                        <img src={Arrow} alt="icon" className="rotate-180" />
+                    <>
+                      <div>
+                        <div
+                          onClick={() => {
+                            console.log("more", more);
+                            if (more + totalPagination > totalPagination) {
+                              if (more === totalPagination - 5) {
+                                setMore(more - 1);
+                                setPage(page - 1);
+                                setChecked(checked - 1);
+                              } else {
+                                setMore(more - 2);
+                                setPage(page - 2);
+                                setChecked(checked - 2);
+                              }
+                            }
+                          }}
+                          className={`${
+                            more === 0
+                              ? "bg-gray-300 cursor-not-allowed"
+                              : "bg-orange cursor-pointer"
+                          } h-10 w-10 rounded-full shadow-lg hover:scale-[1.03] active:scale-[1] transition flex justify-center items-center`}
+                        >
+                          <img src={Arrow} alt="icon" className="rotate-180" />
+                        </div>
                       </div>
-                    </div>
+                      {more === 0 ? (
+                        <></>
+                      ) : (
+                        <>
+                          <PaginationHistoryOrder
+                            id={`page1`}
+                            name={"pagination"}
+                            value={1}
+                            setPage={setPage}
+                            checked={checked}
+                            setChecked={setChecked}
+                            setMore={setMore}
+                            moreValue={1}
+                          />
+                          <div className="flex items-end">
+                            <div className="font-bold text-2xl">...</div>
+                          </div>
+                        </>
+                      )}
+                    </>
                   );
                 }
               })()}
@@ -331,6 +538,9 @@ export default function HistoryOrdersSection() {
                         setPage={setPage}
                         checked={checked}
                         setChecked={setChecked}
+                        key={idx}
+                        setMore={setMore}
+                        moreValue={idx + 1}
                       />
                     );
                   }
@@ -340,21 +550,63 @@ export default function HistoryOrdersSection() {
               {(() => {
                 if (totalPagination > 3) {
                   return (
-                    <div>
-                      <div
-                        onClick={() => {
-                          if (
-                            more + totalPagination <
-                            totalPagination + (totalPagination - 3)
-                          ) {
-                            setMore(more + 1);
-                          }
-                        }}
-                        className="h-10 w-10 bg-orange rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[1] transition flex justify-center items-center"
-                      >
-                        <img src={Arrow} alt="icon" />
+                    <>
+                      {more === totalPagination - 3 ? (
+                        <></>
+                      ) : (
+                        <>
+                          <div className="flex items-end">
+                            <div className="font-bold text-2xl">...</div>
+                          </div>
+                          <PaginationHistoryOrder
+                            id={totalPagination}
+                            name={"pagination"}
+                            value={totalPagination}
+                            setPage={setPage}
+                            checked={checked}
+                            setChecked={setChecked}
+                            setMore={setMore}
+                            moreValue={3}
+                          />
+                        </>
+                      )}
+                      <div>
+                        <div
+                          onClick={() => {
+                            console.log(
+                              "totalPagination",
+                              totalPagination,
+                              more
+                            );
+                            if (
+                              more + totalPagination <
+                              totalPagination + (totalPagination - 3)
+                            ) {
+                              if (more === 0) {
+                                setMore(more + 2);
+                                setPage(page + 2);
+                                setChecked(checked + 2);
+                              } else if (more === totalPagination - 5) {
+                                setMore(more + 2);
+                                setPage(page + 2);
+                                setChecked(checked + 2);
+                              } else {
+                                setMore(more + 1);
+                                setPage(page + 1);
+                                setChecked(checked + 1);
+                              }
+                            }
+                          }}
+                          className={`${
+                            more === totalPagination - 3
+                              ? "bg-gray-300 cursor-not-allowed"
+                              : "bg-orange cursor-pointer"
+                          } h-10 w-10 rounded-full shadow-lg hover:scale-[1.03] active:scale-[1] transition flex justify-center items-center`}
+                        >
+                          <img src={Arrow} alt="icon" />
+                        </div>
                       </div>
-                    </div>
+                    </>
                   );
                 }
               })()}

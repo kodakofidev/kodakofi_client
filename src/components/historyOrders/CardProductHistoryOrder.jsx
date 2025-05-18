@@ -47,7 +47,15 @@ export default function CardProductHistoryOrder({
             <img src={Repeat} alt="icon" />
             <p>Status</p>
           </div>
-          <p className="font-bold w-28 rounded-lg text-[13px] px-2 py-1 text-center bg-orange-100 text-orange self-center">
+          <p
+            className={`${
+              status === "On Progress"
+                ? "bg-orange-100 text-orange"
+                : status === "Finish Order"
+                ? "bg-teal-100 text-teal-700"
+                : "bg-blue-100 text-blue-700"
+            } font-bold w-28 rounded-lg text-[13px] px-2 py-1 text-center self-center`}
+          >
             {status}
           </p>
         </div>
