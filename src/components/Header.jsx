@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authAction } from "../redux/slices/auth";
@@ -14,6 +14,7 @@ const Header = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { isLogin, user } = auth;
   const isAdmin = user?.role === "admin";
@@ -67,21 +68,23 @@ const Header = () => {
       <header className="fixed w-full top-0 left-0 bg-black/80 backdrop-blur-lg text-white z-50">
         <div className="px-4 lg:px-8 md:px-12 xl:px-24 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <img src={iconCoffee} alt="Logo" className="w-8 h-8 inline-block mr-2" />
-            <p className="text-lg font-bold mr-12">Coffee Shop</p>
+            <Link to="/" className="flex items-center gap-3 cursor-pointer">
+              <img src={iconCoffee} alt="Logo" className="w-8 h-8 inline-block" />
+              <p className="text-lg font-bold">Coffee Shop</p>
+            </Link>
             
             {/* Navigation links - Hidden for Admin */}
             {!isAdmin && (
-              <nav className="hidden md:flex gap-6">
+              <nav className="hidden md:flex gap-6 ml-12">
                 <Link
                   to="/"
-                  className="text-white relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[3px] after:bg-[#FF8906] hover:after:w-full after:transition-all after:duration-300 after:ease-in-out cursor-pointer"
+                  className={`text-white relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 ${location.pathname === "/" ? "after:w-full" : "after:w-0 hover:after:w-full"} after:h-[3px] after:bg-[#FF8906] after:transition-all after:duration-300 after:ease-in-out cursor-pointer`}
                   style={{ position: "relative", display: "inline-block" }}>
                   Home
                 </Link>
                 <Link
                   to="/products"
-                  className="text-white relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[3px] after:bg-[#FF8906] hover:after:w-full after:transition-all after:duration-300 after:ease-in-out cursor-pointer"
+                  className={`text-white relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 ${location.pathname.startsWith("/product") ? "after:w-full" : "after:w-0 hover:after:w-full"} after:h-[3px] after:bg-[#FF8906] after:transition-all after:duration-300 after:ease-in-out cursor-pointer`}
                   style={{ position: "relative", display: "inline-block" }}>
                   Product
                 </Link>
@@ -222,14 +225,14 @@ const Header = () => {
               <>
                 <Link
                   to="/"
-                  className="text-white relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[3px] after:bg-[#FF8906] hover:after:w-full after:transition-all after:duration-300 after:ease-in-out cursor-pointer"
+                  className={`text-white relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 ${location.pathname === "/" ? "after:w-full" : "after:w-0 hover:after:w-full"} after:h-[3px] after:bg-[#FF8906] after:transition-all after:duration-300 after:ease-in-out cursor-pointer`}
                   onClick={toggleSidebar}
                   style={{ position: "relative", display: "inline-block" }}>
                   Home
                 </Link>
                 <Link
                   to="/products"
-                  className="text-white relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[3px] after:bg-[#FF8906] hover:after:w-full after:transition-all after:duration-300 after:ease-in-out cursor-pointer"
+                  className={`text-white relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 ${location.pathname.startsWith("/product") ? "after:w-full" : "after:w-0 hover:after:w-full"} after:h-[3px] after:bg-[#FF8906] after:transition-all after:duration-300 after:ease-in-out cursor-pointer`}
                   onClick={toggleSidebar}
                   style={{ position: "relative", display: "inline-block" }}>
                   Product
