@@ -20,7 +20,7 @@ function ProductList() {
       setError(null)
       try {
         const query = new URLSearchParams({ page: currentPage, name }).toString()
-        const res = await fetch(`${URL}/api/product?${query}`)
+        const res = await fetch(`http://localhost:8000/api/product?${query}`)
         if (!res.ok) throw new Error('Failed to fetch products')
         const data = await res.json()
         setProducts(data.data.data)

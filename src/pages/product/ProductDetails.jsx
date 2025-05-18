@@ -13,6 +13,7 @@ const ProductDetails = () => {
 
 const [product, setProduct] = useState(null)
 const [isRecommended, setIsRecommended] = useState(false);
+const [recomProduct, setRecomProduct] = useState([])
 const [selectedImage, setSelectedImage] = useState(null);
 const [order, setOrder] = useState(null);
 const [error, setError] = useState({
@@ -24,16 +25,29 @@ useEffect(() => {
     try {
       const res = await fetch(`${URL}/api/product/${id}`)
       const data = await res.json()
-      setProduct(data.data)
-      console.log("Debug data: ", data.data)
-      setSelectedImage(data.data?.images?.[0])
-      console.log("Product images:", data.data.images[0]);
+
+      const productDetail = data.data.detail
+      const recommendProduct = data.data.recommended
+
+      if (!productDetail.size) {
+        productDetail.size = ["Regular", "Medium", "Large"];
+      }
+      
+      if (!productDetail.toping) {
+        productDetail.toping = ["Hot", "Ice"];
+      }
+
+      setProduct(productDetail)
+      console.log("product: ", productDetail)
+      setRecomProduct(recommendProduct)
+      setSelectedImage(productDetail?.images?.[0] || null)
       setOrder({
-        id: data.data.id,
-        size: data.data?.size?.[0] || "",
-        toping: data.data?.toping?.[0] || "",
+        id: productDetail.id,
+        size: productDetail?.size?.[0] || "",
+        toping: productDetail?.toping?.[0] || "",
         qty: 1
       })
+
     } catch (err) {
       console.error("Failed to fetch product:", err)
     } 
@@ -90,9 +104,11 @@ const getPaginationItems = () => {
 };
 
 const getCurrentCards = () => {
-  const startIndex = (currentPage - 1) * cardsPerPage;
-  const endIndex = startIndex + cardsPerPage;
-  return allCards.slice(startIndex, endIndex);
+  // const startIndex = (currentPage - 1) * cardsPerPage;
+  // const endIndex = startIndex + cardsPerPage;
+  // return allCards.slice(startIndex, endIndex);
+  const startIndex = (currentPage - 1) * 3;
+  return recomProduct.slice(startIndex, startIndex + 3);
 };
 
 const handlePageChange = (page) => {
@@ -140,7 +156,7 @@ const handleAddToCart = () => {
 
         <div className="shrink-2">
           <p className="mb-4 w-max rounded-3xl bg-[#D00000] p-[10px] leading-6 font-bold text-white uppercase max-md:-ml-4 max-sm:scale-75 max-sm:text-sm sm:scale-90 md:text-base">
-            {product?.discount?.name}
+            {product?.discount_name}
           </p>
 
           <h3 className="text-(-color-text-black) mb-4 text-4xl leading-[100%] font-medium max-sm:text-2xl">
@@ -154,7 +170,7 @@ const handleAddToCart = () => {
               IDR
               {(
                 product?.price -
-                product?.price * product?.discount?.discount
+                product?.price * product?.discount
               ).toLocaleString("id-ID")}
             </span>
           </div>
@@ -304,8 +320,8 @@ const handleAddToCart = () => {
         </h3>
 
         <div className="ms:overflow-x-auto scrollbar-hide mt-4 flex min-h-[540px] snap-x justify-center gap-4 py-4 max-sm:overflow-y-hidden">
-          {getCurrentCards().map((card) => (
-            <Card key={card.id} />
+          {getCurrentCards().map((product) => (
+            <Card key={product.id} product={product} />
           ))}
         </div>
 
