@@ -5,7 +5,7 @@ import { authAction } from "../redux/slices/auth";
 import iconCoffee from "../assets/icon/coffee.svg";
 import cartLogo from "../assets/icon/cart.svg";
 import searchLogo from "../assets/icon/search.svg";
-import userIcon from "../assets/icon/user.svg"; // Add a default user icon
+import userIcon from "../assets/default-profile.avif"; // Add a default user icon
 import LogoutModal from "./common/LogoutModal";
 
 const Header = () => {
