@@ -26,3 +26,8 @@
   --color-text-gray: #4f5665;
   --color-text-black: #0b132a;
 }
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}

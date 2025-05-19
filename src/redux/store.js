@@ -11,8 +11,8 @@ import {
 } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import AuthProvider from "./slices/auth"
+import constants from "../configs/constant"
 import ModalsReducer from "./slices/modalsAdmin";
-
 const persistConfig = {
   key: "kodakofi",
   storage,
@@ -25,6 +25,7 @@ const persistedReducer = persistCombineReducers(persistConfig, {
 
 const store = configureStore({
   reducer: persistedReducer,
+  devTools: !constants.isDevelopment,
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
       serializableCheck: {

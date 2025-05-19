@@ -49,7 +49,7 @@ function Filter({ name, setName }) {
           <label className='text-white text-xs font-semibold'>Category</label>
           {['Coffee', 'Non-Coffee', 'Food', 'Dessert', 'Snack', 'Topping'].map(type => (
             <div key={type} className='flex flex-row items-center gap-2 my-2 relative'>
-              <input type="checkbox" name={type} id={type} className="appearance-none w-4 h-4 bg-black border border-white rounded-md focus:ring-[#ff8906] checked:border-[#ff8906] checked:bg-[#ff8906] checked:after:content-['✔'] checked:after:absolute checked:after:top-0 checked:after:left-0 checked:after:text-xs checked:after:text-black cursor-pointer" />
+              <input type="radio" name="category" id={type} className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] cursor-pointer" />
               <label htmlFor={type} className='text-white text-xs cursor-pointer capitalize'>{type}</label>
             </div>
           ))}

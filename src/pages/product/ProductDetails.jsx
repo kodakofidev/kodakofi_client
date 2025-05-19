@@ -1,150 +1,133 @@
-import { useState } from "react";
-import imageChildSatu from "../../assets/product-details/child-image1.png";
-import imageChildDua from "../../assets/product-details/child-image2.png";
-import imageChildTiga from "../../assets/product-details/child-image3.png";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import thumbsup from "../../assets/product-details/like.svg";
 import liked from "../../assets/product-details/liked.svg";
 import shoppingCart from "../../assets/product-details/shoppingCart.svg";
 import prev from "../../assets/product-details/arrow-right.svg";
 import Card from "../../components/Card";
+export const URL = import.meta.env.VITE_API_URL
+
 const ProductDetails = () => {
-  // State untuk pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 3;
+  const {id} = useParams()
+  console.log("product_id from useParams:", id)
 
-  const allCards = [
-    { id: 1, content: "Card 1" },
-    { id: 2, content: "Card 2" },
-    { id: 3, content: "Card 3" },
-    { id: 4, content: "Card 4" },
-    { id: 5, content: "Card 5" },
-    { id: 6, content: "Card 6" },
-    { id: 7, content: "Card 7" },
-    { id: 8, content: "Card 8" },
-    { id: 9, content: "Card 9" },
-    { id: 10, content: "Card 10" },
-    { id: 11, content: "Card 11" },
-    { id: 13, content: "Card 12" },
-    { id: 14, content: "Card 12" },
-    { id: 15, content: "Card 12" },
-    { id: 16, content: "Card 12" },
-    { id: 17, content: "Card 12" },
-    { id: 18, content: "Card 12" },
-    { id: 19, content: "Card 12" },
-    { id: 20, content: "Card 12" },
-    { id: 21, content: "Card 12" },
-    { id: 22, content: "Card 12" },
-    { id: 23, content: "Card 12" },
-    { id: 24, content: "Card 12" },
-    { id: 25, content: "Card 12" },
-    { id: 26, content: "Card 12" },
-    { id: 27, content: "Card 12" },
-    { id: 28, content: "Card 12" },
-    { id: 29, content: "Card 12" },
-    { id: 30, content: "Card 12" },
-    { id: 31, content: "Card 12" },
-    { id: 32, content: "Card 12" },
-    { id: 33, content: "Card 12" },
-    { id: 34, content: "Card 12" },
-    { id: 35, content: "Card 12" },
-    { id: 36, content: "Card 12" },
-    { id: 37, content: "Card 12" },
-    { id: 38, content: "Card 12" },
-    { id: 39, content: "Card 12" },
-    { id: 40, content: "Card 12" },
-  ];
+const [product, setProduct] = useState(null)
+const [isRecommended, setIsRecommended] = useState(false);
+const [recomProduct, setRecomProduct] = useState([])
+const [selectedImage, setSelectedImage] = useState(null);
+const [order, setOrder] = useState(null);
+const [error, setError] = useState({
+  qty: "",
+});
 
-  const totalPages = Math.ceil(allCards.length / cardsPerPage);
+useEffect(() => {
+  const fetchProduct = async () => {
+    try {
+      const res = await fetch(`${URL}/api/product/${id}`)
+      const data = await res.json()
 
-  const getPaginationItems = () => {
-    const pages = [];
-    const maxVisible = 3;
-    const halfVisible = Math.floor(maxVisible / 2);
+      const productDetail = data.data.detail
+      const recommendProduct = data.data.recommended
 
-    pages.push(1);
-
-    if (currentPage - halfVisible > 2) {
-      pages.push("...");
-    }
-
-    let start = Math.max(2, currentPage - halfVisible);
-    let end = Math.min(totalPages - 1, currentPage + halfVisible);
-
-    if (currentPage <= halfVisible + 1) {
-      end = Math.min(maxVisible, totalPages - 1);
-    }
-    if (currentPage >= totalPages - halfVisible) {
-      start = Math.max(2, totalPages - maxVisible + 1);
-    }
-
-    for (let i = start; i <= end; i++) {
-      if (i > 1 && i < totalPages) {
-        pages.push(i);
+      if (!productDetail.size) {
+        productDetail.size = ["Regular", "Medium", "Large"];
       }
+      
+      if (!productDetail.toping) {
+        productDetail.toping = ["Hot", "Ice"];
+      }
+
+      setProduct(productDetail)
+      console.log("product: ", productDetail)
+      setRecomProduct(recommendProduct)
+      setSelectedImage(productDetail?.images?.[0] || null)
+      setOrder({
+        id: productDetail.id,
+        size: productDetail?.size?.[0] || "",
+        toping: productDetail?.toping?.[0] || "",
+        qty: 1
+      })
+
+    } catch (err) {
+      console.error("Failed to fetch product:", err)
+    } 
+  }
+
+  fetchProduct()
+}, [id])
+
+const [currentPage, setCurrentPage] = useState(1);
+const cardsPerPage = 3;
+
+const allCards = [
+  { id: 1, content: "Card 1" },
+  { id: 2, content: "Card 2" },
+  { id: 3, content: "Card 3" },
+  { id: 4, content: "Card 4" },
+  { id: 5, content: "Card 5" },
+  { id: 6, content: "Card 6" },
+  { id: 7, content: "Card 7" },
+  { id: 8, content: "Card 8" },
+  { id: 9, content: "Card 9" },
+]
+
+const totalPages = Math.ceil(allCards.length / cardsPerPage);
+
+const getPaginationItems = () => {
+  const pages = [];
+  const maxVisible = 3;
+  const halfVisible = Math.floor(maxVisible / 2);
+  pages.push(1);
+  if (currentPage - halfVisible > 2) {
+    pages.push("...");
+  }
+  let start = Math.max(2, currentPage - halfVisible);
+  let end = Math.min(totalPages - 1, currentPage + halfVisible);
+  if (currentPage <= halfVisible + 1) {
+    end = Math.min(maxVisible, totalPages - 1);
+  }
+  if (currentPage >= totalPages - halfVisible) {
+    start = Math.max(2, totalPages - maxVisible + 1);
+  }
+  for (let i = start; i <= end; i++) {
+    if (i > 1 && i < totalPages) {
+      pages.push(i);
     }
+  }
+  if (currentPage + halfVisible < totalPages - 1) {
+    pages.push("...");
+  }
+  if (totalPages > 1) {
+    pages.push(totalPages);
+  }
+  return pages;
+};
 
-    if (currentPage + halfVisible < totalPages - 1) {
-      pages.push("...");
-    }
+const getCurrentCards = () => {
+  // const startIndex = (currentPage - 1) * cardsPerPage;
+  // const endIndex = startIndex + cardsPerPage;
+  // return allCards.slice(startIndex, endIndex);
+  const startIndex = (currentPage - 1) * 3;
+  return recomProduct.slice(startIndex, startIndex + 3);
+};
 
-    if (totalPages > 1) {
-      pages.push(totalPages);
-    }
+const handlePageChange = (page) => {
+  if (page >= 1 && page <= totalPages) {
+    setCurrentPage(page);
+  }
+};
 
-    return pages;
-  };
+const handleBuyProduct = () => {
+  if (order.qty > product.stock) {
+    console.log(error.qty);
+    return;
+  }
+  console.log(order);
+};
 
-  const getCurrentCards = () => {
-    const startIndex = (currentPage - 1) * cardsPerPage;
-    const endIndex = startIndex + cardsPerPage;
-    return allCards.slice(startIndex, endIndex);
-  };
-
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
-
-  const [dataTest, setDataTest] = useState({
-    id: 1,
-    name: "Hazelnut Latte",
-    size: ["regular", "medium", "large"],
-    toping: ["ice", "hot"],
-    isRecommended: false,
-    price: 20000,
-    discount: {
-      name: "flash sale",
-      discount: 0.5,
-    },
-    image: [imageChildSatu, imageChildDua, imageChildTiga],
-    stock: 10,
-    totalRatings: 200,
-  });
-
-  const [isRecommended, setIsRecommended] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(dataTest.image[0]);
-  const [order, setOrder] = useState({
-    id: dataTest.id,
-    size: dataTest.size ? dataTest.size[0] : null,
-    toping: dataTest.toping ? dataTest.toping[0] : null,
-    qty: 1,
-  });
-  const [error, setError] = useState({
-    qty: "",
-  });
-
-  const handleBuyProduct = () => {
-    if (order.qty > dataTest.stock) {
-      console.log(error.qty);
-      return;
-    }
-    console.log(order);
-  };
-
-  const handleAddToCart = () => {
-    console.log(order);
-  };
+const handleAddToCart = () => {
+  console.log(order);
+};
 
   return (
     <main className="mt-20 px-4 md:mt-25 md:px-12 lg:mx-auto lg:px-8 xl:px-24">
@@ -152,17 +135,17 @@ const ProductDetails = () => {
         <div className="mb-4 shrink-0 basis-[500px]">
           <div className="mb-[27px] flex justify-center">
             <img
-              src={selectedImage}
-              alt="image product"
+              src={`${URL}${selectedImage}`}
+              alt={product?.name}
               className="aspect-square max-md:w-[357px] md:w-[578px] lg:w-[580px]"
             />
           </div>
           <div className="flex w-full justify-center gap-5 max-sm:snap-x max-sm:snap-mandatory">
-            {dataTest.image.map((item, idx) => (
+            {product?.images?.map((item, idx) => (
               <div key={idx} className="max-sm:snap-center max-sm:snap-always">
                 <img
-                  src={item}
-                  alt="product image"
+                  src={`${URL}${item}`}
+                  alt={product?.name}
                   onClick={() => setSelectedImage(item)}
                   className="max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px]"
                 />
@@ -173,27 +156,27 @@ const ProductDetails = () => {
 
         <div className="shrink-2">
           <p className="mb-4 w-max rounded-3xl bg-[#D00000] p-[10px] leading-6 font-bold text-white uppercase max-md:-ml-4 max-sm:scale-75 max-sm:text-sm sm:scale-90 md:text-base">
-            {dataTest.discount.name}
+            {product?.discount_name}
           </p>
 
           <h3 className="text-(-color-text-black) mb-4 text-4xl leading-[100%] font-medium max-sm:text-2xl">
-            {dataTest.name}
+            {product?.name}
           </h3>
           <div className="mb-4 flex items-center gap-3">
             <span className="stricke text-[12px] text-[#D00000] line-through">
-              IDR {dataTest.price.toLocaleString("id-ID")}
+              IDR {product?.price.toLocaleString("id-ID")}
             </span>
             <span className="text-[22px] leading-[100%] font-medium tracking-normal text-[#FF8906]">
               IDR
               {(
-                dataTest.price -
-                dataTest.price * dataTest.discount.discount
+                product?.price -
+                product?.price * product?.discount
               ).toLocaleString("id-ID")}
             </span>
           </div>
           <div className="mb-4 flex items-center gap-4">
             <span className="text-lg leading-[100%] tracking-normal text-[#4F5665] max-sm:text-sm">
-              {dataTest.totalRatings}+Review
+              {product?.total_ratings} users recommend this product
             </span>
             <span className="text-lg leading-[100%] tracking-normal text-[#4F5665] max-sm:text-sm">
               |
@@ -216,9 +199,7 @@ const ProductDetails = () => {
           </div>
 
           <p className="mb-4 leading-[100%] text-[#4F5665] max-sm:text-sm">
-            Cold brewing is a method of brewing that combines ground coffee and
-            cool water and uses time instead of heat to extract the flavor. It
-            is brewed in small batches and steeped for as long as 48 hours.
+            {product?.description}
           </p>
 
           <div className="mb-4 flex items-center gap-4 lg:mb-10">
@@ -235,24 +216,24 @@ const ProductDetails = () => {
             </button>
             <input
               type="text"
-              value={order.qty}
+              value={order?.qty}
               className="w-5 text-center text-sm leading-5 font-bold tracking-normal text-[#0B132A] outline-none"
               onChange={(e) => {
                 const value = e.target.value;
                 if (value === "" || /^[0-9]+$/.test(value)) {
                   setOrder((prev) => ({ ...prev, qty: parseInt(value) || 1 }));
                 }
-                if (value > dataTest.stock) {
+                if (value > product.stock) {
                   setError((prev) => ({
                     ...prev,
-                    qty: `You cannot order more than ${dataTest.stock} items`,
+                    qty: `You cannot order more than ${product?.stock} items`,
                   }));
                 }
               }}
             />
             <button
               className={`h-[33.6px] w-[33.6px] cursor-pointer rounded-[4px] bg-(--secondary-color) text-lg font-semibold text-[#0B132A] transition duration-150 ease-linear hover:bg-(--secondary-color) hover:text-[#0B0909] ${
-                parseInt(order.qty) > parseInt(dataTest.stock)
+                parseInt(order?.qty) > parseInt(product?.stock)
                   ? "hover:disabled"
                   : ""
               }`}
@@ -260,8 +241,8 @@ const ProductDetails = () => {
                 setOrder((prev) => ({
                   ...prev,
                   qty:
-                    prev.qty == dataTest.stock || prev.qty > dataTest.stock
-                      ? dataTest.stock
+                    prev.qty == product?.stock || prev.qty > product?.stock
+                      ? product.stock
                       : prev.qty + 1,
                 }))
               }
@@ -275,12 +256,12 @@ const ProductDetails = () => {
               Choose Size
             </h3>
             <div className="mb-4 flex w-full flex-wrap gap-8">
-              {dataTest.size.map((item, idx) => (
+              {product?.size?.map((item, idx) => (
                 <button
                   key={idx}
                   onClick={() => setOrder((prev) => ({ ...prev, size: item }))}
                   className={`${
-                    order.size === item
+                    order?.size === item
                       ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
                       : "border border-(--color-white) font-medium text-[#4F5665]"
                   } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:text-[#0B0909]`}
@@ -296,14 +277,14 @@ const ProductDetails = () => {
               Hot/Ice?
             </h3>
             <div className="mb-10 flex w-full flex-wrap gap-8 lg:mb-24">
-              {dataTest.toping.map((item, index) => (
+              {product?.toping?.map((item, index) => (
                 <button
                   key={index}
                   onClick={() =>
                     setOrder((prev) => ({ ...prev, toping: item }))
                   }
                   className={`${
-                    order.toping === item
+                    order?.toping === item
                       ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
                       : "border border-(--color-white) font-medium text-[#4F5665]"
                   } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:font-semibold hover:text-[#0B0909]`}
@@ -339,8 +320,8 @@ const ProductDetails = () => {
         </h3>
 
         <div className="ms:overflow-x-auto scrollbar-hide mt-4 flex min-h-[540px] snap-x justify-center gap-4 py-4 max-sm:overflow-y-hidden">
-          {getCurrentCards().map((card) => (
-            <Card key={card.id} />
+          {getCurrentCards().map((product) => (
+            <Card key={product.id} product={product} />
           ))}
         </div>
 
