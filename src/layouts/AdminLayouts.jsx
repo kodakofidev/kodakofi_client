@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import AddProductAdmin from "../components/Admin/listProducts/AddProductAdmin";
 import EditProductAdmin from "../components/Admin/listProducts/EditProductAdmin";
 import ProductAdminEdit from "../components/Admin/listProducts/ProductAdminEdit";
+import ModalsDetailOrder from "../components/Admin/ordersAdmin/ModalsDetailOrder";
 
 const AdminLayouts = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -36,11 +37,14 @@ const AdminLayouts = () => {
         </div>
 
         {/* modals */}
-        <div className={`${isModalOpen.addProduct ? "translate-x-0" : "translate-x-[100%]"} absolute top-0 left-0 right-0 bottom-0`} >
+        <div className={`${isModalOpen.addProduct ? "translate-x-0" : "translate-x-[100%]"} overflow-y-hidden absolute top-0 left-0 right-0 bottom-0`} >
           <AddProductAdmin />
         </div>
         <div className={`${isModalOpen.editProduct ? "translate-x-0" : "translate-x-[100%]"} absolute top-0 left-0 right-0 bottom-0`} >
           <ProductAdminEdit />
+        </div>
+        <div className={`${isModalOpen.detailOrder ? "translate-x-0" : "translate-x-[100%]"} absolute top-0 left-0 right-0 bottom-0`} >
+          <ModalsDetailOrder />
         </div>
       </div>
     </main>

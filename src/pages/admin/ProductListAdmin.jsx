@@ -367,12 +367,12 @@ export default function ProductListAdmin() {
   
   return (
     <>
-      <section className="outline-8 outline-[#fff] overscroll-none">
+      <section className="outline-8 outline-[#fff] overscroll-none overflow-y-hidden">
         <HeadProductList />
         <TableProducts data={data}/>
         <div 
-          className={`fixed top-0 bottom-0 left-0 right-0 bg-black opacity-70 transition duration-300 ${addProduct || editProduct ? "translate-x-0" : "translate-x-[100%]"}`} onClick={() => (
-            dispatch(modalAction.closeAllModal)
+          className={`fixed top-0 bottom-0 left-0 right-[50.5%] z-10 bg-black opacity-70 transition duration-300 ${addProduct || editProduct ? "translate-x-0" : "translate-x-[200%]"}`} onClick={() => (
+            dispatch(modalAction.closeAllModal())
           )}>
         </div>
       </section>

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     addProduct: false,
     editProduct: false,
+    detailOrder: false,
 }
 
 const modalSlice = createSlice({
@@ -18,6 +19,10 @@ const modalSlice = createSlice({
         closeAllModal: (state) => {
             state.addProduct = false;
             state.editProduct = false;
+            state.detailOrder = false;
+        },
+        toggleModalDetailOrder: (state) => {
+            state.detailOrder = !state.detailOrder;
         }
     }
 });

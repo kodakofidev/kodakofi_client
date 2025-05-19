@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import PaginationOrdersAdmin from './PaginationOrdersAdmin';
+import PaginationOrdersAdmin from "./PaginationOrdersAdmin"
 import RowListOrdersAdmin from './RowListOrdersAdmin';
-import { modalAction } from '../../../redux/slices/modalsAdmin';
-import { useDispatch } from "react-redux";
+import PaginationProductListAdmin from '../listProducts/PaginationProductListAdmin';
 
 export default function TableOrdersAdmin({data}) {
-    const dispatch = useDispatch();
-
 
     const [page, setPage] = useState(1);
     const [start, setStart] = useState(0);
@@ -18,9 +15,9 @@ export default function TableOrdersAdmin({data}) {
     setStart(page * 5 - 5), setEnd(page * 5);
     }, [page]);
 
-    const products = [];
+    const orders = [];
     const result = data.slice(start, end);
-    products.push(...result);
+    orders.push(...result);
 
     let pagination = 0;
     pagination += Math.ceil(data.length / 5);
@@ -28,26 +25,26 @@ export default function TableOrdersAdmin({data}) {
 
   return (
     <>
-    <section className="overflow-x-scroll pt-12 md:pr-7 lg:pr-3 xl:pr-18">
-          <table className="table-auto min-w-5xl select-none w-full border-separate border-spacing-y-3">
+    <section className="overflow-y-hidden pt-12 md:pr-7 lg:pr-3 xl:pr-18">
+          <table className="overflow-hidden table-auto min-w-5xl select-none w-full border-separate border-spacing-y-3">
             <thead>
               <tr>
                 <th className="px-3 py-2 text-sm w-20">
                     <input type="checkbox" name="selectAll" id="selectAll" className="scale-[1.2] cursor-pointer"/>
                 </th>
-                <th className="px-3 py-2 text-sm">Image</th>
-                <th className="px-3 py-2 text-sm">Product Name</th>
-                <th className="px-3 py-2 text-sm">Price</th>
-                <th className="px-3 py-2 text-sm">Desc</th>
-                <th className="px-3 py-2 text-sm">Product Size</th>
-                <th className="px-3 py-2 text-sm">Method</th>
-                <th className="px-3 py-2 text-sm">Stock</th>
+                <th className="px-3 py-2 text-sm">No. Order</th>
+                <th className="px-3 py-2 text-sm">Date</th>
+                <th className="px-3 py-2 text-sm">Order</th>
+                <th className="px-3 py-2 text-sm">Status</th>
+                <th className="px-3 py-2 text-sm">Total</th>
                 <th className="px-3 py-2 text-sm">Action</th>
+                {/* <th className="px-3 py-2 text-sm">Stock</th>
+                <th className="px-3 py-2 text-sm">Action</th> */}
               </tr>
             </thead>
             <tbody>
-                {products.map((product, index) => (
-                    <RowListOrdersAdmin id={product.id} description={product.description} method={product.method} price={product.price} productName={product.name} productSize={product.sizes} stock={product.stock} key={index} dispatch={dispatch} modalAction={modalAction}/>
+                {orders.map((order, index) => (
+                    <RowListOrdersAdmin orderNumber={order.noOrder} date={order.date} product={order.order} status={order.status} totalPrice={order.total} image={order.image} key={index}/>
                 ))}
             </tbody>
           </table>
@@ -55,7 +52,7 @@ export default function TableOrdersAdmin({data}) {
         <section className='pt-5'>
             <div className="flex gap-2 flex-col justify-center lg:grid lg:grid-cols-7">
                 <div className="lg:col-span-2 text-center">
-                    Show {products.length} product of {data.length} product
+                    Show {orders.length} product of {data.length} product
                 </div>
                 <div className="flex gap-5 justify-center lg:col-start-5 lg:col-span-3 lg:flex lg:gap-6 lg:justify-center">
                     {(() => {
@@ -69,12 +66,13 @@ export default function TableOrdersAdmin({data}) {
                             }}>Prev</h1>
                         }
                     })()}
-                    {(() => {
-                        const elPage = []
-                        for (let idx = 0; idx < pagination - 6; idx++) {
-                            elPage.push(<PaginationOrdersAdmin key={idx + 1 + more} id={idx + 1 + more} setPage={setPage} checked={checked} setChecked={setChecked}/>)
+                    {(() => { 
+                        const elPages = []
+                        console.log("pagination", pagination)
+                        for (let idx = 0; idx < pagination - 1; idx++) {
+                            elPages.push(<PaginationProductListAdmin key={idx + 1 + more} id={idx + 1 + more} setPage={setPage} checked={checked} setChecked={setChecked}/>)
                         }
-                        return elPage
+                        return elPages
                     })()}
                     {(() => {
                         if (data.length > 25) {
