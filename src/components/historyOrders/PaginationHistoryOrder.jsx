@@ -7,6 +7,9 @@ export default function PaginationHistoryOrder({
   checked,
   setChecked,
   setPage,
+  setMore,
+  moreValue,
+  key,
 }) {
   let check = false;
 
@@ -14,7 +17,7 @@ export default function PaginationHistoryOrder({
 
   return (
     <>
-      <div>
+      <div key={key}>
         <input
           type="radio"
           name={name}
@@ -24,6 +27,7 @@ export default function PaginationHistoryOrder({
           onChange={() => {
             setPage(value);
             setChecked(value);
+            setMore(value - moreValue);
           }}
           hidden
         />

@@ -32,7 +32,7 @@ function Card({ product }) {
             {product?.name || "Product Name"}
           </div>
           <div
-            className="text-[#4F5665] max-sm:text-[12px] sm:text-sm"
+            className="text-[#4F5665] max-sm:text-[12px] sm:text-md"
             style={{
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -43,8 +43,8 @@ function Card({ product }) {
           </div>
           <div className="flex flex-row items-center gap-[10px]">
             <img src={thumbs} alt="rating" width={16} height={16} />
-            <p className="text-sm leading-[100%] text-gray-600 sm:text-lg">
-              {product?.review || 0} + Review
+            <p className="text-sm leading-[100%] text-gray-600 sm:text-md">
+              {product?.total_ratings || 0} users recommend this product
             </p>
           </div>
           <div className="text-lg font-medium text-[#FF8906] sm:text-2xl">

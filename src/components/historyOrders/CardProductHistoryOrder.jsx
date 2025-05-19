@@ -15,44 +15,52 @@ export default function CardProductHistoryOrder({
   return (
     <>
       <div
-        className="p-4 bg-gray-100 rounded-md grid grid-cols-2 gap-3 md:gap-y-0 min-[727px]:grid-cols-5 md:p-0"
+        className="grid grid-cols-2 gap-3 rounded-md bg-gray-100 p-4 min-[727px]:grid-cols-5 md:gap-y-0 md:p-0"
         key={key}
       >
-        <div className="hidden min-[727px]:block min-[727px]:w-28 min-[727px]:h-28 min-[727px]:overflow-hidden min-[727px]:row-span-3">
+        <div className="hidden min-[727px]:row-span-3 min-[727px]:block min-[727px]:h-28 min-[727px]:w-28 min-[727px]:overflow-hidden">
           <img src={Coffee} alt="product" className="-translate-y-8" />
         </div>
-        <div className="grid gap-2 md:gap-y-0 md:row-start-1 md:col-start-2 md:row-span-2">
-          <div className="flex gap-3 items-center">
+        <div className="grid gap-2 md:col-start-2 md:row-span-2 md:row-start-1 md:gap-y-0">
+          <div className="flex items-center gap-3">
             <img src={Order} alt="icon" />
             <p>No. Order</p>
           </div>
-          <p className="font-bold text-[16px] self-center">{order}</p>
+          <p className="self-center text-[16px] font-bold">{order}</p>
         </div>
-        <div className="grid gap-2 md:gap-y-0 md:row-start-1 md:col-start-3 md:row-span-2">
-          <div className="flex gap-3 items-center">
+        <div className="grid gap-2 md:col-start-3 md:row-span-2 md:row-start-1 md:gap-y-0">
+          <div className="flex items-center gap-3">
             <img src={Calendar} alt="icon" />
             <p>Date</p>
           </div>
-          <p className="font-bold text-[16px] self-center">{date}</p>
+          <p className="self-center text-[16px] font-bold">{date}</p>
         </div>
-        <div className="grid gap-2 md:gap-y-0 md:row-start-1 md:col-start-4 md:row-span-2">
-          <div className="flex gap-3 items-center">
+        <div className="grid gap-2 md:col-start-4 md:row-span-2 md:row-start-1 md:gap-y-0">
+          <div className="flex items-center gap-3">
             <img src={Uprocess} alt="icon" />
             <p>Total</p>
           </div>
-          <p className="font-bold text-[16px] self-center">Idr {total}</p>
+          <p className="self-center text-[16px] font-bold">Idr {total}</p>
         </div>
-        <div className="grid gap-2 md:gap-y-0 md:row-start-1 md:col-start-5 md:row-span-2">
-          <div className="flex gap-3 items-center">
+        <div className="grid gap-2 md:col-start-5 md:row-span-2 md:row-start-1 md:gap-y-0">
+          <div className="flex items-center gap-3">
             <img src={Repeat} alt="icon" />
             <p>Status</p>
           </div>
-          <p className="font-bold w-28 rounded-lg text-[13px] px-2 py-1 text-center bg-orange-100 text-orange self-center">
+          <p
+            className={`${
+              status === "On Progress"
+                ? "text-orange bg-orange-100"
+                : status === "Finish Order"
+                  ? "bg-teal-100 text-teal-700"
+                  : "bg-blue-100 text-blue-700"
+            } w-28 self-center rounded-lg px-2 py-1 text-center text-[13px] font-bold`}
+          >
             {status}
           </p>
         </div>
-        <div className="col-span-2 md:row-start-3 md:col-start-2">
-          <a href="#" className="text-orange underline cursor-pointer">
+        <div className="col-span-2 md:col-start-2 md:row-start-3">
+          <a href="#" className="text-orange cursor-pointer underline">
             Views Order Detail
           </a>
         </div>
