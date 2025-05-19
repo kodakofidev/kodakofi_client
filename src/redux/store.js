@@ -1,3 +1,4 @@
+
 import { configureStore } from "@reduxjs/toolkit"
 import {
   persistStore,
@@ -12,14 +13,16 @@ import {
 import storage from "redux-persist/lib/storage"
 import AuthProvider from "./slices/auth"
 import constants from "../configs/constant"
-
+import ModalsReducer from "./slices/modalsAdmin";
+import profileReducer from "./slices/profile";
 const persistConfig = {
   key: "kodakofi",
-  storage,
-}
-
+  storage
+};
 const persistedReducer = persistCombineReducers(persistConfig, {
   auth: AuthProvider,
+  modals: ModalsReducer,
+  profile: profileReducer,
 })
 
 const store = configureStore({
@@ -30,9 +33,9 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [REGISTER, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE],
       },
-    })
+    });
   },
-})
+});
 
-export const persistor = persistStore(store)
-export default store
+export const persistor = persistStore(store);
+export default store;

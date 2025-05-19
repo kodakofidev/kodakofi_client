@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router";
 import constants from "../../configs/constant.js";
 import { useDispatch } from "react-redux";
 import { authAction } from "../../redux/slices/auth.js";
+import { profileAction } from "../../redux/slices/profile.js"; // Add this import
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -90,7 +91,7 @@ function Login() {
       });
 
       const data = await response.json();
-      // console.log("Login response:", data.data.fullname);
+      
       if (response.ok) {
         toast.success("Login successful!");
         
@@ -105,6 +106,28 @@ function Login() {
           },
           isLogin: true
         }));
+        
+        // Fetch user profile data after login
+        dispatch(profileAction.fetchProfileStart());
+        try {
+          const profileResponse = await fetch(`${constants.apiUrl}/profile`, {
+            headers: {
+              'Authorization': `Bearer ${data.data.token}`
+            }
+          });
+          
+          if (profileResponse.ok) {
+            const profileData = await profileResponse.json();
+            if (profileData.data) {
+              dispatch(profileAction.fetchProfileSuccess(profileData.data));
+            }
+          } else {
+            console.error("Failed to fetch profile data");
+          }
+        } catch (profileError) {
+          console.error("Profile fetch error:", profileError);
+          dispatch(profileAction.fetchProfileFailure("Failed to load profile"));
+        }
         
         if (data.data.role === "admin") {
           navigate("/admin");

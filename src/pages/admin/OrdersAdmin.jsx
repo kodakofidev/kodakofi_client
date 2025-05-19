@@ -1,13 +1,9 @@
-import React from "react";
-import HeadProductList from "../../components/Admin/listProducts/HeadProductList";
-import TableProducts from "../../components/Admin/listProducts/TableProducts";
-import { useSelector, useDispatch } from "react-redux";
-import {modalAction} from '../../redux/slices/modalsAdmin'
+import React from 'react'
+import HeaderOrdersAdmin from '../../components/Admin/ordersAdmin/HeaderOrdersAdmin'
+import TableOrdersAdmin from '../../components/Admin/ordersAdmin/TableOrdersAdmin'
 
-export default function ProductListAdmin() {
-  const dispatch = useDispatch();
-  const {addProduct, editProduct} = useSelector((state) => state.modals);
-  const data = [{'id': 1,
+export default function OrdersAdmin() {
+      const data = [{'id': 1,
   'name': 'Flat White',
   'price': 43708,
   'description': 'Smooth and naturally sweet, made with quality ingredients.',
@@ -364,18 +360,13 @@ export default function ProductListAdmin() {
   'sizes': ['250gr', '500gr'],
   'deliveryMethods': ['Deliver'],
   'stock': 230}]
-  
+
   return (
     <>
-      <section className="outline-8 outline-[#fff] overscroll-none">
-        <HeadProductList />
-        <TableProducts data={data}/>
-        <div 
-          className={`fixed top-0 bottom-0 left-0 right-0 bg-black opacity-70 transition duration-300 ${addProduct || editProduct ? "translate-x-0" : "translate-x-[100%]"}`} onClick={() => (
-            dispatch(modalAction.closeAllModal)
-          )}>
-        </div>
-      </section>
+        <section className="outline-8 outline-[#fff] overscroll-none">
+            <HeaderOrdersAdmin />
+            <TableOrdersAdmin data={data}/>
+        </section>
     </>
-  );
+  )
 }

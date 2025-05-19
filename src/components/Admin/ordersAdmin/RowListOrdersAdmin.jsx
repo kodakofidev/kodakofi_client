@@ -3,12 +3,8 @@ import Coffee from "../../../assets/iconHistoryOrders/Coffee.jpg";
 import Edit from "../../../assets/iconProductListAdmin/Edit2.svg";
 import Trash from "../../../assets/iconProductListAdmin/Trash.png";
 
-import {useDispatch} from 'react-redux'
+export default function RowListOrdersAdmin({id, image, productName, price, description, productSize, method, stock, dispatch, modalAction}) {  
 
-import {modalAction} from '../../../redux/slices/modalsAdmin'
-
-export default function RowListProduct({id, image, productName, price, description, productSize, method, stock}) {  
-  const dispatch = useDispatch();
   return (
     <tr key={id}>
       <td className="flex justify-center items-center">
