@@ -12,7 +12,7 @@ import {
 import storage from "redux-persist/lib/storage"
 import AuthProvider from "./slices/auth"
 import constants from "../configs/constant"
-
+import ModalsReducer from "./slices/modalsAdmin";
 const persistConfig = {
   key: "kodakofi",
   storage,
@@ -20,6 +20,7 @@ const persistConfig = {
 
 const persistedReducer = persistCombineReducers(persistConfig, {
   auth: AuthProvider,
+  modals: ModalsReducer,
 })
 
 const store = configureStore({
