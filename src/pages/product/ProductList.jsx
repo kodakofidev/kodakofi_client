@@ -20,7 +20,7 @@ function ProductList() {
       setError(null)
       try {
         const query = new URLSearchParams({ page: currentPage, name }).toString()
-        const res = await fetch(`http://localhost:8000/api/product?${query}`)
+        const res = await fetch(`${URL}/api/product?${query}`)
         if (!res.ok) throw new Error('Failed to fetch products')
         const data = await res.json()
         setProducts(data.data.data)
@@ -44,7 +44,7 @@ function ProductList() {
       <Promo />
       <section className='px-4 lg:px-8 md:px-12 xl:px-24'>
         <p className='text-3xl md:text-3xl lg:text-4xl xl:text-4xl'>Our <span className='text-[#8E6447]'>Product</span></p>
-        <div className='flex flex-row md:gap-[10px] lg:gap-[100px]'>
+        <div className='flex flex-row md:gap-[10px] lg:gap-[50px]'>
             <Filter name={name} setName={setName} />
             {loading ? (
               <p>Loading products...</p>
