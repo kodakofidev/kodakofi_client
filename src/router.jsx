@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 
-import ProductDetails from "./pages/product/ProductDetails"
 import Home from "./pages/Home";
 import CheckoutPage from "./pages/orders/CheckoutPage";
 import AuthRoutes from "./routing/auth";
@@ -9,7 +8,10 @@ import AdminLayouts from "./layouts/AdminLayouts";
 import ProfilePage from "./pages/ProfilePage";
 import HistoryOrderPage from "./pages/orders/HistoryOrderPage";
 import ProductList from "./pages/product/ProductList";
+import ProductDetails from "./pages/product/ProductDetails";
+import ProtectedRoute from "./components/ProtectedRoute";
 import ProductListAdmin from "./pages/admin/ProductListAdmin";
+import OrdersAdmin from "./pages/admin/OrdersAdmin";
 
 const Router = () => {
   return (
@@ -20,22 +22,27 @@ const Router = () => {
 
         {/* Main Layouts */}
         <Route element={<MainLayout />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/products' element={<ProductList />} />
-          <Route path='/products/:id' element={<ProductDetails />} />
-          <Route path='/history' element={<HistoryOrderPage />} />
-          <Route path='/checkout' element={<CheckoutPage />} />
-          <Route path='/profile' element={<ProfilePage />} />
-          <Route path='/products/:id' element={<ProductDetails />} />
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          
+          {/* Protected Routes - require login */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/history" element={<HistoryOrderPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
         </Route>
         {/* Layouting Admin */}
         <Route path="admin" element={<AdminLayouts />}>
-        <Route path="products" element={<ProductListAdmin />} />
+          <Route path="products" element={<ProductListAdmin />} />
+          <Route path="orders" element={<OrdersAdmin />}/>
           {/* <Route index element={<Dashboard />}></Route> */}
         </Route>
       </Routes>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default Router
+export default Router;

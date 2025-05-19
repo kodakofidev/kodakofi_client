@@ -2,23 +2,32 @@ import { useNavigate } from "react-router";
 import thumbs from "../assets/icon/ThumbsUp.svg";
 import Cart from "../assets/icon/ShoppingCart.svg";
 import image from "../assets/icon/default-image.jpg";
+const URL = import.meta.env.VITE_API_URL
 
 function Card({ product }) {
   const navigate = useNavigate();
   const nextPage = () => {
-    navigate(`/products/${product.id}`);
+    navigate(`/product/${product.id}`);
   };
 
   return (
     <div className="relative top-8 max-h-[360px] max-w-[377px] min-w-[158px] snap-center transition duration-150 ease-linear hover:scale-105">
       <img
-        src={product?.images?.[0] || image}
+        src={`${URL}/public/product-image/${product?.images?.[0] || image}`}
         alt={product?.name || "image"}
         className="h-[215px] w-full object-cover sm:h-[240px] lg:h-[360px]"
       />
-      <div className="font-lg absolute top-[10px] left-[10px] rounded-full bg-[#D00000] p-[10px] px-3 py-2 text-center font-bold text-white max-sm:text-[12px]">
-        FLASH SALE
-      </div>
+    {product?.discount ? (
+      <>
+        <div className="font-lg absolute top-[10px] left-[10px] rounded-full bg-[#D00000] p-[10px] px-3 py-2 text-center font-bold text-white max-sm:text-[12px]">
+          {product.discount_name}
+        </div>
+      </>
+    ) : (
+      <>
+        <div className="hidden"></div>
+      </>
+    )}
       <div className="relative -top-16 flex flex-col justify-center px-1 sm:px-2">
         <div className="flex flex-col gap-[10px] bg-[#fff] p-3 max-sm:p-2 md:p-[10px]">
           <div
@@ -47,8 +56,24 @@ function Card({ product }) {
               {product?.total_ratings || 0} users recommend this product
             </p>
           </div>
-          <div className="text-lg font-medium text-[#FF8906] sm:text-2xl">
-            IDR. {product?.price || 0}
+          <div className="flex flex-row gap-[10px] items-center text-lg font-medium text-[#FF8906] sm:text-2xl">
+            {product?.discount ? (
+              <>
+                <p className="text-xs text-[#D00000] line-through">
+                  IDR {product.price.toLocaleString("id-ID")}
+                </p>
+                <p className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906]">
+                  IDR {(
+                    product.price -
+                    product.price * product.discount
+                  ).toLocaleString("id-ID")}
+                </p>
+              </>
+            ) : (
+              <span className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906]">
+                IDR {product?.price.toLocaleString("id-ID")}
+              </span>
+            )}
           </div>
           <div className="flex flex-row gap-[10px] max-sm:flex-col">
             <button

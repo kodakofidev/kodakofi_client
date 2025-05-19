@@ -13,6 +13,7 @@ export default function HistoryOrdersSection() {
   const [checkedStatus, setCheckedStatus] = useState("On Progress");
   const [filterByDate, setFilterByDate] = useState(null);
   // const [filterByProgress, setFilterByProgress] = useState(null);
+  // const [orders, setOrders] = useState(null);
 
   const orders = [
     {
@@ -322,6 +323,27 @@ export default function HistoryOrdersSection() {
       onProgress: "On Progress",
     },
   ];
+
+  // useEffect(() => {
+  //   fetch("http://localhost:8080/api/order", {
+  //     method: 'GET',
+  //     headers: {
+  //       'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMTcxYjY3ZjktYTNjMi00MTE1LWI3NWMtMWE3ODE2Y2ExY2QyIiwiZW1haWwiOiJzZGdpNkBkY3BhLm5ldCIsInJvbGUiOiJ1c2VyIiwiaXNzIjoia29kYSBrb2ZpIiwiZXhwIjoxNzQ3Njc0MDQ4fQ.U_d2CrupY6QOaxeMS9mWc90HrOn_0EqX9lrc23ggJV0`
+  //     }
+  //   })
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('failed fetch data');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       setOrders(data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error.message);
+  //     });
+  // }, [])
 
   const dataOrders = orders.filter(
     (order) => order.onProgress === checkedStatus

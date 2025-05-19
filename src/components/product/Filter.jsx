@@ -1,30 +1,47 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 
-function Filter({ name, setName }) {
+function Filter({ filters, onFilterApply }) {
   const formRef = useRef(null)
-  const min = 0
-  const max = 100000
+  const minLimit = 0
+  const maxLimit = 100000
 
-  const [minVal, setMinVal] = useState(0)
-  const [maxVal, setMaxVal] = useState(100000)
+  const [search, setSearch] = useState(filters.search || "")
+  const [category, setCategory] = useState(filters.category || "")
+  const [options, setOptions] = useState(filters.options || "")
+  const [minPrice, setMinPrice] = useState(filters.minPrice || minLimit)
+  const [maxPrice, setMaxPrice] = useState(filters.maxPrice || maxLimit)
   const [isMinActive, setIsMinActive] = useState(false)
   const [isMaxActive, setIsMaxActive] = useState(false)
 
+  useEffect(() => {
+    setSearch(filters.search || "")
+    setCategory(filters.category || "")
+    setOptions(filters.options || "")
+    setMinPrice(filters.minPrice || minLimit)
+    setMaxPrice(filters.maxPrice || maxLimit)
+    console.log("Filter props:", filters)
+  }, [filters])
+
   const handleMinInput = (e) => {
-    const inputMin = Number(e.target.value)
-    if (inputMin >= min && inputMin < maxVal) setMinVal(inputMin)
+    let inputMin = Number(e.target.value)
+    if (inputMin < 0) inputMin = 0
+    if (inputMin < maxPrice) setMinPrice(inputMin)
   }
 
   const handleMaxInput = (e) => {
-    const inputMax = Number(e.target.value)
-    if (inputMax <= max && inputMax > minVal) setMaxVal(inputMax)
+    let inputMax = Number(e.target.value)
+    if (inputMax <= 0) inputMax = undefined
+    if (inputMax > minPrice) setMaxPrice(inputMax)
   }
 
   const handleReset = () => {
     if (formRef.current) {
       formRef.current.reset()
-      setMinVal(min)
-      setMaxVal(max)
+      setSearch("")
+      setCategory("")
+      setOptions("")
+      setMinPrice(minLimit)
+      setMaxPrice(maxLimit)
     }
   }
 
@@ -34,14 +51,25 @@ function Filter({ name, setName }) {
         <p className='text-white text-sm font-semibold'>Filter</p>
         <p onClick={handleReset} className='text-white text-xs font-semibold cursor-pointer'>Reset filter</p>
       </div>
-      <form ref={formRef} className='my-5'>
+      <form ref={formRef} 
+        onSubmit={(e) => {
+          e.preventDefault()
+          onFilterApply({
+            search,
+            category,
+            options,
+            minPrice: minPrice > 0 ? minPrice : 0,
+            maxPrice: maxPrice > 0 ? maxPrice : 0,
+          })
+        }}
+        className='my-5'>
         <div className='flex flex-col'>
-          <label htmlFor="filter" className='text-white text-xs font-semibold'>Search</label>
+          <label htmlFor="search" className='text-white text-xs font-semibold'>Search</label>
           <input type="text" 
-            name="filter" 
+            name="search" 
             placeholder='Search Your Product'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
            className='bg-white rounded-sm text-xs text-black my-1 p-3 w-full' 
           />
         </div>
@@ -49,7 +77,9 @@ function Filter({ name, setName }) {
           <label className='text-white text-xs font-semibold'>Category</label>
           {['Coffee', 'Non-Coffee', 'Food', 'Dessert', 'Snack', 'Topping'].map(type => (
             <div key={type} className='flex flex-row items-center gap-2 my-2 relative'>
-              <input type="radio" name="category" id={type} className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] cursor-pointer" />
+              <input type="radio" name="category" id={type} checked={category === type}
+              onChange={() => setCategory(type)} 
+              className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] cursor-pointer" />
               <label htmlFor={type} className='text-white text-xs cursor-pointer capitalize'>{type}</label>
             </div>
           ))}
@@ -58,7 +88,8 @@ function Filter({ name, setName }) {
           <label className='text-white text-xs font-semibold'>Sort by</label>
           {['favorite', 'newest', 'oldest', 'ascending', 'descending', 'cheapest'].map(sort => (
             <div key={sort} className='flex flex-row items-center gap-2 my-2 relative'>
-              <input type="radio" name='sortby' id={sort} className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] cursor-pointer" />
+              <input type="radio" name='options' id={sort} checked={options === sort}
+              onChange={() => setOptions(sort)} className="w-4 h-4 rounded-full focus:ring-[#ff8906] checked:border-[#ff8906] cursor-pointer" />
               <label htmlFor={sort} className='text-white text-xs capitalize'>{sort}</label>
             </div>
           ))}
@@ -69,16 +100,16 @@ function Filter({ name, setName }) {
             <div className="absolute top-1/2 w-full h-1 bg-[#c3beb7] rounded-md transform -translate-y-1/2" />
             <div className="absolute h-1 bg-[#ff8906] rounded top-1/2 transform -translate-y-1/2"
               style={{
-                left: `${(minVal / max) * 100}%`,
-                width: `${((maxVal - minVal) / max) * 100}%`,
+                left: `${(minPrice / maxLimit) * 100}%`,
+                width: `${((maxPrice - minLimit) / maxLimit) * 100}%`,
               }}
             />
 
             {/* Minval input */}
             <input type="range"
-              min={min}
-              max={max}
-              value={minVal}
+              min={minLimit}
+              max={maxLimit}
+              value={minPrice}
               onChange={handleMinInput}
               onMouseDown={() => setIsMinActive(true)}
               onMouseUp={() => setIsMinActive(false)}
@@ -88,9 +119,9 @@ function Filter({ name, setName }) {
 
             {/* Maxval input */}
             <input type="range"
-              min={min}
-              max={max}
-              value={maxVal}
+              min={minLimit}
+              max={maxLimit}
+              value={maxPrice}
               onChange={handleMaxInput}
               onMouseDown={() => setIsMaxActive(true)}
               onMouseUp={() => setIsMaxActive(false)}
@@ -101,8 +132,8 @@ function Filter({ name, setName }) {
             
           {/* Display values */}
           <div className="flex justify-between text-xs text-white font-semibold">
-            <span>IDR {minVal}</span>
-            <span>IDR {maxVal}</span>
+            <span>IDR {minPrice}</span>
+            <span>IDR {maxPrice}</span>
           </div>
         </div>
         <button type='submit' className='bg-[#ff8906] w-full rounded-md my-3 p-2 text-xs'>Apply filter</button>
