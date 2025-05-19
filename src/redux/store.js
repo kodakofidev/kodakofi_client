@@ -1,26 +1,22 @@
-import { configureStore } from "@reduxjs/toolkit"
-import {
-  persistStore,
-  persistCombineReducers,
-  REGISTER,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-} from "redux-persist"
-import storage from "redux-persist/lib/storage"
-import AuthProvider from "./slices/auth"
-import constants from "../configs/constant"
+import { configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer, REGISTER, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { combineReducers } from "redux";
+import authReducer from "./slices/auth";
+import profileReducer from "./slices/profile";
+import constants from "../configs/constant";
+
+const rootReducer = combineReducers({
+  auth: authReducer,
+  profile: profileReducer,
+});
 
 const persistConfig = {
   key: "kodakofi",
-  storage,
-}
+  storage
+};
 
-const persistedReducer = persistCombineReducers(persistConfig, {
-  auth: AuthProvider,
-})
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
@@ -30,9 +26,9 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [REGISTER, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE],
       },
-    })
+    });
   },
-})
+});
 
-export const persistor = persistStore(store)
-export default store
+export const persistor = persistStore(store);
+export default store;
