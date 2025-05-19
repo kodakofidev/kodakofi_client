@@ -1,30 +1,44 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router'
 import Filter from '../../components/product/Filter'
 import Product from '../../components/product/Product'
 import Promo from '../../components/product/Promo'
 import Tagline from '../../components/product/Tagline'
 import Search from '../../components/product/Search'
-export const URL = import.meta.env.VITE_API_URL
 
 function ProductList() {
+  const URL = import.meta.env.VITE_API_URL
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [name, setName] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  
+  useEffect(() => {
+    const pageFromURL = parseInt(searchParams.get('page')) || 1
+    const nameFromURL = searchParams.get('name') || ''
+    setCurrentPage(pageFromURL)
+    setName(nameFromURL)
+  }, [])
 
   useEffect(() => {
+    const query = {}
+    if (currentPage > 0) query.page = currentPage
+    if (name.trim()) query.name = name
+    setSearchParams(query)
+
+    // Fetch data
     async function fetchProducts() {
       setLoading(true)
       setError(null)
       try {
-        const query = new URLSearchParams({ page: currentPage, name }).toString()
-        const res = await fetch(`${URL}/api/product?${query}`)
+        const queryString = new URLSearchParams(query).toString()
+        const res = await fetch(`${URL}/product?${queryString}`)
         if (!res.ok) throw new Error('Failed to fetch products')
         const data = await res.json()
         setProducts(data.data.data)
-        console.log("Products state:", data.data.data)
         setTotalPages(data.data.pagination.total_pages || 1)
       } catch (err) {
         setError(err.message)
@@ -32,10 +46,10 @@ function ProductList() {
         setLoading(false)
       }
     }
+
     fetchProducts()
   }, [currentPage, name])
 
-  
 
   return (
     <div className='h-full'>

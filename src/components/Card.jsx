@@ -7,7 +7,7 @@ const URL = import.meta.env.VITE_API_URL
 function Card({ product }) {
   const navigate = useNavigate();
   const nextPage = () => {
-    navigate(`/products/${product.id}`);
+    navigate(`/product/${product.id}`);
   };
 
   return (
@@ -59,18 +59,18 @@ function Card({ product }) {
           <div className="flex flex-row gap-[10px] items-center text-lg font-medium text-[#FF8906] sm:text-2xl">
             {product?.discount ? (
               <>
-                <span className="text-[12px] text-[#D00000] line-through">
+                <p className="text-xs text-[#D00000] line-through">
                   IDR {product.price.toLocaleString("id-ID")}
-                </span>
-                <span className="text-[22px] leading-[100%] font-medium tracking-normal text-[#FF8906]">
+                </p>
+                <p className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906]">
                   IDR {(
                     product.price -
                     product.price * product.discount
                   ).toLocaleString("id-ID")}
-                </span>
+                </p>
               </>
             ) : (
-              <span className="text-[22px] leading-[100%] font-medium tracking-normal text-[#FF8906]">
+              <span className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906]">
                 IDR {product?.price.toLocaleString("id-ID")}
               </span>
             )}

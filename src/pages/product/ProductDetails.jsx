@@ -5,9 +5,9 @@ import liked from "../../assets/product-details/liked.svg";
 import shoppingCart from "../../assets/product-details/shoppingCart.svg";
 import prev from "../../assets/product-details/arrow-right.svg";
 import Card from "../../components/Card";
-export const URL = import.meta.env.VITE_API_URL
 
 const ProductDetails = () => {
+  const URL = import.meta.env.VITE_API_URL
   const {id} = useParams()
   console.log("product_id from useParams:", id)
 
@@ -23,7 +23,7 @@ const [error, setError] = useState({
 useEffect(() => {
   const fetchProduct = async () => {
     try {
-      const res = await fetch(`${URL}/api/product/${id}`)
+      const res = await fetch(`${URL}/product/${id}`)
       const data = await res.json()
 
       const productDetail = data.data.detail
