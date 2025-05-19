@@ -147,7 +147,7 @@ const handleAddToCart = () => {
                   src={`${URL}${item}`}
                   alt={product?.name}
                   onClick={() => setSelectedImage(item)}
-                  className="max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px]"
+                  className="max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px] aspect-square"
                 />
               </div>
             ))}
@@ -155,24 +155,39 @@ const handleAddToCart = () => {
         </div>
 
         <div className="shrink-2">
-          <p className="mb-4 w-max rounded-3xl bg-[#D00000] p-[10px] leading-6 font-bold text-white uppercase max-md:-ml-4 max-sm:scale-75 max-sm:text-sm sm:scale-90 md:text-base">
-            {product?.discount_name}
-          </p>
+          {product?.discount ? (
+            <>
+              <div className="font-lg absolute top-[10px] left-[10px] rounded-full bg-[#D00000] p-[10px] px-3 py-2 text-center font-bold text-white max-sm:text-[12px]">
+                {product.discount_name}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="hidden"></div>
+            </>
+          )}
 
           <h3 className="text-(-color-text-black) mb-4 text-4xl leading-[100%] font-medium max-sm:text-2xl">
             {product?.name}
           </h3>
           <div className="mb-4 flex items-center gap-3">
-            <span className="stricke text-[12px] text-[#D00000] line-through">
-              IDR {product?.price.toLocaleString("id-ID")}
-            </span>
-            <span className="text-[22px] leading-[100%] font-medium tracking-normal text-[#FF8906]">
-              IDR
-              {(
-                product?.price -
-                product?.price * product?.discount
-              ).toLocaleString("id-ID")}
-            </span>
+            {product?.discount ? (
+              <>
+                <p className="text-xs text-[#D00000] line-through">
+                  IDR {product.price.toLocaleString("id-ID")}
+                </p>
+                <p className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906]">
+                  IDR {(
+                    product.price -
+                    product.price * product.discount
+                  ).toLocaleString("id-ID")}
+                </p>
+              </>
+            ) : (
+              <span className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906]">
+                IDR {product?.price.toLocaleString("id-ID")}
+              </span>
+            )}
           </div>
           <div className="mb-4 flex items-center gap-4">
             <span className="text-lg leading-[100%] tracking-normal text-[#4F5665] max-sm:text-sm">
