@@ -13,7 +13,7 @@ function Product({ products, currentPage, setCurrentPage, totalPages }) {
           <p>No products found.</p>
         ) : (
           products.map((product) => (
-            <div key={product.id}>
+            <div key={product.id} className="scale-90 origin-top">
               <Card product={product} />
             </div>
           ))

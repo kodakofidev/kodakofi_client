@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authAction } from "../redux/slices/auth";
+import { profileAction } from "../redux/slices/profile";
 import iconCoffee from "../assets/icon/coffee.svg";
 import cartLogo from "../assets/icon/cart.svg";
 import searchLogo from "../assets/icon/search.svg";
@@ -13,11 +14,17 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const auth = useSelector((state) => state.auth);
+  const profile = useSelector((state) => state.profile);
   const dispatch = useDispatch();
   const location = useLocation();
 
   const { isLogin, user } = auth;
+  const profileData = profile.data;
   const isAdmin = user?.role === "admin";
+  
+  // Use profile data if available, fallback to auth user data
+  const userFullName = profileData?.fullName || user?.name || user?.email?.split('@')[0];
+  const userPicture = profileData?.picture || user?.picture || userIcon;
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -35,6 +42,7 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(authAction.logOut());
+    dispatch(profileAction.resetProfile()); // Clear profile data on logout
     setIsDropdownOpen(false);
     setIsLogoutModalOpen(false);
     // Navigate to home page if needed
@@ -117,12 +125,12 @@ const Header = () => {
                 >
                   <div className="w-10 h-10 rounded-full bg-gray-300 overflow-hidden border-2 border-[#FF8906]">
                     <img 
-                      src={user.picture || userIcon} 
+                      src={userPicture} 
                       alt="Profile" 
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <span className="font-semibold">{user.name || user.email?.split('@')[0]}</span>
+                  <span className="font-semibold">{userFullName}</span>
                 </div>
                 
                 {/* Dropdown menu */}
@@ -205,13 +213,13 @@ const Header = () => {
               <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-600">
                 <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden border-2 border-[#FF8906]">
                   <img 
-                    src={user.picture || userIcon} 
+                    src={userPicture} 
                     alt="Profile" 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div>
-                  <p className="font-semibold">{user.name || user.email?.split('@')[0]}</p>
+                  <p className="font-semibold">{userFullName}</p>
                   <p className="text-sm text-gray-300">{user.email}</p>
                   {isAdmin && (
                     <span className="bg-[#FF8906] text-black px-2 py-0.5 rounded text-xs font-bold mt-1 inline-block">ADMIN</span>

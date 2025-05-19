@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { toast } from 'react-toastify';
 import constants from "../../configs/constant.js";
 import { authAction } from "../../redux/slices/auth.js";
+import { profileAction } from "../../redux/slices/profile.js"; // Add this import
 
 function AuthCallback() {
   const [searchParams] = useSearchParams();
@@ -38,6 +39,26 @@ function AuthCallback() {
             },
             isLogin: true
           }));
+          
+          // Fetch user profile after OAuth login
+          dispatch(profileAction.fetchProfileStart());
+          try {
+            const profileResponse = await fetch(`${constants.apiUrl}/profile`, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
+            
+            if (profileResponse.ok) {
+              const profileData = await profileResponse.json();
+              if (profileData.data) {
+                dispatch(profileAction.fetchProfileSuccess(profileData.data));
+              }
+            }
+          } catch (profileError) {
+            console.error("Profile fetch error:", profileError);
+            dispatch(profileAction.fetchProfileFailure("Failed to load profile"));
+          }
           
           // Also store in localStorage as backup
           localStorage.setItem("token", token);

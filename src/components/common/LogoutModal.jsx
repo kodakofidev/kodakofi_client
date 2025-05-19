@@ -1,18 +1,24 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { authAction } from "../../redux/slices/auth";
+import { profileAction } from "../../redux/slices/profile"; // Add this import
 import { toast } from "react-toastify";
 
-const LogoutModal = ({ isOpen, onClose }) => {
+const LogoutModal = ({ isOpen, onClose, onConfirm }) => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(authAction.logOut());
+    dispatch(profileAction.resetProfile()); // Clear profile data on logout
     localStorage.removeItem("token");
     localStorage.removeItem("userRole");
     toast.success("Successfully logged out");
-    onClose();
-    // You might want to redirect here if needed
+    
+    if (onConfirm) {
+      onConfirm();
+    } else {
+      onClose();
+    }
   };
 
   if (!isOpen) return null;
