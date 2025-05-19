@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import thumbsup from "../../assets/product-details/like.svg";
 import liked from "../../assets/product-details/liked.svg";
 import shoppingCart from "../../assets/product-details/shoppingCart.svg";
@@ -19,6 +19,7 @@ const [order, setOrder] = useState(null);
 const [error, setError] = useState({
   qty: "",
 });
+const navigate = useNavigate()
 
 useEffect(() => {
   const fetchProduct = async () => {
@@ -28,10 +29,6 @@ useEffect(() => {
 
       const productDetail = data.data.detail
       const recommendProduct = data.data.recommended
-
-      if (!productDetail.size) {
-        productDetail.size = ["Regular", "Medium", "Large"];
-      }
       
       if (!productDetail.toping) {
         productDetail.toping = ["Hot", "Ice"];
@@ -122,6 +119,7 @@ const handleBuyProduct = () => {
     console.log(error.qty);
     return;
   }
+  navigate(`/checkout`)
   console.log(order);
 };
 
@@ -135,7 +133,7 @@ const handleAddToCart = () => {
         <div className="mb-4 shrink-0 basis-[500px]">
           <div className="mb-[27px] flex justify-center">
             <img
-              src={`${URL}${selectedImage}`}
+              src={`${URL}/public/product-image/${selectedImage}`}
               alt={product?.name}
               className="aspect-square max-md:w-[357px] md:w-[578px] lg:w-[580px]"
             />
@@ -144,7 +142,7 @@ const handleAddToCart = () => {
             {product?.images?.map((item, idx) => (
               <div key={idx} className="max-sm:snap-center max-sm:snap-always">
                 <img
-                  src={`${URL}${item}`}
+                  src={`${URL}/public/product-image/${item}`}
                   alt={product?.name}
                   onClick={() => setSelectedImage(item)}
                   className="max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px] aspect-square"
@@ -176,7 +174,7 @@ const handleAddToCart = () => {
                 <p className="text-xs text-[#D00000] line-through">
                   IDR {product.price.toLocaleString("id-ID")}
                 </p>
-                <p className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906]">
+                <p className="text-md lg:text-2xl leading-[100%] font-medium tracking-normal text-[#FF8906]">
                   IDR {(
                     product.price -
                     product.price * product.discount
@@ -184,7 +182,7 @@ const handleAddToCart = () => {
                 </p>
               </>
             ) : (
-              <span className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906]">
+              <span className="text-md leading-[100%] font-medium lg:text-2xl tracking-normal text-[#FF8906]">
                 IDR {product?.price.toLocaleString("id-ID")}
               </span>
             )}
@@ -266,7 +264,8 @@ const handleAddToCart = () => {
             </button>
           </div>
 
-          <div>
+        {product?.category_id < 3 ? (
+          <>
             <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
               Choose Size
             </h3>
@@ -274,41 +273,46 @@ const handleAddToCart = () => {
               {product?.size?.map((item, idx) => (
                 <button
                   key={idx}
-                  onClick={() => setOrder((prev) => ({ ...prev, size: item }))}
+                  onClick={() => setOrder((prev) => ({ ...prev, size: item.size }))}
                   className={`${
-                    order?.size === item
+                    order?.size === item.size
                       ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
                       : "border border-(--color-white) font-medium text-[#4F5665]"
                   } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:text-[#0B0909]`}
                 >
-                  {item}
+                  {item.size}
                 </button>
               ))}
             </div>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
-              Hot/Ice?
-            </h3>
-            <div className="mb-10 flex w-full flex-wrap gap-8 lg:mb-24">
-              {product?.toping?.map((item, index) => (
-                <button
-                  key={index}
-                  onClick={() =>
-                    setOrder((prev) => ({ ...prev, toping: item }))
-                  }
-                  className={`${
-                    order?.toping === item
-                      ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
-                      : "border border-(--color-white) font-medium text-[#4F5665]"
-                  } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:font-semibold hover:text-[#0B0909]`}
-                >
-                  {item}
-                </button>
-              ))}
+            <div>
+              <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
+                Hot/Ice?
+              </h3>
+              <div className="mb-10 flex w-full flex-wrap gap-8 lg:mb-24">
+                {product?.toping?.map((item, index) => (
+                  <button
+                    key={index}
+                    onClick={() =>
+                      setOrder((prev) => ({ ...prev, toping: item }))
+                    }
+                    className={`${
+                      order?.toping === item
+                        ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
+                        : "border border-(--color-white) font-medium text-[#4F5665]"
+                    } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:font-semibold hover:text-[#0B0909]`}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          </>
+          ) : (
+            <>
+              <div className="hidden"> </div>
+            </>
+          )
+        }
 
           <div className="w-full gap-5 md:flex">
             <button
