@@ -1,22 +1,29 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer, REGISTER, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import { combineReducers } from "redux";
-import authReducer from "./slices/auth";
+
+import { configureStore } from "@reduxjs/toolkit"
+import {
+  persistStore,
+  persistCombineReducers,
+  REGISTER,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+} from "redux-persist"
+import storage from "redux-persist/lib/storage"
+import AuthProvider from "./slices/auth"
+import constants from "../configs/constant"
+import ModalsReducer from "./slices/modalsAdmin";
 import profileReducer from "./slices/profile";
-import constants from "../configs/constant";
-
-const rootReducer = combineReducers({
-  auth: authReducer,
-  profile: profileReducer,
-});
-
 const persistConfig = {
   key: "kodakofi",
   storage
 };
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistCombineReducers(persistConfig, {
+  auth: AuthProvider,
+  modals: ModalsReducer,
+  profile: profileReducer,
+})
 
 const store = configureStore({
   reducer: persistedReducer,

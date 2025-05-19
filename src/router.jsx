@@ -10,6 +10,8 @@ import HistoryOrderPage from "./pages/orders/HistoryOrderPage";
 import ProductList from "./pages/product/ProductList";
 import ProductDetails from "./pages/product/ProductDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ProductListAdmin from "./pages/admin/ProductListAdmin";
+import OrdersAdmin from "./pages/admin/OrdersAdmin";
 
 const Router = () => {
   return (
@@ -32,12 +34,11 @@ const Router = () => {
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
         </Route>
-
-        {/* Admin Routes - require admin role */}
-        <Route element={<ProtectedRoute requiredRole="admin" />}>
-          <Route path="admin" element={<AdminLayouts />}>
-            {/* <Route index element={<Dashboard />}></Route> */}
-          </Route>
+        {/* Layouting Admin */}
+        <Route path="admin" element={<AdminLayouts />}>
+          <Route path="products" element={<ProductListAdmin />} />
+          <Route path="orders" element={<OrdersAdmin />}/>
+          {/* <Route index element={<Dashboard />}></Route> */}
         </Route>
       </Routes>
     </BrowserRouter>
