@@ -1,37 +1,47 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import thumbsup from "../../assets/product-details/like.svg";
 import liked from "../../assets/product-details/liked.svg";
 import shoppingCart from "../../assets/product-details/shoppingCart.svg";
 import prev from "../../assets/product-details/arrow-right.svg";
 import Card from "../../components/Card";
-export const URL = import.meta.env.VITE_API_URL;
 
 const ProductDetails = () => {
+  const URL = import.meta.env.VITE_API_URL;
   const { id } = useParams();
   console.log("product_id from useParams:", id);
 
   const [product, setProduct] = useState(null);
   const [isRecommended, setIsRecommended] = useState(false);
+  const [recomProduct, setRecomProduct] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [order, setOrder] = useState(null);
   const [error, setError] = useState({
     qty: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`${URL}/api/product/${id}`);
+        const res = await fetch(`${URL}/product/${id}`);
         const data = await res.json();
-        setProduct(data.data);
-        console.log("Debug data: ", data.data);
-        setSelectedImage(data.data?.images?.[0]);
-        console.log("Product images:", data.data.images[0]);
+
+        const productDetail = data.data.detail;
+        const recommendProduct = data.data.recommended;
+
+        if (!productDetail.toping) {
+          productDetail.toping = ["Hot", "Ice"];
+        }
+
+        setProduct(productDetail);
+        console.log("product: ", productDetail);
+        setRecomProduct(recommendProduct);
+        setSelectedImage(productDetail?.images?.[0] || null);
         setOrder({
-          id: data.data.id,
-          size: data.data?.size?.[0] || "",
-          toping: data.data?.toping?.[0] || "",
+          id: productDetail.id,
+          size: productDetail?.size?.[0] || "",
+          toping: productDetail?.toping?.[0] || "",
           qty: 1,
         });
       } catch (err) {
@@ -44,6 +54,7 @@ const ProductDetails = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 3;
+
   const allCards = [
     { id: 1, content: "Card 1" },
     { id: 2, content: "Card 2" },
@@ -54,35 +65,10 @@ const ProductDetails = () => {
     { id: 7, content: "Card 7" },
     { id: 8, content: "Card 8" },
     { id: 9, content: "Card 9" },
-    { id: 10, content: "Card 1" },
-    { id: 11, content: "Card 2" },
-    { id: 12, content: "Card 3" },
-    { id: 13, content: "Card 4" },
-    { id: 14, content: "Card 5" },
-    { id: 15, content: "Card 6" },
-    { id: 16, content: "Card 7" },
-    { id: 17, content: "Card 8" },
-    { id: 18, content: "Card 9" },
-    { id: 19, content: "Card 1" },
-    { id: 20, content: "Card 2" },
-    { id: 21, content: "Card 3" },
-    { id: 22, content: "Card 4" },
-    { id: 23, content: "Card 5" },
-    { id: 24, content: "Card 6" },
-    { id: 25, content: "Card 7" },
-    { id: 26, content: "Card 8" },
-    { id: 27, content: "Card 9" },
-    { id: 28, content: "Card 1" },
-    { id: 29, content: "Card 2" },
-    { id: 30, content: "Card 3" },
-    { id: 31, content: "Card 4" },
-    { id: 32, content: "Card 5" },
-    { id: 33, content: "Card 6" },
-    { id: 34, content: "Card 7" },
-    { id: 35, content: "Card 8" },
-    { id: 36, content: "Card 9" },
   ];
+
   const totalPages = Math.ceil(allCards.length / cardsPerPage);
+
   const getPaginationItems = () => {
     const pages = [];
     const maxVisible = 3;
@@ -112,10 +98,13 @@ const ProductDetails = () => {
     }
     return pages;
   };
+
   const getCurrentCards = () => {
-    const startIndex = (currentPage - 1) * cardsPerPage;
-    const endIndex = startIndex + cardsPerPage;
-    return allCards.slice(startIndex, endIndex);
+    // const startIndex = (currentPage - 1) * cardsPerPage;
+    // const endIndex = startIndex + cardsPerPage;
+    // return allCards.slice(startIndex, endIndex);
+    const startIndex = (currentPage - 1) * 3;
+    return recomProduct.slice(startIndex, startIndex + 3);
   };
 
   const handlePageChange = (page) => {
@@ -129,6 +118,7 @@ const ProductDetails = () => {
       console.log(error.qty);
       return;
     }
+    navigate(`/checkout`);
     console.log(order);
   };
 
@@ -142,7 +132,7 @@ const ProductDetails = () => {
         <div className="mb-4 shrink-0 basis-[500px]">
           <div className="mb-[27px] flex justify-center">
             <img
-              src={`${URL}${selectedImage}`}
+              src={`${URL}/public/product-image/${selectedImage}`}
               alt={product?.name}
               className="aspect-square max-md:w-[357px] md:w-[578px] lg:w-[580px]"
             />
@@ -151,10 +141,10 @@ const ProductDetails = () => {
             {product?.images?.map((item, idx) => (
               <div key={idx} className="max-sm:snap-center max-sm:snap-always">
                 <img
-                  src={`${URL}${item}`}
+                  src={`${URL}/public/product-image/${item}`}
                   alt={product?.name}
                   onClick={() => setSelectedImage(item)}
-                  className="cursor-pointer max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px]"
+                  className="aspect-square max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px]"
                 />
               </div>
             ))}
@@ -162,24 +152,40 @@ const ProductDetails = () => {
         </div>
 
         <div className="shrink-2">
-          <p className="mb-4 w-max rounded-3xl bg-[#D00000] p-[10px] leading-6 font-bold text-white uppercase max-md:-ml-4 max-sm:scale-75 max-sm:text-sm sm:scale-90 md:text-base">
-            {product?.discount?.name}
-          </p>
+          {product?.discount ? (
+            <>
+              <div className="font-lg absolute top-[10px] left-[10px] rounded-full bg-[#D00000] p-[10px] px-3 py-2 text-center font-bold text-white max-sm:text-[12px]">
+                {product.discount_name}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="hidden"></div>
+            </>
+          )}
 
           <h3 className="text-(-color-text-black) mb-4 text-4xl leading-[100%] font-medium max-sm:text-2xl">
             {product?.name}
           </h3>
           <div className="mb-4 flex items-center gap-3">
-            <span className="stricke text-[12px] text-[#D00000] line-through">
-              IDR {product?.price.toLocaleString("id-ID")}
-            </span>
-            <span className="text-[22px] leading-[100%] font-medium tracking-normal text-[#FF8906]">
-              IDR
-              {(
-                product?.price -
-                product?.price * product?.discount?.discount
-              ).toLocaleString("id-ID")}
-            </span>
+            {product?.discount ? (
+              <>
+                <p className="text-xs text-[#D00000] line-through">
+                  IDR {product.price.toLocaleString("id-ID")}
+                </p>
+                <p className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906] lg:text-2xl">
+                  IDR{" "}
+                  {(
+                    product.price -
+                    product.price * product.discount
+                  ).toLocaleString("id-ID")}
+                </p>
+              </>
+            ) : (
+              <span className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906] lg:text-2xl">
+                IDR {product?.price.toLocaleString("id-ID")}
+              </span>
+            )}
           </div>
           <div className="mb-4 flex items-center gap-4">
             <span className="text-lg leading-[100%] tracking-normal text-[#4F5665] max-sm:text-sm">
@@ -258,48 +264,56 @@ const ProductDetails = () => {
             </button>
           </div>
 
-          <div>
-            <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
-              Choose Size
-            </h3>
-            <div className="mb-4 flex w-full flex-wrap gap-8">
-              {product?.size?.map((item, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setOrder((prev) => ({ ...prev, size: item }))}
-                  className={`${
-                    order?.size === item
-                      ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
-                      : "border border-(--color-white) font-medium text-[#4F5665]"
-                  } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:text-[#0B0909]`}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
-              Hot/Ice?
-            </h3>
-            <div className="mb-10 flex w-full flex-wrap gap-8 lg:mb-24">
-              {product?.toping?.map((item, index) => (
-                <button
-                  key={index}
-                  onClick={() =>
-                    setOrder((prev) => ({ ...prev, toping: item }))
-                  }
-                  className={`${
-                    order?.toping === item
-                      ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
-                      : "border border-(--color-white) font-medium text-[#4F5665]"
-                  } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:font-semibold hover:text-[#0B0909]`}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </div>
+          {product?.category_id < 3 ? (
+            <>
+              <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
+                Choose Size
+              </h3>
+              <div className="mb-4 flex w-full flex-wrap gap-8">
+                {product?.size?.map((item, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() =>
+                      setOrder((prev) => ({ ...prev, size: item.size }))
+                    }
+                    className={`${
+                      order?.size === item.size
+                        ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
+                        : "border border-(--color-white) font-medium text-[#4F5665]"
+                    } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:text-[#0B0909]`}
+                  >
+                    {item.size}
+                  </button>
+                ))}
+              </div>
+              <div>
+                <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
+                  Hot/Ice?
+                </h3>
+                <div className="mb-10 flex w-full flex-wrap gap-8 lg:mb-24">
+                  {product?.toping?.map((item, index) => (
+                    <button
+                      key={index}
+                      onClick={() =>
+                        setOrder((prev) => ({ ...prev, toping: item }))
+                      }
+                      className={`${
+                        order?.toping === item
+                          ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
+                          : "border border-(--color-white) font-medium text-[#4F5665]"
+                      } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:font-semibold hover:text-[#0B0909]`}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="hidden"> </div>
+            </>
+          )}
 
           <div className="w-full gap-5 md:flex">
             <button
@@ -325,9 +339,9 @@ const ProductDetails = () => {
           <strong className="font-medium text-[#8E6447]"> For You</strong>
         </h3>
 
-        <div className="mt-4 flex min-h-[580px] w-full items-start justify-start gap-4 overflow-x-auto overflow-y-hidden px-4 py-2 max-sm:snap-x max-sm:snap-mandatory">
-          {getCurrentCards().map((card) => (
-            <Card key={card.id} />
+        <div className="ms:overflow-x-auto scrollbar-hide mt-4 flex min-h-[540px] snap-x justify-center gap-4 py-4 max-sm:overflow-y-hidden">
+          {getCurrentCards().map((product) => (
+            <Card key={product.id} product={product} />
           ))}
         </div>
 
