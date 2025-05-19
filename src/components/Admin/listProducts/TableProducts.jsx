@@ -26,7 +26,7 @@ export default function TableProducts({data}) {
 
   return (
     <>
-    <section className="overflow-x-scroll pt-12 md:pr-7 lg:pr-3 xl:pr-18">
+    <section className="overflow-x-scroll overflow-y-hidden h-full pt-12 md:pr-7 lg:pr-3 xl:pr-18">
           <table className="table-auto min-w-5xl select-none w-full border-separate border-spacing-y-3">
             <thead>
               <tr>

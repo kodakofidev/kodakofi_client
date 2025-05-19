@@ -53,7 +53,7 @@ export default function AddProductAdmin() {
     console.log(images);
   return (
     <>
-        <form onSubmit={submitHandler} className={`z-10 p-8 absolute top-16 left-0 right-0 bottom-0 bg-[#fff]  ${addProduct ? "translate-x-0" : "translate-x-[100%]"} transition duration-300  md:w-1/2 md:left-1/2 md:rigth-0 md:p-4 md:shadow-lg`}>
+        <form onSubmit={submitHandler} className={`h-full overflow-y-hidden p-8 absolute top-16 left-0 right-0 bottom-0 bg-[#fff]  ${addProduct ? "translate-x-0" : "translate-x-[100%]"} transition duration-300  md:w-1/2 md:left-1/2 md:rigth-0 md:p-4 md:shadow-lg`}>
             <div className="flex justify-between items-center">
                 <h1 className='text-2xl font-semibold'>Add Product</h1>
                 <img src={Close} alt="close" className="cursor-pointer" onClick={(() => {
