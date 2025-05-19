@@ -14,6 +14,10 @@ const modalSlice = createSlice({
         },
         toggleModalEditProduct: (state) => {
             state.editProduct = !state.editProduct;
+        },
+        closeAllModal: (state) => {
+            state.addProduct = false;
+            state.editProduct = false;
         }
     }
 });

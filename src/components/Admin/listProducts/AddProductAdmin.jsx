@@ -33,7 +33,9 @@ export default function AddProductAdmin() {
         const price = e.target.price.value;
         const category = e.target.category.value;
         const description = e.target.description.value;
-        const size = e.target.size.checked;
+        const sizes = Array.from(e.target.elements.size)
+        .filter(input => input.checked)
+        .map(input => input.value);
         const stock = e.target.stock.value;
 
         console.log({
@@ -42,7 +44,7 @@ export default function AddProductAdmin() {
             price,
             category,
             description,
-            size,
+            sizes,
             stock,
         })
 

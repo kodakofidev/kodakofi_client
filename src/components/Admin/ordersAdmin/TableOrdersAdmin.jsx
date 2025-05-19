@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import RowListProduct from "../../../components/Admin/listProducts/RowListProduct";
-import PaginationProductListAdmin from './PaginationProductListAdmin';
+import PaginationOrdersAdmin from './PaginationOrdersAdmin';
+import RowListOrdersAdmin from './RowListOrdersAdmin';
 import { modalAction } from '../../../redux/slices/modalsAdmin';
 import { useDispatch } from "react-redux";
 
-export default function TableProducts({data}) {
+export default function TableOrdersAdmin({data}) {
     const dispatch = useDispatch();
+
 
     const [page, setPage] = useState(1);
     const [start, setStart] = useState(0);
@@ -23,6 +24,7 @@ export default function TableProducts({data}) {
 
     let pagination = 0;
     pagination += Math.ceil(data.length / 5);
+
 
   return (
     <>
@@ -45,7 +47,7 @@ export default function TableProducts({data}) {
             </thead>
             <tbody>
                 {products.map((product, index) => (
-                    <RowListProduct id={product.id} description={product.description} method={product.deliveryMethods} price={product.price} productName={product.name} productSize={product.sizes} stock={product.stock} key={index}/>
+                    <RowListOrdersAdmin id={product.id} description={product.description} method={product.method} price={product.price} productName={product.name} productSize={product.sizes} stock={product.stock} key={index} dispatch={dispatch} modalAction={modalAction}/>
                 ))}
             </tbody>
           </table>
@@ -70,7 +72,7 @@ export default function TableProducts({data}) {
                     {(() => {
                         const elPage = []
                         for (let idx = 0; idx < pagination - 6; idx++) {
-                            elPage.push(<PaginationProductListAdmin key={idx + 1 + more} id={idx + 1 + more} setPage={setPage} checked={checked} setChecked={setChecked}/>)
+                            elPage.push(<PaginationOrdersAdmin key={idx + 1 + more} id={idx + 1 + more} setPage={setPage} checked={checked} setChecked={setChecked}/>)
                         }
                         return elPage
                     })()}

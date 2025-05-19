@@ -10,6 +10,7 @@ import ProfilePage from "./pages/ProfilePage";
 import HistoryOrderPage from "./pages/orders/HistoryOrderPage";
 import ProductList from "./pages/product/ProductList";
 import ProductListAdmin from "./pages/admin/ProductListAdmin";
+import OrdersAdmin from "./pages/admin/OrdersAdmin";
 
 const Router = () => {
   return (
@@ -30,7 +31,8 @@ const Router = () => {
         </Route>
         {/* Layouting Admin */}
         <Route path="admin" element={<AdminLayouts />}>
-        <Route path="products" element={<ProductListAdmin />} />
+          <Route path="products" element={<ProductListAdmin />} />
+          <Route path="orders" element={<OrdersAdmin />}/>
           {/* <Route index element={<Dashboard />}></Route> */}
         </Route>
       </Routes>

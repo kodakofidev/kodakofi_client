@@ -13,7 +13,7 @@ export default function HeadProductList() {
             <h1 className="text-brown text-2xl font-semibold">Product List</h1>
             <button
                 onClick={(() => {
-                    dispatch(modalAction.toggleModalEditProduct())
+                    dispatch(modalAction.toggleModalAddProduct())
                 })}
                 type="button"
                 className="text-sm font-semibold px-2 py-2 bg-orange rounded-md hover:scale-[1.01] active:scale-[1] cursor-pointer transition"

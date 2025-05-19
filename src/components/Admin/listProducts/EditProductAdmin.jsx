@@ -9,7 +9,7 @@ import InputProductAdmin from './InputProductAdmin'
 export default function EditProductAdmin() {
     const [images, setImages] = useState([]);
     const [previewUrls, setPreviewUrls] = useState([]);
-    const {editProduct} = useSelector((state) => state.modals);
+    const {addProduct} = useSelector((state) => state.modals);
 
     const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ export default function EditProductAdmin() {
         const price = e.target.price.value;
         const category = e.target.category.value;
         const description = e.target.description.value;
-        const sizes = Array.from(e.target.elements.sizes)
+        const sizes = Array.from(e.target.elements.size)
         .filter(input => input.checked)
         .map(input => input.value);
         const stock = e.target.stock.value;
@@ -50,10 +50,9 @@ export default function EditProductAdmin() {
 
     }
 
-    console.log(images);
   return (
     <>
-        <form onSubmit={submitHandler} className={`z-10 p-8 absolute top-16 left-0 right-0 bottom-0 bg-[#fff]  ${editProduct ? "translate-x-0" : "translate-x-[100%]"} transition duration-300  md:w-1/2 md:left-1/2 md:rigth-0 md:p-4 md:shadow-lg`}>
+        <form onSubmit={submitHandler} className={`z-10 p-8 absolute top-16 left-0 right-0 bottom-0 bg-[#fff]  ${addProduct ? "translate-x-0" : "translate-x-[100%]"} transition duration-300  md:w-1/2 md:left-1/2 md:rigth-0 md:p-4 md:shadow-lg`}>
             <div className="flex justify-between items-center">
                 <h1 className='text-2xl font-semibold'>Edit Product</h1>
                 <img src={Close} alt="close" className="cursor-pointer" onClick={(() => {
@@ -96,24 +95,20 @@ export default function EditProductAdmin() {
                 <label htmlFor="size">Product Size</label>
                 <div className='flex gap-2 flex-wrap'>
                     <div>
-                        <input type="checkbox" name="sizes" id="regular" className='peer' value={"1"} hidden />
+                        <input type="checkbox" name="size" id="regular" className='peer' value={"1"} hidden />
                         <label htmlFor="regular" className='block py-1.5 px-4 rounded-lg border-2 border-gray-300 peer-checked:border-orange cursor-pointer'>R</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="sizes" id="large" className='peer' value={"2"} hidden />
-                        <label htmlFor="large" className='block py-1.5 px-4 rounded-lg border-2 border-gray-300 peer-checked:border-orange cursor-pointer'>L</label>
+                        <input type="checkbox" name="size" id="large" className='peer' value={"2"} hidden />
+                        <label htmlFor="large" className='block py-1.5 px-4 rounded-lg border-2 border-gray-300 peer-checked:border-orange cursor-pointer'>M</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="sizes" id="extraLarge" className='peer' value={"3"} hidden />
-                        <label htmlFor="extraLarge" className='block py-1.5 px-4 rounded-lg border-2 border-gray-300 peer-checked:border-orange cursor-pointer'>XL</label>
+                        <input type="checkbox" name="size" id="extraLarge" className='peer' value={"3"} hidden />
+                        <label htmlFor="extraLarge" className='block py-1.5 px-4 rounded-lg border-2 border-gray-300 peer-checked:border-orange cursor-pointer'>L</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="sizes" id="250gr" className='peer' value={"4"} hidden />
-                        <label htmlFor="250gr" className='block py-1.5 px-4 rounded-lg border-2 border-gray-300 peer-checked:border-orange cursor-pointer'>250 gr</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" name="sizes" id="500gr" className='peer' value={"5"} hidden />
-                        <label htmlFor="500gr" className='block py-1.5 px-4 rounded-lg border-2 border-gray-300 peer-checked:border-orange cursor-pointer'>500 gr</label>
+                        <input type="checkbox" name="size" id="250gr" className='peer' value={"4"} hidden />
+                        <label htmlFor="250gr" className='block py-1.5 px-4 rounded-lg border-2 border-gray-300 peer-checked:border-orange cursor-pointer'>Not Drink</label>
                     </div>
                 </div>
             </div>
