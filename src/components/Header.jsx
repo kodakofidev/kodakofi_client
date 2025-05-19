@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authAction } from "../redux/slices/auth";
+import { profileAction } from "../redux/slices/profile"; // Add this import
 import iconCoffee from "../assets/icon/coffee.svg";
 import cartLogo from "../assets/icon/cart.svg";
 import searchLogo from "../assets/icon/search.svg";
@@ -35,6 +36,7 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(authAction.logOut());
+    dispatch(profileAction.resetProfile()); // Clear profile data on logout
     setIsDropdownOpen(false);
     setIsLogoutModalOpen(false);
     // Navigate to home page if needed
