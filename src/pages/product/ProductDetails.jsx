@@ -1,134 +1,147 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useParams, useNavigate } from "react-router";
 import thumbsup from "../../assets/product-details/like.svg";
 import liked from "../../assets/product-details/liked.svg";
 import shoppingCart from "../../assets/product-details/shoppingCart.svg";
 import prev from "../../assets/product-details/arrow-right.svg";
 import Card from "../../components/Card";
+import { addOrder } from "../../redux/slices/orderSlice";
+import { useDispatch } from "react-redux";
 
 const ProductDetails = () => {
-  const URL = import.meta.env.VITE_API_URL
-  const {id} = useParams()
-  console.log("product_id from useParams:", id)
+  const URL = import.meta.env.VITE_API_URL;
+  const { id } = useParams();
+  console.log("product_id from useParams:", id);
+  const dispatch = useDispatch();
+  const [product, setProduct] = useState(null);
+  const [isRecommended, setIsRecommended] = useState(false);
+  const [recomProduct, setRecomProduct] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [sizeId, setSizeId] = useState(4);
+  const [order, setOrder] = useState(null);
+  const [isIced, setIsIced] = useState(false);
+  const [error, setError] = useState({
+    qty: "",
+  });
+  const navigate = useNavigate();
+  console.log(order, "ini order");
 
-const [product, setProduct] = useState(null)
-const [isRecommended, setIsRecommended] = useState(false);
-const [recomProduct, setRecomProduct] = useState([])
-const [selectedImage, setSelectedImage] = useState(null);
-const [order, setOrder] = useState(null);
-const [error, setError] = useState({
-  qty: "",
-});
-const navigate = useNavigate()
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`${URL}/product/${id}`);
+        const data = await res.json();
+        const productDetail = data.data.detail;
+        const recommendProduct = data.data.recommended;
 
-useEffect(() => {
-  const fetchProduct = async () => {
-    try {
-      const res = await fetch(`${URL}/product/${id}`)
-      const data = await res.json()
+        if (!productDetail.toping) {
+          productDetail.toping = ["Hot", "Ice"];
+        }
 
-      const productDetail = data.data.detail
-      const recommendProduct = data.data.recommended
-      
-      if (!productDetail.toping) {
-        productDetail.toping = ["Hot", "Ice"];
+        setProduct(productDetail);
+        console.log("product: ", productDetail);
+        setRecomProduct(recommendProduct);
+        setSelectedImage(productDetail?.images?.[0] || null);
+
+        setOrder({
+          id: productDetail.id,
+          image: productDetail?.images?.[0],
+          size: productDetail?.size?.[0] || "",
+          toping: productDetail?.toping?.[0] || "",
+          qty: 1,
+          size_id: sizeId,
+          price: productDetail?.discount
+            ? productDetail?.price -
+              productDetail?.price * productDetail?.discount
+            : productDetail?.price,
+          is_iced: isIced,
+          pricebefore: productDetail?.price,
+        });
+      } catch (err) {
+        console.error("Failed to fetch product:", err);
       }
+    };
 
-      setProduct(productDetail)
-      console.log("product: ", productDetail)
-      setRecomProduct(recommendProduct)
-      setSelectedImage(productDetail?.images?.[0] || null)
-      setOrder({
-        id: productDetail.id,
-        size: productDetail?.size?.[0] || "",
-        toping: productDetail?.toping?.[0] || "",
-        qty: 1
-      })
+    fetchProduct();
+  }, [id]);
 
-    } catch (err) {
-      console.error("Failed to fetch product:", err)
-    } 
-  }
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 3;
 
-  fetchProduct()
-}, [id])
+  const allCards = [
+    { id: 1, content: "Card 1" },
+    { id: 2, content: "Card 2" },
+    { id: 3, content: "Card 3" },
+    { id: 4, content: "Card 4" },
+    { id: 5, content: "Card 5" },
+    { id: 6, content: "Card 6" },
+    { id: 7, content: "Card 7" },
+    { id: 8, content: "Card 8" },
+    { id: 9, content: "Card 9" },
+  ];
 
-const [currentPage, setCurrentPage] = useState(1);
-const cardsPerPage = 3;
+  const totalPages = Math.ceil(allCards.length / cardsPerPage);
 
-const allCards = [
-  { id: 1, content: "Card 1" },
-  { id: 2, content: "Card 2" },
-  { id: 3, content: "Card 3" },
-  { id: 4, content: "Card 4" },
-  { id: 5, content: "Card 5" },
-  { id: 6, content: "Card 6" },
-  { id: 7, content: "Card 7" },
-  { id: 8, content: "Card 8" },
-  { id: 9, content: "Card 9" },
-]
-
-const totalPages = Math.ceil(allCards.length / cardsPerPage);
-
-const getPaginationItems = () => {
-  const pages = [];
-  const maxVisible = 3;
-  const halfVisible = Math.floor(maxVisible / 2);
-  pages.push(1);
-  if (currentPage - halfVisible > 2) {
-    pages.push("...");
-  }
-  let start = Math.max(2, currentPage - halfVisible);
-  let end = Math.min(totalPages - 1, currentPage + halfVisible);
-  if (currentPage <= halfVisible + 1) {
-    end = Math.min(maxVisible, totalPages - 1);
-  }
-  if (currentPage >= totalPages - halfVisible) {
-    start = Math.max(2, totalPages - maxVisible + 1);
-  }
-  for (let i = start; i <= end; i++) {
-    if (i > 1 && i < totalPages) {
-      pages.push(i);
+  const getPaginationItems = () => {
+    const pages = [];
+    const maxVisible = 3;
+    const halfVisible = Math.floor(maxVisible / 2);
+    pages.push(1);
+    if (currentPage - halfVisible > 2) {
+      pages.push("...");
     }
-  }
-  if (currentPage + halfVisible < totalPages - 1) {
-    pages.push("...");
-  }
-  if (totalPages > 1) {
-    pages.push(totalPages);
-  }
-  return pages;
-};
+    let start = Math.max(2, currentPage - halfVisible);
+    let end = Math.min(totalPages - 1, currentPage + halfVisible);
+    if (currentPage <= halfVisible + 1) {
+      end = Math.min(maxVisible, totalPages - 1);
+    }
+    if (currentPage >= totalPages - halfVisible) {
+      start = Math.max(2, totalPages - maxVisible + 1);
+    }
+    for (let i = start; i <= end; i++) {
+      if (i > 1 && i < totalPages) {
+        pages.push(i);
+      }
+    }
+    if (currentPage + halfVisible < totalPages - 1) {
+      pages.push("...");
+    }
+    if (totalPages > 1) {
+      pages.push(totalPages);
+    }
+    return pages;
+  };
 
-const getCurrentCards = () => {
-  // const startIndex = (currentPage - 1) * cardsPerPage;
-  // const endIndex = startIndex + cardsPerPage;
-  // return allCards.slice(startIndex, endIndex);
-  const startIndex = (currentPage - 1) * 3;
-  return recomProduct.slice(startIndex, startIndex + 3);
-};
+  const getCurrentCards = () => {
+    // const startIndex = (currentPage - 1) * cardsPerPage;
+    // const endIndex = startIndex + cardsPerPage;
+    // return allCards.slice(startIndex, endIndex);
+    const startIndex = (currentPage - 1) * 3;
+    return recomProduct.slice(startIndex, startIndex + 3);
+  };
 
-const handlePageChange = (page) => {
-  if (page >= 1 && page <= totalPages) {
-    setCurrentPage(page);
-  }
-};
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
-const handleBuyProduct = () => {
-  if (order.qty > product.stock) {
-    console.log(error.qty);
-    return;
-  }
-  navigate(`/checkout`)
-  console.log(order);
-};
+  const handleBuyProduct = () => {
+    if (order.qty > product.stock) {
+      console.log(error.qty);
+      return;
+    }
+    dispatch(addOrder(order));
+    navigate(`/checkout`);
+    console.log(order);
+  };
 
-const handleAddToCart = () => {
-  console.log(order);
-};
+  const handleAddToCart = () => {
+    dispatch(addOrder(order));
+  };
 
   return (
-    <main className="mt-20 px-4 md:mt-25 md:px-12 lg:mx-auto lg:px-8 xl:px-24">
+    <main className="mt-20 max-w-[1440px] px-4 md:mt-25 md:px-12 lg:mx-auto lg:px-8 xl:px-24">
       <section className="mb-[55px] gap-5 lg:flex">
         <div className="mb-4 shrink-0 basis-[500px]">
           <div className="mb-[27px] flex justify-center">
@@ -145,7 +158,7 @@ const handleAddToCart = () => {
                   src={`${URL}/public/product-image/${item}`}
                   alt={product?.name}
                   onClick={() => setSelectedImage(item)}
-                  className="max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px] aspect-square"
+                  className="aspect-square max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px]"
                 />
               </div>
             ))}
@@ -174,15 +187,16 @@ const handleAddToCart = () => {
                 <p className="text-xs text-[#D00000] line-through">
                   IDR {product.price.toLocaleString("id-ID")}
                 </p>
-                <p className="text-md lg:text-2xl leading-[100%] font-medium tracking-normal text-[#FF8906]">
-                  IDR {(
+                <p className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906] lg:text-2xl">
+                  IDR{" "}
+                  {(
                     product.price -
                     product.price * product.discount
                   ).toLocaleString("id-ID")}
                 </p>
               </>
             ) : (
-              <span className="text-md leading-[100%] font-medium lg:text-2xl tracking-normal text-[#FF8906]">
+              <span className="text-md leading-[100%] font-medium tracking-normal text-[#FF8906] lg:text-2xl">
                 IDR {product?.price.toLocaleString("id-ID")}
               </span>
             )}
@@ -264,55 +278,69 @@ const handleAddToCart = () => {
             </button>
           </div>
 
-        {product?.category_id < 3 ? (
-          <>
-            <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
-              Choose Size
-            </h3>
-            <div className="mb-4 flex w-full flex-wrap gap-8">
-              {product?.size?.map((item, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setOrder((prev) => ({ ...prev, size: item.size }))}
-                  className={`${
-                    order?.size === item.size
-                      ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
-                      : "border border-(--color-white) font-medium text-[#4F5665]"
-                  } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:text-[#0B0909]`}
-                >
-                  {item.size}
-                </button>
-              ))}
-            </div>
-            <div>
+          {product?.category_id < 3 ? (
+            <>
               <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
-                Hot/Ice?
+                Choose Size
               </h3>
-              <div className="mb-10 flex w-full flex-wrap gap-8 lg:mb-24">
-                {product?.toping?.map((item, index) => (
-                  <button
-                    key={index}
-                    onClick={() =>
-                      setOrder((prev) => ({ ...prev, toping: item }))
-                    }
-                    className={`${
-                      order?.toping === item
-                        ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
-                        : "border border-(--color-white) font-medium text-[#4F5665]"
-                    } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:font-semibold hover:text-[#0B0909]`}
-                  >
-                    {item}
-                  </button>
-                ))}
+              {product.category_id < 3 ? (
+                <div className="mb-4 flex w-full flex-wrap gap-8">
+                  {product?.sizes?.map((item, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() =>
+                        setOrder((prev) => ({
+                          ...prev,
+                          size: item.size,
+                          size_id: item.id,
+                        }))
+                      }
+                      className={`${
+                        order?.size === item.size
+                          ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
+                          : "border border-(--color-white) font-medium text-[#4F5665]"
+                      } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:text-[#0B0909]`}
+                    >
+                      {item.size}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <></>
+              )}
+
+              <div>
+                <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
+                  Hot/Ice?
+                </h3>
+                <div className="mb-10 flex w-full flex-wrap gap-8 lg:mb-24">
+                  {product?.toping?.map((item, index) => (
+                    <button
+                      key={index}
+                      onClick={() =>
+                        setOrder((prev) => ({
+                          ...prev,
+                          toping: item,
+                          is_iced: item === "Ice" ? true : false,
+                        }))
+                      }
+                      className={`${
+                        order?.toping === item
+                          ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
+                          : "border border-(--color-white) font-medium text-[#4F5665]"
+                      } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:font-semibold hover:text-[#0B0909]`}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          </>
+            </>
           ) : (
             <>
               <div className="hidden"> </div>
             </>
-          )
-        }
+          )}
 
           <div className="w-full gap-5 md:flex">
             <button

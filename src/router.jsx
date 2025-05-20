@@ -26,7 +26,7 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          
+
           {/* Protected Routes - require login */}
           <Route element={<ProtectedRoute />}>
             <Route path="/history" element={<HistoryOrderPage />} />
@@ -37,7 +37,7 @@ const Router = () => {
         {/* Layouting Admin */}
         <Route path="admin" element={<AdminLayouts />}>
           <Route path="products" element={<ProductListAdmin />} />
-          <Route path="orders" element={<OrdersAdmin />}/>
+          <Route path="orders" element={<OrdersAdmin />} />
           {/* <Route index element={<Dashboard />}></Route> */}
         </Route>
       </Routes>
