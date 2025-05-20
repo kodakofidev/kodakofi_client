@@ -1,21 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useParams, useNavigate } from "react-router";
 import thumbsup from "../../assets/product-details/like.svg";
 import liked from "../../assets/product-details/liked.svg";
 import shoppingCart from "../../assets/product-details/shoppingCart.svg";
 import prev from "../../assets/product-details/arrow-right.svg";
 import Card from "../../components/Card";
+import { addOrder } from "../../redux/slices/orderSlice";
+import { useDispatch } from "react-redux";
 
 const ProductDetails = () => {
   const URL = import.meta.env.VITE_API_URL;
   const { id } = useParams();
   console.log("product_id from useParams:", id);
-
+  const dispatch = useDispatch();
   const [product, setProduct] = useState(null);
   const [isRecommended, setIsRecommended] = useState(false);
   const [recomProduct, setRecomProduct] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [sizeId, setSizeId] = useState(4);
+  console.log(product);
   const [order, setOrder] = useState(null);
+  console.log("ini order 1", order);
+
   const [error, setError] = useState({
     qty: "",
   });
@@ -26,7 +32,7 @@ const ProductDetails = () => {
       try {
         const res = await fetch(`${URL}/product/${id}`);
         const data = await res.json();
-
+        console.log(data, "ini data");
         const productDetail = data.data.detail;
         const recommendProduct = data.data.recommended;
 
@@ -40,9 +46,16 @@ const ProductDetails = () => {
         setSelectedImage(productDetail?.images?.[0] || null);
         setOrder({
           id: productDetail.id,
+          image: productDetail?.images?.[0],
           size: productDetail?.size?.[0] || "",
           toping: productDetail?.toping?.[0] || "",
           qty: 1,
+          size_id: sizeId,
+          price:
+            productDetail?.price -
+            productDetail?.price * productDetail?.discount,
+          is_iced: false,
+          pricebefore: productDetail?.price,
         });
       } catch (err) {
         console.error("Failed to fetch product:", err);
@@ -118,12 +131,13 @@ const ProductDetails = () => {
       console.log(error.qty);
       return;
     }
+    dispatch(addOrder(order));
     navigate(`/checkout`);
     console.log(order);
   };
 
   const handleAddToCart = () => {
-    console.log(order);
+    dispatch(addOrder(order));
   };
 
   return (
@@ -269,23 +283,28 @@ const ProductDetails = () => {
               <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
                 Choose Size
               </h3>
-              <div className="mb-4 flex w-full flex-wrap gap-8">
-                {product?.size?.map((item, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() =>
-                      setOrder((prev) => ({ ...prev, size: item.size }))
-                    }
-                    className={`${
-                      order?.size === item.size
-                        ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
-                        : "border border-(--color-white) font-medium text-[#4F5665]"
-                    } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:text-[#0B0909]`}
-                  >
-                    {item.size}
-                  </button>
-                ))}
-              </div>
+              {product.category_id < 3 ? (
+                <div className="mb-4 flex w-full flex-wrap gap-8">
+                  {product?.sizes?.map((item, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() =>
+                        setOrder((prev) => ({ ...prev, size: item.size }))
+                      }
+                      className={`${
+                        order?.size === item.size
+                          ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
+                          : "border border-(--color-white) font-medium text-[#4F5665]"
+                      } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:text-[#0B0909]`}
+                    >
+                      {item.size}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <></>
+              )}
+
               <div>
                 <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
                   Hot/Ice?
@@ -295,7 +314,11 @@ const ProductDetails = () => {
                     <button
                       key={index}
                       onClick={() =>
-                        setOrder((prev) => ({ ...prev, toping: item }))
+                        setOrder((prev) => ({
+                          ...prev,
+                          toping: item,
+                          is_iced: item === "Ice" ? true : false,
+                        }))
                       }
                       className={`${
                         order?.toping === item
