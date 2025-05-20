@@ -6,8 +6,12 @@ import phoneIcon from "/icons/phoneCall.svg";
 import addressIcon from "/icons/location.svg";
 import eyeslash from "/icons/EyeSlash.svg";
 import eye from "/icons/eye.svg";
+import { useSelector } from "react-redux";
 
 function ProfilePage() {
+  const auth = useSelector((state)=>state.auth.user)
+
+  console.log(auth)
   const [profileData, setProfileData] = useState({
     fullname: "",
     phone: "",
@@ -42,12 +46,14 @@ function ProfilePage() {
     address: "",
   });
 
+  
+
   // Fetch profile data
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNDM0YjVlYTMtYzUwYS00MGY0LTk3ZTctMjM2MDdlMWMxZDRlIiwiZW1haWwiOiJwZW5kcmFnb25rYWRvYzUxQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoia29kYSBrb2ZpIiwiZXhwIjoxNzQ3Njg5MjUxfQ.vhPvtfLBbpVdsHpDlN1C-txBQpQBNkyjnhuzZDW5EWo";
+        const token = auth.token
+          
         if (!token) {
           throw new Error("Authentication token not found");
         }
@@ -141,8 +147,8 @@ function ProfilePage() {
         alert("No changes detected");
         return;
       }
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNDM0YjVlYTMtYzUwYS00MGY0LTk3ZTctMjM2MDdlMWMxZDRlIiwiZW1haWwiOiJwZW5kcmFnb25rYWRvYzUxQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoia29kYSBrb2ZpIiwiZXhwIjoxNzQ3Njc5OTUzfQ.wYtZqBHSNy4YweTgLNUTG_qfeboURFm-idWTjFQEv1A";
+      const token = auth.token
+
 
       const response = await fetch("http://localhost:8080/api/profile/edit", {
         method: "PATCH",
@@ -261,7 +267,8 @@ function ProfilePage() {
         alert("No changes detected");
         return;
       }
-      const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNDM0YjVlYTMtYzUwYS00MGY0LTk3ZTctMjM2MDdlMWMxZDRlIiwiZW1haWwiOiJwZW5kcmFnb25rYWRvYzUxQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoia29kYSBrb2ZpIiwiZXhwIjoxNzQ3Njg5MjUxfQ.vhPvtfLBbpVdsHpDlN1C-txBQpQBNkyjnhuzZDW5EWo"
+      const token = auth.token
+
       const response = await fetch("http://localhost:8080/api/profile/edit", {
         method: "PATCH",
         headers: {
@@ -313,6 +320,66 @@ function ProfilePage() {
       alert("New password must be different from current password");
       return;
     }
+
+    try {
+      const token = auth.token
+
+      const payload = {
+        currentPassword,
+        newPassword
+      };
+  
+        const response = await fetch("http://localhost:8080/api/profile/edit", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    // First check if response is OK
+    if (!response.ok) {
+      // Try to get error message from response
+      const errorText = await response.text();
+      try {
+        // If it's JSON, parse it
+        const errorData = JSON.parse(errorText);
+        throw new Error(errorData.message || "Failed to change password");
+      } catch {
+        // If not JSON, use the raw text
+        throw new Error(errorText || "Failed to change password");
+      }
+    }
+
+    // Try to parse successful response
+    try {
+      const result = await response.json();
+      console.log("Password changed successfully:", result);
+      
+      // Clear fields and close modal
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setIsModalOpen(false);
+      
+      alert("Password changed successfully!");
+    } catch (parseError) {
+      console.warn("Response wasn't JSON, but password change succeeded");
+      // Still treat as success if status was 200
+      if (response.ok) {
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        setIsModalOpen(false);
+        alert("Password changed successfully!");
+      }
+    }
+  } catch (error) {
+    console.error("Password change error:", error);
+    alert(error.message || "Failed to change password");
+  }
+
   };
   return (
     <main className="relative mb-28 h-fit px-4 md:px-12 lg:px-8 xl:px-24">
