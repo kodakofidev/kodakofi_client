@@ -15,318 +15,6 @@ export default function HistoryOrdersSection() {
   const [checkedStatus, setCheckedStatus] = useState("Pending");
   const [filterByDate, setFilterByDate] = useState(null);
 
-<<<<<<< HEAD
-  const orders = [
-    {
-      noOrder: "#12351-09893",
-      date: "2025-01-24",
-      total: 40.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12352-09893",
-      date: "2025-01-26",
-      total: 50.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12353-09893",
-      date: "2025-01-27",
-      total: 40.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12354-09893",
-      date: "2025-02-03",
-      total: 70.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12355-09893",
-      date: "2025-02-05",
-      total: 37.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12356-09893",
-      date: "2025-02-06",
-      total: 35.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12367-09893",
-      date: "2025-02-07",
-      total: 31.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12368-09893",
-      date: "2025-02-23",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123609-09893",
-      date: "2025-02-23",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123610-09893",
-      date: "2025-02-23",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123611-09893",
-      date: "2025-02-23",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123612-09893",
-      date: "2025-02-30",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123613-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123614-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123615-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123616-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123617-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123618-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123619-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123620-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123621-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123622-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123623-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123624-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123625-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123626-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123627-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123628-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123629-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123630-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123631-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123632-09893",
-      date: "2025-03-03",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123633-09893",
-      date: "2025-03-03",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123634-09893",
-      date: "2025-03-03",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123635-09893",
-      date: "2025-03-03",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123636-09893",
-      date: "2025-03-05",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123637-09893",
-      date: "2025-03-05",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123638-09893",
-      date: "2025-03-07",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123639-09893",
-      date: "2025-03-07",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123640-09893",
-      date: "2025-03-08",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123641-09893",
-      date: "2025-03-10",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123642-09893",
-      date: "2025-03-10",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123642-09893",
-      date: "2025-03-11",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123642-09893",
-      date: "2025-03-11",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123643-09893",
-      date: "2025-03-12",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123644-09893",
-      date: "2025-03-12",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123645-09893",
-      date: "2025-03-14",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123646-09893",
-      date: "2025-03-14",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123647-09893",
-      date: "2025-03-14",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123648-09893",
-      date: "2025-03-14",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123649-09893",
-      date: "2025-03-14",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-  ];
-  const dataOrders = orders.filter(
-    (order) => order.onProgress === checkedStatus,
-=======
   // const orders = [
   //   {
   //     noOrder: "#12351-09893",
@@ -638,14 +326,14 @@ export default function HistoryOrdersSection() {
 
   const [orders, setOrders] = useState([]);
   const auth = useSelector((state) => state.auth.user.token);
-  
+
   async function gethistory() {
     const option = {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${auth}`,
-          'Content-Type': 'application/json'
-      }
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${auth}`,
+        "Content-Type": "application/json",
+      },
     };
     try {
       const response = await fetch(`${constant.apiUrl}/order`, option);
@@ -653,23 +341,20 @@ export default function HistoryOrdersSection() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const result = await response.json();
-      setOrders(result.data); 
+      setOrders(result.data);
       console.log(result.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   }
 
   useEffect(() => {
     gethistory();
-  }, [])
+  }, []);
 
   console.log("data", orders);
 
-  const dataOrders = orders.filter(
-    (order) => order.status === checkedStatus
->>>>>>> b2223e33e03dec27dcce0b228b05c0e51c00e73d
-  );
+  const dataOrders = orders.filter((order) => order.status === checkedStatus);
   let totalPagination = 0;
   if (filterByDate === null) {
     const pagination = Math.ceil(dataOrders.length / 4);
