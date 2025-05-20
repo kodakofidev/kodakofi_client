@@ -18,21 +18,19 @@ const ProductDetails = () => {
   const [recomProduct, setRecomProduct] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [sizeId, setSizeId] = useState(4);
-  console.log(product);
   const [order, setOrder] = useState(null);
-  console.log("ini order 1", order);
-
+  const [isIced, setIsIced] = useState(false);
   const [error, setError] = useState({
     qty: "",
   });
   const navigate = useNavigate();
+  console.log(order, "ini order");
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const res = await fetch(`${URL}/product/${id}`);
         const data = await res.json();
-        console.log(data, "ini data");
         const productDetail = data.data.detail;
         const recommendProduct = data.data.recommended;
 
@@ -44,6 +42,7 @@ const ProductDetails = () => {
         console.log("product: ", productDetail);
         setRecomProduct(recommendProduct);
         setSelectedImage(productDetail?.images?.[0] || null);
+
         setOrder({
           id: productDetail.id,
           image: productDetail?.images?.[0],
@@ -51,10 +50,11 @@ const ProductDetails = () => {
           toping: productDetail?.toping?.[0] || "",
           qty: 1,
           size_id: sizeId,
-          price:
-            productDetail?.price -
-            productDetail?.price * productDetail?.discount,
-          is_iced: false,
+          price: productDetail?.discount
+            ? productDetail?.price -
+              productDetail?.price * productDetail?.discount
+            : productDetail?.price,
+          is_iced: isIced,
           pricebefore: productDetail?.price,
         });
       } catch (err) {
@@ -289,7 +289,11 @@ const ProductDetails = () => {
                     <button
                       key={idx}
                       onClick={() =>
-                        setOrder((prev) => ({ ...prev, size: item.size }))
+                        setOrder((prev) => ({
+                          ...prev,
+                          size: item.size,
+                          size_id: item.id,
+                        }))
                       }
                       className={`${
                         order?.size === item.size
