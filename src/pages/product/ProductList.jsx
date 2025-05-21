@@ -30,7 +30,7 @@ function ProductList() {
   useEffect(() => {
     const query = {
       page: currentPage,
-      search: filters.search,
+      search: filters.search.trim(),
       category: filters.category,
       options: filters.options,
     };
