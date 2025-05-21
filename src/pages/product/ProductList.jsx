@@ -78,7 +78,9 @@ function ProductList() {
         <div className="flex flex-row md:gap-[10px] lg:gap-[50px]">
           <Filter filters={filters} onFilterApply={handleFilterApply} />
           {loading ? (
-            <p>Loading products...</p>
+            <div className="flex justify-center items-center h-40 w-full">
+              <div className="loader"></div>
+            </div>
           ) : error ? (
             <p>Error: {error}</p>
           ) : (
