@@ -72,12 +72,14 @@ function ProfilePage() {
       const responseData = await response.json();
 
       // Transform the image path
-      const backendImagePath = responseData.data.image;
+      const backendImagePath = responseData.data.profileImage;
+      // console.log("[DEBUG", responseData.data.image)
       const fullImageUrl = backendImagePath
-        ? `http://localhost:8080/public/profile-image/${backendImagePath}`
+        ? `http://localhost:8080/${backendImagePath}`
         : profilePicture;
 
-      console.log(responseData);
+      console.log(responseData.data);
+      // console.log(`[DEBUG] http://localhost:8080/${backendImagePath}`)
 
       // console.log("[DEBUGGING]",responseData.data)
 
@@ -88,10 +90,11 @@ function ProfilePage() {
         address: responseData.data.address || "",
         email: responseData.data.email || "",
         image: fullImageUrl,
-        joinDate: responseData.data.created_at
-          ? new Date(responseData.data.created_at).toLocaleDateString()
+        joinDate: responseData.data.createdAt
+          ? new Date(responseData.data.createdAt).toLocaleDateString()
           : "Unknown date",
       });
+      console.log("[DEBUG] CREATED AT",responseData.data.createdAt)
 
       setFormData({
         fullname: responseData.data.fullname || "",
@@ -218,18 +221,24 @@ function ProfilePage() {
       const formData = new FormData();
       formData.append("profileImage", file);
       // formData.append("userId", "123");
+      const token = auth.token;
 
-      const response = await fetch("/api/profile/edit", {
+      const response = await fetch("http://localhost:8080/api/profile/edit", {
         method: "PATCH",
         body: formData,
+        headers: {          
+          Authorization: `Bearer ${token}`,
+        },        
       });
 
       if (!response.ok) {
         throw new Error(await response.text());
       }
 
-      const data = await response.json();
-      setProfileImage(data.imageUrl);
+      // const data = await response.json();
+      // setProfileImage(data.imageUrl);
+      await fetchProfileData();
+
       setIsProfilePicModalOpen(false);
     } catch (error) {
       console.error("Upload failed:", error);
@@ -398,13 +407,13 @@ function ProfilePage() {
       <section className="lg:flex lg:items-start lg:justify-between">
         {/* PROFILE PICTURE */}
         <div className="flex h-fit w-full flex-col items-center justify-center gap-3.75 rounded-lg border border-black/65 py-6.5 lg:w-1/4">
-          <p className="text-lg font-semibold lg:text-[22px]">
+          <p className="text-lg font-semibold lg:text-[22px] text-wrap text-center px-1.5">
             {profileData.fullname || "User"}
           </p>
-          <p className="lg:text-[16px]">{profileData.email}</p>
+          <p className="lg:text-[16px] px-4 text-wrap">{profileData.email}</p>
           <img
             src={profileData.image}
-            alt=""
+            alt="profile picture"
             onClick={() => setIsProfilePicModalOpen(true)}
             onError={(e) => {
               e.target.src = profilePicture;
@@ -421,7 +430,7 @@ function ProfilePage() {
             {isUploading ? "Uploading..." : "Upload New Photo"}
           </button>
           <p className="text-[14px]">
-            Since <span className="font-semibold">January 20 2022</span>
+            Since <span className="font-semibold">{profileData.joinDate}</span>
           </p>
         </div>
 
@@ -623,12 +632,12 @@ function ProfilePage() {
 
       {/* PROFILE PICTURE MODAL */}
       {isProfilePicModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div onClick={() => setIsProfilePicModalOpen(false)} className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6">
             {/* ... modal header ... */}
             <div className="flex flex-col items-center gap-4">
               <img
-                src={profileImage}
+                src={profileData.image}
                 alt="Profile Preview"
                 className="h-40 w-40 rounded-full object-cover"
               />
@@ -660,9 +669,10 @@ function ProfilePage() {
       {/* Hidden file input */}
       <input
         type="file"
+        
         ref={fileInputRef}
         onChange={handleImageUpload}
-        accept="image/*"
+        // accept="image/*"
         className="hidden"
       />
     </main>
