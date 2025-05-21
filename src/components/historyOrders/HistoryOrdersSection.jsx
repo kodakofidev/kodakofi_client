@@ -14,8 +14,6 @@ export default function HistoryOrdersSection() {
   const [checked, setChecked] = useState(1);
   const [checkedStatus, setCheckedStatus] = useState("Pending");
   const [filterByDate, setFilterByDate] = useState(null);
-  // const [filterByProgress, setFilterByProgress] = useState(null);
-  // const [orders, setOrders] = useState(null);
 
   // const orders = [
   //   {
@@ -328,14 +326,14 @@ export default function HistoryOrdersSection() {
 
   const [orders, setOrders] = useState([]);
   const auth = useSelector((state) => state.auth.user.token);
-  
+
   async function gethistory() {
     const option = {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${auth}`,
-          'Content-Type': 'application/json'
-      }
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${auth}`,
+        "Content-Type": "application/json",
+      },
     };
     try {
       const response = await fetch(`${constant.apiUrl}/order`, option);
@@ -343,23 +341,20 @@ export default function HistoryOrdersSection() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const result = await response.json();
-      setOrders(result.data); 
+      setOrders(result.data);
       console.log(result.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   }
 
   useEffect(() => {
     gethistory();
-  }, [])
+  }, []);
 
   console.log("data", orders);
 
-  const dataOrders = orders.filter(
-    (order) => order.status === checkedStatus
-  );
-
+  const dataOrders = orders.filter((order) => order.status === checkedStatus);
   let totalPagination = 0;
   if (filterByDate === null) {
     const pagination = Math.ceil(dataOrders.length / 4);
@@ -400,9 +395,9 @@ export default function HistoryOrdersSection() {
 
   return (
     <>
-      <section className="pt-6 lg:col-span-5 pb-8">
+      <section className="pt-6 pb-8 lg:col-span-5">
         <div className="grid grid-cols-5 gap-4">
-          <div className="grid grid-cols-3 gap-2 col-span-5 md:col-span-3 p-2 bg-gray-100">
+          <div className="col-span-5 grid grid-cols-3 gap-2 bg-gray-100 p-2 md:col-span-3">
             <RadioStatusOrder
               id="onProgress"
               name="status"
@@ -429,25 +424,25 @@ export default function HistoryOrdersSection() {
             onClick={clearFilterDate}
             className={`${
               !filterByDate ? "hidden" : "block"
-            } row-start-1 col-start-4 place-self-end md:-translate-x-5 col-span-2 md:row-start-2 md:col-start-5 cursor-pointer text-red-600 font-semibold text-nowrap`}
+            } col-span-2 col-start-4 row-start-1 cursor-pointer place-self-end font-semibold text-nowrap text-red-600 md:col-start-5 md:row-start-2 md:-translate-x-5`}
           >
             Clear filter date
           </h1>
-          <div className="grid col-span-2 row-start-1 md:col-start-4 md:col-span-2 md:place-content-end">
+          <div className="col-span-2 row-start-1 grid md:col-span-2 md:col-start-4 md:place-content-end">
             <div>
               <input
                 onChange={filterDate}
                 type="date"
                 name="historyDate"
                 id="historyDate"
-                className="py-4 px-3 bg-gray-100"
+                className="bg-gray-100 px-3 py-4"
               />
             </div>
           </div>
           <div className="col-span-5 grid gap-4">
             {ordersHistory.length === 0 ? (
               <>
-                <div className="flex items-center justify-center flex-col gap-2">
+                <div className="flex flex-col items-center justify-center gap-2">
                   <h1 className="text-3xl font-semibold">
                     History orders is empty :(
                   </h1>
@@ -504,8 +499,8 @@ export default function HistoryOrdersSection() {
               </>
             )}
           </div>
-          <div className="scale-[0.65] min-[400px]:scale-[0.85] min-[520px]:scale-[1] col-span-5 select-none">
-            <div className="w-full flex justify-center gap-4 pt-3">
+          <div className="col-span-5 scale-[0.65] select-none min-[400px]:scale-[0.85] min-[520px]:scale-[1]">
+            <div className="flex w-full justify-center gap-4 pt-3">
               {/* batas */}
               {(() => {
                 if (totalPagination > 3) {
@@ -529,9 +524,9 @@ export default function HistoryOrdersSection() {
                           }}
                           className={`${
                             more === 0
-                              ? "bg-gray-300 cursor-not-allowed"
+                              ? "cursor-not-allowed bg-gray-300"
                               : "bg-orange cursor-pointer"
-                          } h-10 w-10 rounded-full shadow-lg hover:scale-[1.03] active:scale-[1] transition flex justify-center items-center`}
+                          } flex h-10 w-10 items-center justify-center rounded-full shadow-lg transition hover:scale-[1.03] active:scale-[1]`}
                         >
                           <img src={Arrow} alt="icon" className="rotate-180" />
                         </div>
@@ -551,7 +546,7 @@ export default function HistoryOrdersSection() {
                             moreValue={1}
                           />
                           <div className="flex items-end">
-                            <div className="font-bold text-2xl">...</div>
+                            <div className="text-2xl font-bold">...</div>
                           </div>
                         </>
                       )}
@@ -575,7 +570,7 @@ export default function HistoryOrdersSection() {
                         key={idx}
                         setMore={setMore}
                         moreValue={idx + 1}
-                      />
+                      />,
                     );
                   }
                 }
@@ -590,7 +585,7 @@ export default function HistoryOrdersSection() {
                       ) : (
                         <>
                           <div className="flex items-end">
-                            <div className="font-bold text-2xl">...</div>
+                            <div className="text-2xl font-bold">...</div>
                           </div>
                           <PaginationHistoryOrder
                             id={totalPagination}
@@ -610,7 +605,7 @@ export default function HistoryOrdersSection() {
                             console.log(
                               "totalPagination",
                               totalPagination,
-                              more
+                              more,
                             );
                             if (
                               more + totalPagination <
@@ -633,9 +628,9 @@ export default function HistoryOrdersSection() {
                           }}
                           className={`${
                             more === totalPagination - 3
-                              ? "bg-gray-300 cursor-not-allowed"
+                              ? "cursor-not-allowed bg-gray-300"
                               : "bg-orange cursor-pointer"
-                          } h-10 w-10 rounded-full shadow-lg hover:scale-[1.03] active:scale-[1] transition flex justify-center items-center`}
+                          } flex h-10 w-10 items-center justify-center rounded-full shadow-lg transition hover:scale-[1.03] active:scale-[1]`}
                         >
                           <img src={Arrow} alt="icon" />
                         </div>

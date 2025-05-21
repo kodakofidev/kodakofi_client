@@ -27,7 +27,7 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          
+
           {/* Protected Routes - require login */}
           <Route element={<ProtectedRoute />}>
             <Route path="/history" element={<HistoryOrderPage />} />
