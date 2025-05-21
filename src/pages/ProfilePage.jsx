@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { toast } from "react-toastify";
 import profilePicture from "/profilepicture.webp";
 import profileIcon from "/icons/Profile.svg";
 import mail from "/icons/mail.svg";
@@ -9,9 +10,9 @@ import eye from "/icons/eye.svg";
 import { useSelector } from "react-redux";
 
 function ProfilePage() {
-  const auth = useSelector((state)=>state.auth.user)
+  const auth = useSelector((state) => state.auth.user);
 
-  console.log(auth)
+  // console.log(auth)
   const [profileData, setProfileData] = useState({
     fullname: "",
     phone: "",
@@ -19,6 +20,13 @@ function ProfilePage() {
     email: "",
     image: profilePicture,
     joinDate: "",
+  });
+
+  const [formData, setFormData] = useState({
+    fullname: "",
+    email: "",
+    phone: "",
+    address: "",
   });
 
   const [loading, setLoading] = useState(true);
@@ -39,67 +47,67 @@ function ProfilePage() {
   const [uploadError, setUploadError] = useState(null);
   const fileInputRef = useRef(null);
 
-  const [formData, setFormData] = useState({
-    fullname: "",
-    email: "",
-    phone: "",
-    address: "",
-  });
-
-  
-
   // Fetch profile data
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const token = auth.token
-          
-        if (!token) {
-          throw new Error("Authentication token not found");
-        }
 
-        const response = await fetch("http://localhost:8080/api/profile", {
-        method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+  const fetchProfileData = async () => {
+    try {
+      const token = auth.token;
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const reponsDdata = await response.json();
-
-        console.log("[DEBUGGING]",reponsDdata.data)
-
-        // Transform and set the data
-        setProfileData({
-          fullname: reponsDdata.data.fullname || "",
-          phone: reponsDdata.data.phone || "",
-          address: reponsDdata.data.address || "",
-          email: reponsDdata.data.email || "",
-          image: reponsDdata.data.image || profilePicture,
-          joinDate: reponsDdata.data.created_at
-            ? new Date(reponsDdata.data.created_at).toLocaleDateString()
-            : "Unknown date",
-        });
-
-        setFormData({
-          fullname: reponsDdata.data.fullname || "",
-          phone: reponsDdata.data.phone || "",
-          address: reponsDdata.data.address || "",
-          email: reponsDdata.data.email || "",
-        });
-      } catch (err) {
-        console.error("Failed to fetch profile:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      if (!token) {
+        throw new Error("Authentication token not found");
       }
-    };
 
+      const response = await fetch("http://localhost:8080/api/profile", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+
+      // Transform the image path
+      const backendImagePath = responseData.data.image;
+      const fullImageUrl = backendImagePath
+        ? `http://localhost:8080/public/profile-image/${backendImagePath}`
+        : profilePicture;
+
+      console.log(responseData);
+
+      // console.log("[DEBUGGING]",responseData.data)
+
+      // Transform and set the data
+      setProfileData({
+        fullname: responseData.data.fullname || "",
+        phone: responseData.data.phone || "",
+        address: responseData.data.address || "",
+        email: responseData.data.email || "",
+        image: fullImageUrl,
+        joinDate: responseData.data.created_at
+          ? new Date(responseData.data.created_at).toLocaleDateString()
+          : "Unknown date",
+      });
+
+      setFormData({
+        fullname: responseData.data.fullname || "",
+        phone: responseData.data.phone || "",
+        address: responseData.data.address || "",
+        email: responseData.data.email || "",
+      });
+    } catch (err) {
+      console.error("Failed to fetch profile:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchProfileData();
   }, []);
 
@@ -147,8 +155,7 @@ function ProfilePage() {
         alert("No changes detected");
         return;
       }
-      const token = auth.token
-
+      const token = auth.token;
 
       const response = await fetch("http://localhost:8080/api/profile/edit", {
         method: "PATCH",
@@ -248,7 +255,7 @@ function ProfilePage() {
     if (email.value && email.value.trim() !== "") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email.value)) {
-        alert("Please enter a valid email address");
+        toast.error("Please enter a valid email address");
         return;
       }
     }
@@ -264,10 +271,10 @@ function ProfilePage() {
 
       // If no fields were changed, exit early
       if (Object.keys(payload).length === 0) {
-        alert("No changes detected");
+        toast.error("No changes detected");
         return;
       }
-      const token = auth.token
+      const token = auth.token;
 
       const response = await fetch("http://localhost:8080/api/profile/edit", {
         method: "PATCH",
@@ -284,13 +291,16 @@ function ProfilePage() {
       }
 
       console.log("Profile updated successfully");
-      getData()
+      getData();
       setIsModalOpen(false);
       form.reset();
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
+
+      //RE-SET DATA
+      await fetchProfileData();
     } catch (error) {
       console.error("Error:", error);
-      alert("Failed to update profile: " + error.message);
+      toast.error("Failed to update profile: ");
     }
   };
 
@@ -299,87 +309,86 @@ function ProfilePage() {
 
     // Basic validation
     if (!currentPassword || !newPassword || !confirmPassword) {
-      alert("Please fill in all password fields");
+      toast.error("Please fill in all password fields");
       return;
     }
 
     // Check if new password meets requirements (min 8 chars)
     if (newPassword.length < 8) {
-      alert("New password must be at least 8 characters long");
+      toast.error("New password must be at least 8 characters long");
       return;
     }
 
     // Check if passwords match
     if (newPassword !== confirmPassword) {
-      alert("New passwords don't match");
+      toast.error("New passwords don't match");
       return;
     }
 
     // Check if new password is different from current
     if (currentPassword === newPassword) {
-      alert("New password must be different from current password");
+      toast.error("New password must be different from current password");
       return;
     }
 
     try {
-      const token = auth.token
+      const token = auth.token;
 
       const payload = {
         currentPassword,
-        newPassword
+        newPassword,
       };
-  
-        const response = await fetch("http://localhost:8080/api/profile/edit", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(payload),
-    });
 
-    // First check if response is OK
-    if (!response.ok) {
-      // Try to get error message from response
-      const errorText = await response.text();
-      try {
-        // If it's JSON, parse it
-        const errorData = JSON.parse(errorText);
-        throw new Error(errorData.message || "Failed to change password");
-      } catch {
-        // If not JSON, use the raw text
-        throw new Error(errorText || "Failed to change password");
+      const response = await fetch("http://localhost:8080/api/profile/edit", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      // First check if response is OK
+      if (!response.ok) {
+        // Try to get error message from response
+        const errorText = await response.text();
+        try {
+          // If it's JSON, parse it
+          const errorData = JSON.parse(errorText);
+          throw new Error(errorData.message || "Failed to change password");
+        } catch {
+          // If not JSON, use the raw text
+          throw new Error(errorText || "Failed to change password");
+        }
       }
-    }
 
-    // Try to parse successful response
-    try {
-      const result = await response.json();
-      console.log("Password changed successfully:", result);
-      
-      // Clear fields and close modal
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
-      setIsModalOpen(false);
-      
-      alert("Password changed successfully!");
-    } catch (parseError) {
-      console.warn("Response wasn't JSON, but password change succeeded");
-      // Still treat as success if status was 200
-      if (response.ok) {
+      // Try to parse successful response
+      try {
+        const result = await response.json();
+        console.log("Password changed successfully:", result);
+
+        // Clear fields and close modal
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
         setIsModalOpen(false);
-        alert("Password changed successfully!");
-      }
-    }
-  } catch (error) {
-    console.error("Password change error:", error);
-    alert(error.message || "Failed to change password");
-  }
 
+        toast.success("Password changed successfully!");
+      } catch (error) {
+        console.warn("Response wasn't JSON, but password change succeeded");
+        // Still treat as success if status was 200
+        if (response.ok) {
+          setCurrentPassword("");
+          setNewPassword("");
+          setConfirmPassword("");
+          setIsModalOpen(false);
+          toast.success("Password changed successfully!");
+        }
+      }
+    } catch (error) {
+      console.error("Password change error:", error);
+      toast.error("Failed to change password");
+    }
   };
   return (
     <main className="relative mb-28 h-fit px-4 md:px-12 lg:px-8 xl:px-24">
@@ -394,9 +403,12 @@ function ProfilePage() {
           </p>
           <p className="lg:text-[16px]">{profileData.email}</p>
           <img
-            src={profilePicture}
+            src={profileData.image}
             alt=""
             onClick={() => setIsProfilePicModalOpen(true)}
+            onError={(e) => {
+              e.target.src = profilePicture;
+            }}
             className="cursor-pointer rounded-[50%] max-lg:h-20 max-lg:w-20 lg:h-28 lg:w-28"
           />
           <button
