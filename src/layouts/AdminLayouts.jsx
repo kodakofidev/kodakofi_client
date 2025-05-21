@@ -7,6 +7,8 @@ import AddProductAdmin from "../components/Admin/listProducts/AddProductAdmin";
 import EditProductAdmin from "../components/Admin/listProducts/EditProductAdmin";
 import ProductAdminEdit from "../components/Admin/listProducts/ProductAdminEdit";
 import ModalsDetailOrder from "../components/Admin/ordersAdmin/ModalsDetailOrder";
+import AddUserAdmin from "../components/Admin/usersAdmin/AddUserAdmin";
+import EditUserAdmin from "../components/Admin/usersAdmin/EditUserAdmin";
 
 const AdminLayouts = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -45,6 +47,12 @@ const AdminLayouts = () => {
         </div>
         <div className={`${isModalOpen.detailOrder ? "translate-x-0" : "translate-x-[100%]"} absolute top-0 left-0 right-0 bottom-0`} >
           <ModalsDetailOrder />
+        </div>
+        <div className={`${isModalOpen.addUser ? "translate-x-0" : "translate-x-[100%]"} absolute top-0 left-0 right-0 bottom-0`} >
+          <AddUserAdmin />
+        </div>
+        <div className={`${isModalOpen.editUser ? "translate-x-0" : "translate-x-[100%]"} absolute top-0 left-0 right-0 bottom-0`} >
+          <EditUserAdmin />
         </div>
       </div>
     </main>

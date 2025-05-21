@@ -4,6 +4,8 @@ const initialState = {
     addProduct: false,
     editProduct: false,
     detailOrder: false,
+    addUser: false,
+    editUser: false,
 }
 
 const modalSlice = createSlice({
@@ -20,9 +22,17 @@ const modalSlice = createSlice({
             state.addProduct = false;
             state.editProduct = false;
             state.detailOrder = false;
+            state.addUser = false;
+            state.editUser = false;
         },
         toggleModalDetailOrder: (state) => {
             state.detailOrder = !state.detailOrder;
+        },
+        toggleAddUser: (state) => {
+            state.addUser = !state.addUser;
+        },
+        toggleEditUser: (state) => {
+            state.editUser = !state.editUser;
         }
     }
 });
