@@ -1,5 +1,4 @@
-
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore } from "@reduxjs/toolkit";
 import {
   persistStore,
   persistCombineReducers,
@@ -9,21 +8,23 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
-} from "redux-persist"
-import storage from "redux-persist/lib/storage"
-import AuthProvider from "./slices/auth"
-import constants from "../configs/constant"
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import AuthProvider from "./slices/auth";
+import constants from "../configs/constant";
 import ModalsReducer from "./slices/modalsAdmin";
 import profileReducer from "./slices/profile";
+import orderReducer from "./slices/orderSlice";
 const persistConfig = {
   key: "kodakofi",
-  storage
+  storage,
 };
 const persistedReducer = persistCombineReducers(persistConfig, {
   auth: AuthProvider,
   modals: ModalsReducer,
   profile: profileReducer,
-})
+  order: orderReducer,
+});
 
 const store = configureStore({
   reducer: persistedReducer,
