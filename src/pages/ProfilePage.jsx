@@ -7,10 +7,12 @@ import phoneIcon from "/icons/phoneCall.svg";
 import addressIcon from "/icons/location.svg";
 import eyeslash from "/icons/EyeSlash.svg";
 import eye from "/icons/eye.svg";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { profileAction } from "../redux/slices/profile";
 
 function ProfilePage() {
   const auth = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
   // console.log(auth)
   const [profileData, setProfileData] = useState({
@@ -70,6 +72,8 @@ function ProfilePage() {
       }
 
       const responseData = await response.json();
+      console.log(responseData);
+      dispatch(profileAction.updateProfile(responseData));
 
       // Transform the image path
       const backendImagePath = responseData.data.profileImage;
@@ -94,7 +98,7 @@ function ProfilePage() {
           ? new Date(responseData.data.createdAt).toLocaleDateString()
           : "Unknown date",
       });
-      console.log("[DEBUG] CREATED AT",responseData.data.createdAt)
+      console.log("[DEBUG] CREATED AT", responseData.data.createdAt);
 
       setFormData({
         fullname: responseData.data.fullname || "",
@@ -226,9 +230,9 @@ function ProfilePage() {
       const response = await fetch("http://localhost:8080/api/profile/edit", {
         method: "PATCH",
         body: formData,
-        headers: {          
+        headers: {
           Authorization: `Bearer ${token}`,
-        },        
+        },
       });
 
       if (!response.ok) {
@@ -407,10 +411,10 @@ function ProfilePage() {
       <section className="lg:flex lg:items-start lg:justify-between">
         {/* PROFILE PICTURE */}
         <div className="flex h-fit w-full flex-col items-center justify-center gap-3.75 rounded-lg border border-black/65 py-6.5 lg:w-1/4">
-          <p className="text-lg font-semibold lg:text-[22px] text-wrap text-center px-1.5">
+          <p className="px-1.5 text-center text-lg font-semibold text-wrap lg:text-[22px]">
             {profileData.fullname || "User"}
           </p>
-          <p className="lg:text-[16px] px-4 text-wrap">{profileData.email}</p>
+          <p className="px-4 text-wrap lg:text-[16px]">{profileData.email}</p>
           <img
             src={profileData.image}
             alt="profile picture"
@@ -632,7 +636,10 @@ function ProfilePage() {
 
       {/* PROFILE PICTURE MODAL */}
       {isProfilePicModalOpen && (
-        <div onClick={() => setIsProfilePicModalOpen(false)} className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div
+          onClick={() => setIsProfilePicModalOpen(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+        >
           <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6">
             {/* ... modal header ... */}
             <div className="flex flex-col items-center gap-4">
@@ -669,7 +676,6 @@ function ProfilePage() {
       {/* Hidden file input */}
       <input
         type="file"
-        
         ref={fileInputRef}
         onChange={handleImageUpload}
         // accept="image/*"
