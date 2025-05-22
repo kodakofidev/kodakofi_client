@@ -3,14 +3,15 @@ import Plus from "../../assets/iconCheckoutPage/plus.svg";
 import CardCheckout from "./CardCheckout";
 
 export default function OrderListComponent({ productList, setProductList }) {
+  console.log("ini product list", productList);
   return (
     <>
-      <div className="md:col-span-4 py-4">
-        <div className="flex justify-between items-center pt-2 pb-4">
+      <div className="py-4 md:col-span-4">
+        <div className="flex items-center justify-between pt-2 pb-4">
           <h1 className="flex text-2xl">Your Order</h1>
           <button
             type="button"
-            className="flex justify-baseline bg-orange w-24 px-1 py-2 rounded-md cursor-pointer hover:scale-[1.03] active:scale-[1]"
+            className="bg-orange flex w-24 cursor-pointer justify-baseline rounded-md px-1 py-2 hover:scale-[1.03] active:scale-[1]"
           >
             <img src={Plus} alt="icon" className="scale-[0.6]" />
             <p className="text-sm font-medium">Add Menu</p>
@@ -19,7 +20,7 @@ export default function OrderListComponent({ productList, setProductList }) {
         <div className="flex flex-col gap-2">
           {productList.length === 0 ? (
             <>
-              <div className="flex items-center justify-center flex-col gap-2">
+              <div className="flex flex-col items-center justify-center gap-2">
                 <h1 className="text-3xl font-semibold">Order is empty :(</h1>
                 <p>Please select a product to order</p>
               </div>
@@ -28,13 +29,14 @@ export default function OrderListComponent({ productList, setProductList }) {
             <>
               {productList.map((order) => (
                 <CardCheckout
-                  product={order.productName}
-                  quantity={order.quantity}
+                  product={order.name}
+                  quantity={order.qty}
                   size={order.size}
-                  variant={order.variant}
-                  typeOrder={order.typeOrder}
-                  discountPrice={order.discountPrice}
-                  originalPrice={order.originalPrice}
+                  variant={order.toping}
+                  // typeOrder={order.typeOrder}
+                  size_id={order.size_id}
+                  discountPrice={order.price}
+                  originalPrice={order.pricebefore}
                   id={order.id}
                   productList={productList}
                   setProductList={setProductList}
