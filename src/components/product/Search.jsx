@@ -16,12 +16,11 @@ function Search({ filters, onFilterApply }) {
   }, [filters]);
 
   const sortOptions = [
-  { label: "Favorite", value: "favorite" },
-  { label: "Newest", value: "newest" },
-  { label: "Oldest", value: "oldest" },
-  { label: "Ascending", value: "asc" },
-  { label: "Descending", value: "desc" },
+  { label: "Best Seller", value: "favorite" },
   { label: "Cheapest", value: "cheapest" },
+  { label: "Oldest", value: "oldest" },
+  { label: "A-Z", value: "asc" },
+  { label: "Z-A", value: "desc" },
 ]
 
   const handleReset = () => {
@@ -87,7 +86,7 @@ function Search({ filters, onFilterApply }) {
                 className="relative my-2 flex flex-row items-center gap-2"
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="category"
                   id={type}
                   checked={category === type}

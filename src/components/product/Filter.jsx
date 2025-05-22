@@ -6,7 +6,7 @@ function Filter({ filters, onFilterApply }) {
   const maxLimit = 100000;
 
   const [search, setSearch] = useState(filters.search || "");
-  const [category, setCategory] = useState(filters.category || "");
+  const [category, setCategory] = useState(filters.category || []);
   const [options, setOptions] = useState(filters.options || "");
   const [minPrice, setMinPrice] = useState(filters.minPrice || minLimit);
   const [maxPrice, setMaxPrice] = useState(filters.maxPrice || maxLimit);
@@ -15,7 +15,7 @@ function Filter({ filters, onFilterApply }) {
 
   useEffect(() => {
     setSearch(filters.search || "");
-    setCategory(filters.category || "");
+    setCategory(filters.category || []);
     setOptions(filters.options || "");
     setMinPrice(filters.minPrice || minLimit);
     setMaxPrice(filters.maxPrice || maxLimit);
@@ -23,13 +23,20 @@ function Filter({ filters, onFilterApply }) {
   }, [filters]);
 
   const sortOptions = [
-  { label: "Favorite", value: "favorite" },
-  { label: "Newest", value: "newest" },
-  { label: "Oldest", value: "oldest" },
-  { label: "Ascending", value: "asc" },
-  { label: "Descending", value: "desc" },
-  { label: "Cheapest", value: "cheapest" },
-]
+    { label: "Best Seller", value: "favorite" },
+    { label: "Cheapest", value: "cheapest" },
+    { label: "Oldest", value: "oldest" },
+    { label: "A-Z", value: "asc" },
+    { label: "Z-A", value: "desc" },
+  ]
+
+  const handleCategoryChange = (type) => {
+    setCategory((prev) =>
+      prev.includes(type)
+        ? prev.filter((c) => c !== type) 
+        : [...prev, type]                
+    );
+  };
 
   const handleMinInput = (e) => {
     let inputMin = Number(e.target.value);
@@ -47,7 +54,7 @@ function Filter({ filters, onFilterApply }) {
     if (formRef.current) {
       formRef.current.reset();
       setSearch("");
-      setCategory("");
+      setCategory([]);
       setOptions("");
       setMinPrice(minLimit);
       setMaxPrice(maxLimit);
@@ -101,11 +108,11 @@ function Filter({ filters, onFilterApply }) {
                 className="relative my-2 flex flex-row items-center gap-2"
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="category"
                   id={type}
-                  checked={category === type}
-                  onChange={() => setCategory(type)}
+                  checked={category.includes(type)}
+                  onChange={() => handleCategoryChange(type)}
                   className="h-4 w-4 cursor-pointer rounded-full checked:border-[#ff8906] focus:ring-[#ff8906]"
                 />
                 <label
