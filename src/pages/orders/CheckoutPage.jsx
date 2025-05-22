@@ -54,7 +54,7 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     setProductList(data);
-  }, []);
+  }, [productList, data]);
 
   function submitCheckoutHandler(e) {
     e.preventDefault();
