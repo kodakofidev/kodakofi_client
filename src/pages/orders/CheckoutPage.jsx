@@ -3,54 +3,26 @@ import OrderListComponent from "../../components/Checkout/OrderListComponent";
 import PaymentAndInfoDelivery from "../../components/Checkout/PaymentAndInfoDelivery";
 import TotalPayment from "../../components/Checkout/TotalPayment";
 import ModalPaymentMethode from "../../components/Checkout/ModalPaymentMethode";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import constant from "../../configs/constant"
+import { useNavigate } from "react-router";
+import { deleteOrder } from "../../redux/slices/orderSlice";
 
 export default function CheckoutPage() {
   const [productList, setProductList] = useState([]);
   const [deliveryCost, setDeliveryCost] = useState(0);
-  const [dataOrder, setDataOrder] = useState({});
   const [paymentMethodeModal, setPaymentMethodeModal] = useState(false);
+  const [delivery, setDelivery] = useState("");
   const { data } = useSelector((state) => state.order);
-  console.log("ini data", data);
+  const token = useSelector((state) => state.auth.user.token);
   // validasi
   const [validationPaymentMethode, setValidationPaymentMethode] = useState(0);
   const [validationEmail, setValidationEmail] = useState(true);
   const [validationFullName, setValidationFullName] = useState(true);
   const [validationAddress, setValidationAddress] = useState(true);
   const [validationDelivery, setValidationDelivery] = useState(true);
-
-  const chart = [
-    {
-      id: 1,
-      productName: "Hazelnut Latte",
-      quantity: 3,
-      size: "Regular",
-      variant: "Ice",
-      typeOrder: "Dine In",
-      discountPrice: 20000,
-      originalPrice: 40000,
-    },
-    {
-      id: 2,
-      productName: "Coffee Latte",
-      quantity: 2,
-      size: "Medium",
-      variant: "Hot",
-      typeOrder: "Dine In",
-      discountPrice: 30000,
-      originalPrice: 40000,
-    },
-    {
-      id: 3,
-      productName: "Hot Coffee",
-      quantity: 3,
-      size: "Regular",
-      variant: "Hot",
-      typeOrder: "Dine In",
-      discountPrice: 20000,
-      originalPrice: 30000,
-    },
-  ];
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setProductList(data);
@@ -63,6 +35,14 @@ export default function CheckoutPage() {
     const fullName = e.target.fullName.value;
     const address = e.target.address.value;
     const delivery = e.target.delivery.value;
+    const items = [];
+    productList.forEach((item) => {
+      if (item.size === "") {
+        items.push({product_id: item.id, qty: item.qty});
+      } else {
+        items.push({product_id: item.id, qty: item.qty, size_id: item.size_id, is_iced: item.is_iced});
+      }
+    })
 
     email != "" ? setValidationEmail(true) : setValidationEmail(true);
 
@@ -85,16 +65,40 @@ export default function CheckoutPage() {
       setPaymentMethodeModal(true);
       if (paymentMethode != "") {
         console.log("ok");
-        console.log({
+        const dataOrder = {
           email,
-          fullName,
+          fullname: fullName,
           address,
-          delivery,
-          paymentMethode,
-          ...dataOrder,
-          productList,
+          delivery_method_id: parseInt(delivery),
+          payment_method_id: parseInt(paymentMethode),
+          items,
+        };
+
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(dataOrder)
+        };
+
+        fetch(`${constant.apiUrl}/order`, options)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('HTTP error! status: ' + response.status);
+          }
+          return response.json();
+        })
+        .then(result => {
+          console.log('Response:', result);
+        })
+        .catch(error => {
+          console.error('Error:', error);
         });
         setPaymentMethodeModal(false);
+        dispatch(deleteOrder());
+        navigate("/history");
       }
     } else {
       email != "" ? setValidationEmail(true) : setValidationEmail(false);
@@ -123,6 +127,7 @@ export default function CheckoutPage() {
           <OrderListComponent
             productList={productList}
             setProductList={setProductList}
+            delivery={delivery}
           />
           <PaymentAndInfoDelivery
             setDeliveryCost={setDeliveryCost}
@@ -130,11 +135,11 @@ export default function CheckoutPage() {
             validationFullName={validationFullName}
             validationAddress={validationAddress}
             validationDelivery={validationDelivery}
+            setDelivery={setDelivery}
           />
           <TotalPayment
             productList={productList}
             deliveryCost={deliveryCost}
-            setDataOrder={setDataOrder}
             setPaymentMethodeModal={setPaymentMethodeModal}
             validationPaymentMethode={validationPaymentMethode}
           />
