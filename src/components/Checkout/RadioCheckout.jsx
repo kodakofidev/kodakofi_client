@@ -6,12 +6,16 @@ export default function RadioCheckout({
   value,
   label,
   deliveryCostHandler,
+  setDelivery
 }) {
   return (
     <>
       <div>
         <input
-          onChange={deliveryCostHandler}
+          onChange={(e) => {
+            deliveryCostHandler(e);
+            setDelivery(label);
+          }}
           type="radio"
           name={name}
           id={id}

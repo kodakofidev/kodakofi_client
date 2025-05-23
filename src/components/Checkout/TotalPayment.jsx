@@ -9,22 +9,14 @@ import Paypal from "../../assets/iconCheckoutPage/Paypal.svg";
 export default function TotalPayment({
   productList,
   deliveryCost,
-  setDataOrder,
   setPaymentMethodeModal,
   validationPaymentMethode,
 }) {
   const totalOrder = productList.reduce((total, item) => {
-    return total + item.discountPrice;
+    return total + item.pricebefore * item.qty;
   }, 0);
 
-  const tax = (totalOrder * 10) / 100;
-
-  const dataPayment = {
-    totalOrder,
-    tax,
-    deliveryCost,
-    subTotal: totalOrder + deliveryCost + tax,
-  };
+  const tax = (totalOrder * 12) / 100;
 
   const totalOrderFormat = new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -50,10 +42,6 @@ export default function TotalPayment({
     minimumFractionDigits: 0,
   }).format(totalOrder + deliveryCost + tax);
 
-  useEffect(() => {
-    setDataOrder({ ...dataPayment });
-  }, [totalOrder, tax, deliveryCost]);
-
   return (
     <>
       <div className="py-4 md:pl-8 md:col-start-5 md:row-start-1 md:col-span-3 md:row-span-2">
@@ -73,13 +61,6 @@ export default function TotalPayment({
           <p className="place-self-end font-semibold pb-2">
             Idr {subTotalFormat}
           </p>
-          {/* <p
-            className={`${
-              !validationPaymentMethode ? "block" : "hidden"
-            } block text-sm text-red-600 italic col-span-2`}
-          >
-            Payment methode cannot be empty
-          </p> */}
           <button
             // onClick={() => {
             //   setPaymentMethodeModal(true);
