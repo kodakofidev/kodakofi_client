@@ -3,6 +3,8 @@ import RadioStatusOrder from "./RadioStatusOrder";
 import CardProductHistoryOrder from "./CardProductHistoryOrder";
 import PaginationHistoryOrder from "./PaginationHistoryOrder";
 import Arrow from "../../assets/iconHistoryOrders/ArrowRight.svg";
+import constant from "../../configs/constant" 
+import { useSelector } from "react-redux";
 
 export default function HistoryOrdersSection() {
   const [page, setPage] = useState(1);
@@ -10,343 +12,41 @@ export default function HistoryOrdersSection() {
   const [end, setEnd] = useState(4);
   const [more, setMore] = useState(0);
   const [checked, setChecked] = useState(1);
-  const [checkedStatus, setCheckedStatus] = useState("On Progress");
+  const [checkedStatus, setCheckedStatus] = useState("Pending");
   const [filterByDate, setFilterByDate] = useState(null);
-  // const [filterByProgress, setFilterByProgress] = useState(null);
-  // const [orders, setOrders] = useState(null);
 
-  const orders = [
-    {
-      noOrder: "#12351-09893",
-      date: "2025-01-24",
-      total: 40.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12352-09893",
-      date: "2025-01-26",
-      total: 50.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12353-09893",
-      date: "2025-01-27",
-      total: 40.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12354-09893",
-      date: "2025-02-03",
-      total: 70.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12355-09893",
-      date: "2025-02-05",
-      total: 37.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12356-09893",
-      date: "2025-02-06",
-      total: 35.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12367-09893",
-      date: "2025-02-07",
-      total: 31.0,
-      onProgress: "Finish Order",
-    },
-    {
-      noOrder: "#12368-09893",
-      date: "2025-02-23",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123609-09893",
-      date: "2025-02-23",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123610-09893",
-      date: "2025-02-23",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123611-09893",
-      date: "2025-02-23",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123612-09893",
-      date: "2025-02-30",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123613-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123614-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123615-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123616-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123617-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123618-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123619-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123620-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123621-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "Sending Goods",
-    },
-    {
-      noOrder: "#123622-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123623-09893",
-      date: "2025-03-01",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123624-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123625-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123626-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123627-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123628-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123629-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123630-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123631-09893",
-      date: "2025-03-02",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123632-09893",
-      date: "2025-03-03",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123633-09893",
-      date: "2025-03-03",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123634-09893",
-      date: "2025-03-03",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123635-09893",
-      date: "2025-03-03",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123636-09893",
-      date: "2025-03-05",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123637-09893",
-      date: "2025-03-05",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123638-09893",
-      date: "2025-03-07",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123639-09893",
-      date: "2025-03-07",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123640-09893",
-      date: "2025-03-08",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123641-09893",
-      date: "2025-03-10",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123642-09893",
-      date: "2025-03-10",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123642-09893",
-      date: "2025-03-11",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123642-09893",
-      date: "2025-03-11",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123643-09893",
-      date: "2025-03-12",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123644-09893",
-      date: "2025-03-12",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123645-09893",
-      date: "2025-03-14",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123646-09893",
-      date: "2025-03-14",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123647-09893",
-      date: "2025-03-14",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123648-09893",
-      date: "2025-03-14",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-    {
-      noOrder: "#123649-09893",
-      date: "2025-03-14",
-      total: 35.0,
-      onProgress: "On Progress",
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+  const auth = useSelector((state) => state.auth.user.token);
+  
+  async function gethistory() {
+    const option = {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${auth}`,
+          'Content-Type': 'application/json'
+      }
+    };
+    try {
+      const response = await fetch(`${constant.apiUrl}/order`, option);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+      setOrders(result.data); 
+      console.log(result.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
-  // useEffect(() => {
-  //   fetch("http://localhost:8080/api/order", {
-  //     method: 'GET',
-  //     headers: {
-  //       'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMTcxYjY3ZjktYTNjMi00MTE1LWI3NWMtMWE3ODE2Y2ExY2QyIiwiZW1haWwiOiJzZGdpNkBkY3BhLm5ldCIsInJvbGUiOiJ1c2VyIiwiaXNzIjoia29kYSBrb2ZpIiwiZXhwIjoxNzQ3Njc0MDQ4fQ.U_d2CrupY6QOaxeMS9mWc90HrOn_0EqX9lrc23ggJV0`
-  //     }
-  //   })
-  //     .then(response => {
-  //       if (!response.ok) {
-  //         throw new Error('failed fetch data');
-  //       }
-  //       return response.json();
-  //     })
-  //     .then(data => {
-  //       setOrders(data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error:', error.message);
-  //     });
-  // }, [])
+  useEffect(() => {
+    gethistory();
+  }, [])
+
+  orders.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const dataOrders = orders.filter(
-    (order) => order.onProgress === checkedStatus,
+    (order) => order.status === checkedStatus,
   );
 
   let totalPagination = 0;
@@ -377,7 +77,7 @@ export default function HistoryOrdersSection() {
   }
 
   function filterDate(e) {
-    const data = dataOrders.filter((order) => order.date === e.target.value);
+    const data = dataOrders.filter((order) => new Date(order.date) === e.target.value);
     setFilterByDate(data);
     // setPage(1);
     // setChecked(1);
@@ -395,21 +95,21 @@ export default function HistoryOrdersSection() {
             <RadioStatusOrder
               id="onProgress"
               name="status"
-              value="On Progress"
+              value="Pending"
               checkedStatus={checkedStatus}
               setCheckedStatus={setCheckedStatus}
             />
             <RadioStatusOrder
               id="sendingGoods"
               name="status"
-              value="Sending Goods"
+              value="On Delivery"
               checkedStatus={checkedStatus}
               setCheckedStatus={setCheckedStatus}
             />
             <RadioStatusOrder
               id="finishOrder"
               name="status"
-              value="Finish Order"
+              value="Completed"
               checkedStatus={checkedStatus}
               setCheckedStatus={setCheckedStatus}
             />
@@ -457,10 +157,11 @@ export default function HistoryOrdersSection() {
                         return (
                           <CardProductHistoryOrder
                             key={index}
-                            order={order.noOrder}
+                            order={order.transaction_code}
                             date={dateFormat}
-                            total={1000}
-                            status={order.onProgress}
+                            total={order.grand_total}
+                            status={order.status}
+                            image={order.path}
                           />
                         );
                       }
@@ -479,10 +180,11 @@ export default function HistoryOrdersSection() {
                         return (
                           <CardProductHistoryOrder
                             key={index}
-                            order={order.noOrder}
+                            order={order.transaction_code}
                             date={dateFormat}
-                            total={1000}
-                            status={order.onProgress}
+                            total={order.grand_total}
+                            status={order.status}
+                            image={order.path}
                           />
                         );
                       }
