@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import profilePicture from "/profilepicture.webp";
 import profileIcon from "/icons/Profile.svg";
@@ -44,17 +44,17 @@ function ProfilePage() {
 
   // PROFILE PICTURE MODAL STATES
   const [isProfilePicModalOpen, setIsProfilePicModalOpen] = useState(false);
-  const [profileImage, setProfileImage] = useState(profilePicture);
+  // const [profileImage, setProfileImage] = useState(profilePicture);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState(null);
   const fileInputRef = useRef(null);
 
   // Fetch profile data
 
-  const fetchProfileData = async () => {
-    try {
+  const fetchProfileData = useCallback(async () => {
+    
       const token = auth.token;
-
+    try {
       if (!token) {
         throw new Error("Authentication token not found");
       }
@@ -112,11 +112,11 @@ function ProfilePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [auth.token, dispatch]);
 
   useEffect(() => {
     fetchProfileData();
-  }, []);
+  }, [fetchProfileData]);
 
   // Render loading state
   if (loading) {
@@ -387,8 +387,8 @@ function ProfilePage() {
         setIsModalOpen(false);
 
         toast.success("Password changed successfully!");
-      } catch (error) {
-        console.warn("Response wasn't JSON, but password change succeeded");
+      } catch (err) {
+        console.warn("Response wasn't JSON, but password change succeeded", err);
         // Still treat as success if status was 200
         if (response.ok) {
           setCurrentPassword("");
