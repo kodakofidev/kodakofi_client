@@ -2,16 +2,18 @@ import { useState, useRef, useEffect } from "react";
 
 function Filter({ filters, onFilterApply }) {
   const formRef = useRef(null);
+  const minRef = useRef(null);
+  const maxRef = useRef(null);
+
   const minLimit = 0;
   const maxLimit = 100000;
 
   const [search, setSearch] = useState(filters.search || "");
   const [category, setCategory] = useState(filters.category || []);
   const [options, setOptions] = useState(filters.options || "");
-  const [minPrice, setMinPrice] = useState(filters.minPrice || minLimit);
-  const [maxPrice, setMaxPrice] = useState(filters.maxPrice || maxLimit);
-  const [isMinActive, setIsMinActive] = useState(false);
-  const [isMaxActive, setIsMaxActive] = useState(false);
+  const [minPrice, setMinPrice] = useState(Number(filters.minPrice || minLimit));
+  const [maxPrice, setMaxPrice] = useState(Number(filters.maxPrice || maxLimit));
+  const [activeSlider, setActiveSlider] = useState("max")
 
   useEffect(() => {
     setSearch(filters.search || "");
@@ -41,13 +43,17 @@ function Filter({ filters, onFilterApply }) {
   const handleMinInput = (e) => {
     let inputMin = Number(e.target.value);
     if (inputMin < 0) inputMin = 0;
-    if (inputMin < maxPrice) setMinPrice(inputMin);
+    if (inputMin > maxPrice - 1) inputMin = maxPrice - 1;
+    setMinPrice(inputMin);
+    setActiveSlider("min")
   };
 
   const handleMaxInput = (e) => {
     let inputMax = Number(e.target.value);
-    if (inputMax <= 0) inputMax = undefined;
-    if (inputMax > minPrice) setMaxPrice(inputMax);
+    if (inputMax > maxLimit) inputMax = maxLimit;
+    if (inputMax < minPrice + 1) inputMax = minPrice + 1;
+    setMaxPrice(inputMax);
+    setActiveSlider("max")
   };
 
   const handleReset = () => {
@@ -155,36 +161,58 @@ function Filter({ filters, onFilterApply }) {
             <div
               className="absolute top-1/2 h-1 -translate-y-1/2 transform rounded bg-[#ff8906]"
               style={{
-                left: `${(minPrice / maxLimit) * 100}%`,
-                width: `${((maxPrice - minLimit) / maxLimit) * 100}%`,
+                left: `${((minPrice - minLimit) / (maxLimit - minLimit)) * 100}%`,
+                width: `${((maxPrice - minPrice) / (maxLimit - minLimit)) * 100}%`,
               }}
             />
 
-            {/* Minval input */}
-            <input
-              type="range"
-              min={minLimit}
-              max={maxLimit}
-              value={minPrice}
-              onChange={handleMinInput}
-              onMouseDown={() => setIsMinActive(true)}
-              onMouseUp={() => setIsMinActive(false)}
-              className="absolute h-7 w-full cursor-pointer appearance-none bg-transparent"
-              style={{ zIndex: isMinActive ? 2 : 1 }}
-            />
-
-            {/* Maxval input */}
-            <input
-              type="range"
-              min={minLimit}
-              max={maxLimit}
-              value={maxPrice}
-              onChange={handleMaxInput}
-              onMouseDown={() => setIsMaxActive(true)}
-              onMouseUp={() => setIsMaxActive(false)}
-              className="absolute h-7 w-full cursor-pointer appearance-none bg-transparent"
-              style={{ zIndex: isMaxActive ? 2 : 1 }}
-            />
+            {activeSlider === "min" ? (
+              <>
+                <input
+                  ref={maxRef}
+                  type="range"
+                  min={minLimit}
+                  max={maxLimit}
+                  value={maxPrice}
+                  onInput={handleMaxInput}
+                  style={{ zIndex: activeSlider === "max" ? 2 : 1 }}
+                  className="absolute h-7 w-full appearance-none bg-transparent pointer-events-auto"
+                />
+                <input
+                  ref={minRef}
+                  type="range"
+                  min={minLimit}
+                  max={maxLimit}
+                  value={minPrice}
+                  onInput={handleMinInput}
+                  style={{ zIndex: activeSlider === "min" ? 2 : 1 }}
+                  className="absolute h-7 w-full appearance-none bg-transparent pointer-events-auto"
+                />
+              </>
+              ) : (
+              <>
+                <input
+                  ref={minRef}
+                  type="range"
+                  min={minLimit}
+                  max={maxLimit}
+                  value={minPrice}
+                  onInput={handleMinInput}
+                  style={{ zIndex: activeSlider === "min" ? 2 : 1 }}
+                  className="absolute h-7 w-full appearance-none bg-transparent pointer-events-auto"
+                />
+                <input
+                  ref={maxRef}
+                  type="range"
+                  min={minLimit}
+                  max={maxLimit}
+                  value={maxPrice}
+                  onInput={handleMaxInput}
+                  style={{ zIndex: activeSlider === "max" ? 2 : 1 }}
+                  className="absolute h-7 w-full appearance-none bg-transparent pointer-events-auto"
+                />
+              </>
+            )}
           </div>
 
           {/* Display values */}

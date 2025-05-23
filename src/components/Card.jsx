@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { addOrder } from "../redux/slices/orderSlice";
@@ -13,6 +13,12 @@ function Card({ product }) {
   const [order, setOrder] = useState(null)
   const navigate = useNavigate();
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (!product.toping) {
+          product.toping = ["Hot", "Ice"];
+        }
+  })
 
   const nextPage = () => {
     navigate(`/product/${product.id}`);
@@ -117,14 +123,14 @@ function Card({ product }) {
       <div className={`${isOpen ? "visible" : "invisible"} fixed inset-0 mt-8 bg-[#000000cc] flex items-center justify-center transition-all duration-300 ease-in-out`}>
         <div className="relative rounded-lg bg-[#e8e8e8] p-5">
             <>
-              <div className="border-b border-[#ff8906] pl-[22vw]">
-                <img onClick={closeModal} src={close} alt="Close" className="w-5 h-5 cursor-pointer"/>
+              <div className="border-b border-[#ff8906] h-5">
+                <img onClick={closeModal} src={close} alt="Close" className="absolute right-4 lg:right-4 top-4 lg:top-3 w-5 lg:w-7 h-5 lg:h-7 cursor-pointer"/>
               </div>
-              <h3 className="my-4 text-lg leading-6 font-bold text-[#0B0909]">
+              <h3 className="mt-4 md:mb-2 text-lg md:text-md font-bold text-[#0B0909]">
                 Choose Size
               </h3>
               {product.category_id < 3 ? (
-                <div className="mb-4 flex w-full flex-wrap gap-8">
+                <div className="mb-4 flex w-full flex-wrap gap-2">
                   {product?.sizes?.map((item, idx) => (
                     <button
                       key={idx}
@@ -137,9 +143,9 @@ function Card({ product }) {
                       }
                       className={`${
                         order?.size === item.size
-                          ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909] rounded-md"
-                          : "border border-(--color-white) font-medium text-[#4F5665] rounded-md"
-                      } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:text-[#0B0909] rounded-md`}
+                          ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909] md:text-sm rounded-md p-1 lg:p-2"
+                          : "border border-(--secondary-color) font-medium text-[#4F5665] md:text-sm rounded-md p-1 lg:p-2"
+                      } flex-1 cursor-pointer p-[10px] hover:bg-(--secondary-color) hover:text-[#0B0909] md:text-sm rounded-md p-1 lg:p-2`}
                     >
                       {item.size}
                     </button>
@@ -150,10 +156,10 @@ function Card({ product }) {
               )}
 
               <div>
-                <h3 className="mb-4 text-lg leading-6 font-bold text-[#0B0909]">
+                <h3 className="mt-4 md:mb-2 text-lg md:text-md font-bold text-[#0B0909]">
                   Hot/Ice?
                 </h3>
-                <div className="mb-10 flex w-full flex-wrap gap-8 lg:mb-24">
+                <div className="mb-10 flex w-full flex-wrap gap-2 lg:mb-24">
                   {product?.toping?.map((item, index) => (
                     <button
                       key={index}
@@ -166,9 +172,9 @@ function Card({ product }) {
                       }
                       className={`${
                         order?.toping === item
-                          ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909]"
-                          : "border border-(--color-white) font-medium text-[#4F5665]"
-                      } flex-1 cursor-pointer p-[10px] leading-[100%] hover:bg-(--secondary-color) hover:font-semibold hover:text-[#0B0909]`}
+                          ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909] md:text-sm rounded-md p-1 lg:p-2"
+                          : "border border-(--secondary-color) font-medium text-[#4F5665] md:text-sm rounded-md p-1 lg:p-2"
+                      } flex-1 cursor-pointer p-[10px] hover:bg-(--secondary-color) hover:font-semibold hover:text-[#0B0909] md:text-sm rounded-md p-1 lg:p-2`}
                     >
                       {item}
                     </button>
@@ -178,8 +184,8 @@ function Card({ product }) {
               <button 
                 onClick={addToOrder}
                 className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border border-[#FF8906] p-2 max-sm:w-full">
-                  <div className="flex flex-row justify-between gap-[10px]">
-                    <p> Add to cart </p>
+                  <div className="flex flex-row justify-between md:gap-[15px] lg:gap-[10px]">
+                    <p className="md:text-sm"> Add to cart </p>
                     <img src={Cart} alt="Add to order" width={24} height={24} />
                   </div>
               </button>

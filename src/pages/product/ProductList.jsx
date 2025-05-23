@@ -16,7 +16,7 @@ function ProductList() {
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState({
     search: searchParams.get("search") || "",
-    category: searchParams.get("category") || "",
+    category: searchParams.get("category") || [],
     options: searchParams.get("options") || "",
     minPrice: Number(searchParams.get("min")),
     maxPrice: Number(searchParams.get("max")),
@@ -55,6 +55,9 @@ function ProductList() {
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
         setProducts(data.data.data);
+        if (!data.data.data.toping) {
+          data.data.data.toping = ["Hot", "Ice"];
+        }
         setTotalPages(data.data.pagination.total_pages || 1);
       } catch (err) {
         setError(err.message);
