@@ -6,15 +6,13 @@ import Dana from "../../assets/iconCheckoutPage/Dana.svg";
 import Gopay from "../../assets/iconCheckoutPage/Gopay.svg";
 import Ovo from "../../assets/iconCheckoutPage/Ovo.svg";
 import Paypal from "../../assets/iconCheckoutPage/Paypal.svg";
-import { useDispatch } from "react-redux";
-import { deleteOrder } from "../../redux/slices/orderSlice";
+import QRIS from "../../assets/iconCheckoutPage/QRIS.svg";
 
 export default function ModalPaymentMethode({
   paymentMethodeModal,
   setPaymentMethodeModal,
   validationPaymentMethode,
 }) {
-  const dispatch = useDispatch();
   return (
     <>
       <div
@@ -38,38 +36,38 @@ export default function ModalPaymentMethode({
             <RadioPaymentMethode
               id="bri"
               name="paymentMethode"
-              value="BRI"
+              value="1"
               image={BRI}
             />
             <RadioPaymentMethode
               id="dana"
               name="paymentMethode"
-              value="DANA"
+              value="2"
               image={Dana}
-            />
-            <RadioPaymentMethode
-              id="gopay"
-              name="paymentMethode"
-              value="GoPay"
-              image={Gopay}
             />
             <RadioPaymentMethode
               id="bca"
               name="paymentMethode"
-              value="BCA"
+              value="3"
               image={BCA}
+            />
+            <RadioPaymentMethode
+              id="gopay"
+              name="paymentMethode"
+              value="4"
+              image={Gopay}
             />
             <RadioPaymentMethode
               id="ovo"
               name="paymentMethode"
-              value="OVO"
+              value="5"
               image={Ovo}
             />
             <RadioPaymentMethode
-              id="paypal"
+              id="qris"
               name="paymentMethode"
-              value="Paypal"
-              image={Paypal}
+              value="6"
+              image={QRIS}
             />
           </div>
           <div className="flex items-center justify-center gap-3 pt-5 md:pt-8">
@@ -84,7 +82,6 @@ export default function ModalPaymentMethode({
             </button>
             <button
               onClick={() => {
-                dispatch(deleteOrder());
                 setPaymentMethodeModal(false);
               }}
               type="submit"

@@ -28,8 +28,22 @@ const orderSlice = createSlice({
     deleteOrder(state) {
       state.data = [];
     },
+    setQty(state, { payload }) {
+      if (state.data[payload.idx].qty > 1 || payload.qty === 1) {
+          state.data[payload.idx].qty += payload.qty;
+      }
+    },
+    setInputQty(state, {payload}) {
+      if (payload.qty === 0) {
+        state.data[payload.idx].qty = 1;
+        return
+      }
+      if (state.data[payload.idx].qty > 1 || payload.qty > 0) {
+        state.data[payload.idx].qty = payload.qty;
+      }
+    }
   },
 });
 
-export const { addOrder, editProduct, deleteOrder } = orderSlice.actions;
+export const { addOrder, editProduct, deleteOrder, setQty, setInputQty } = orderSlice.actions;
 export default orderSlice.reducer;

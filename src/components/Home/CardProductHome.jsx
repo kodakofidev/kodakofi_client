@@ -4,29 +4,10 @@ import thumbs from "../../assets/icon/ThumbsUp.svg";
 import Cart from "../../assets/icon/ShoppingCart.svg";
 import kopi from "../../assets/kopi.jpg";
 import constant from "../../configs/constant";
+import { useNavigate } from "react-router";
 
 function CardProductHome({product}) {
-  // const [product, setProduct] = useState({
-  //   name: "Matcha Latte",
-  //   image: { kopi },
-  //   desc: "You can explore the menu that we provide with fun and have their own taste and make your day better.",
-  //   review: 200,
-  //   price: "20,000",
-  // });
-
-  // const getProduct = async () => {
-  //   try {
-  //     const res = await fetch(`localhost:8080/api/products`);
-  //     const products = await res.json();
-  //     setProduct(products.data);
-  //   } catch (error) {
-  //     console.error("Failed to load product", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getProduct();
-  // }, []);
+  const navigate = useNavigate();
 
   return (
     <div className="relative min-w-[158px] max-w-[377px] max-h-[360px]  top-8 hover:scale-105 transition duration-150 ease-linear  ">
@@ -50,7 +31,11 @@ function CardProductHome({product}) {
             IDR. {product.price}
           </div>
           <div className="flex flex-row gap-[10px] max-sm:flex-col ">
-            <button className="bg-[#FF8906] max-sm:w-full rounded-md py-2 w-3/4 cursor-pointer">
+            <button 
+            onClick={() => {
+              navigate(`/product/${product.id}`)
+            }}
+            className="bg-[#FF8906] max-sm:w-full rounded-md py-2 w-3/4 cursor-pointer">
               Buy
             </button>
             <button className="max-sm:w-full border border-[#FF8906] rounded-md p-2 w-1/3 flex flex-col items-center justify-center cursor-pointer">

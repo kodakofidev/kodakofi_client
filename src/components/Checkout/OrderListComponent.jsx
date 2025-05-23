@@ -1,15 +1,19 @@
 import React from "react";
 import Plus from "../../assets/iconCheckoutPage/plus.svg";
 import CardCheckout from "./CardCheckout";
+import { useNavigate } from "react-router";
 
-export default function OrderListComponent({ productList, setProductList }) {
-  console.log("ini product list", productList);
+export default function OrderListComponent({ productList, setProductList, delivery }) {
+  const navigate = useNavigate();
   return (
     <>
       <div className="py-4 md:col-span-4">
         <div className="flex items-center justify-between pt-2 pb-4">
           <h1 className="flex text-2xl">Your Order</h1>
           <button
+            onClick={(() => {
+              navigate("/products")
+            })}
             type="button"
             className="bg-orange flex w-24 cursor-pointer justify-baseline rounded-md px-1 py-2 hover:scale-[1.03] active:scale-[1]"
           >
@@ -27,7 +31,7 @@ export default function OrderListComponent({ productList, setProductList }) {
             </>
           ) : (
             <>
-              {productList.map((order) => (
+              {productList.map((order, idx) => (
                 <CardCheckout
                   product={order.name}
                   quantity={order.qty}
@@ -38,8 +42,12 @@ export default function OrderListComponent({ productList, setProductList }) {
                   discountPrice={order.price}
                   originalPrice={order.pricebefore}
                   id={order.id}
+                  image={order.image}
                   productList={productList}
                   setProductList={setProductList}
+                  delivery={delivery}
+                  key={idx}
+                  idx={idx}
                 />
               ))}
             </>

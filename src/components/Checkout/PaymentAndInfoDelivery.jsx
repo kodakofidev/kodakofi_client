@@ -11,11 +11,12 @@ export default function PaymentAndInfoDelivery({
   validationFullName,
   validationAddress,
   validationDelivery,
+  setDelivery,
 }) {
   function deliveryCostHandler(e) {
-    if (e.target.value === "Door Delivery") {
+    if (e.target.value === "2") {
       setDeliveryCost(15000);
-    } else if (e.target.value === "Pick Up") {
+    } else if (e.target.value === "1") {
       setDeliveryCost(0);
     } else {
       setDeliveryCost(0);
@@ -78,22 +79,25 @@ export default function PaymentAndInfoDelivery({
               id={"dine in"}
               label={"Dine In"}
               name={"delivery"}
-              value={"Dine In"}
+              value={"1"}
               deliveryCostHandler={deliveryCostHandler}
+              setDelivery={setDelivery}
             />
             <RadioCheckout
               id={"door delivery"}
               label={"Door Delivery"}
               name={"delivery"}
-              value={"Door Delivery"}
+              value={"2"}
               deliveryCostHandler={deliveryCostHandler}
+              setDelivery={setDelivery}
             />
             <RadioCheckout
               id={"pick up"}
               label={"Pick Up"}
               name={"delivery"}
-              value={"Pick Up"}
+              value={"3"}
               deliveryCostHandler={deliveryCostHandler}
+              setDelivery={setDelivery}
             />
           </div>
           <p
