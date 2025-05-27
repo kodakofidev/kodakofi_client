@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ProductListAdmin from "./pages/admin/ProductListAdmin";
 import OrdersAdmin from "./pages/admin/OrdersAdmin";
 import { DashBoard } from "./pages/admin/DashBoard";
+import UsersAdmin from "./pages/admin/UsersAdmin";
 
 const Router = () => {
   return (
@@ -27,7 +28,7 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          
+
           {/* Protected Routes - require login */}
           <Route element={<ProtectedRoute />}>
             <Route path="/history" element={<HistoryOrderPage />} />
@@ -40,6 +41,7 @@ const Router = () => {
           <Route path="products" element={<ProductListAdmin />} />
           <Route path="orders" element={<OrdersAdmin />}/>
           <Route index element={<DashBoard />}></Route>
+          <Route path="users" element={<UsersAdmin />}/>
         </Route>
       </Routes>
     </BrowserRouter>

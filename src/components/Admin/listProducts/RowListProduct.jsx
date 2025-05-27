@@ -3,9 +3,9 @@ import Coffee from "../../../assets/iconHistoryOrders/Coffee.jpg";
 import Edit from "../../../assets/iconProductListAdmin/Edit2.svg";
 import Trash from "../../../assets/iconProductListAdmin/Trash.png";
 
-import {useDispatch} from 'react-redux'
+import { useDispatch } from "react-redux";
 
-import {modalAction} from '../../../redux/slices/modalsAdmin'
+import { modalAction } from "../../../redux/slices/modalsAdmin";
 
 export default function RowListProduct({
   id,
@@ -68,14 +68,17 @@ export default function RowListProduct({
       <td className="px-3">{stock}</td>
       <td className="px-3">
         <div className="grid grid-cols-2 place-items-center gap-4">
-            <div onClick={() => {
-              dispatch(modalAction.toggleModalEditProduct())
-            }} className="w-10 h-10 bg-[#FF89061A] overflow-hidden rounded-full flex justify-center items-center p-1 cursor-pointer hover:scale-[1.05] active:scale-[1]">
-                <img src={Edit} alt="icon" className="scale-[1.5]"/>
-            </div>
-            <div className="w-10 h-10 bg-[#D000001A] overflow-hidden rounded-full flex justify-center items-center p-1 cursor-pointer hover:scale-[1.05] active:scale-[1]">
-                <img src={Trash} alt="icon" />
-            </div>
+          <div
+            onClick={() => {
+              dispatch(modalAction.toggleModalEditProduct());
+            }}
+            className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#FF89061A] p-1 hover:scale-[1.05] active:scale-[1]"
+          >
+            <img src={Edit} alt="icon" className="scale-[1.5]" />
+          </div>
+          <div className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#D000001A] p-1 hover:scale-[1.05] active:scale-[1]">
+            <img src={Trash} alt="icon" />
+          </div>
         </div>
       </td>
     </tr>

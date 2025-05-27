@@ -1,12 +1,12 @@
 import React from "react";
 
-export default function InputCheckout({
+export default function InputEmailCheckout({
   icon,
   label,
   type,
   name,
   id,
-  value,
+  email,
   placeHolder,
 }) {
   return (
@@ -25,8 +25,9 @@ export default function InputCheckout({
             type={type}
             name={name}
             id={id}
-            defaultValue={value}
-            className="border-gray-300 rounded-lg border-2 p-2 w-full pl-10 focus:outline-orange"
+            value={email}
+            disabled
+            className="border-gray-300 bg-gray-200 rounded-lg border-2 p-2 w-full pl-10 focus:outline-orange"
             placeholder={placeHolder}
           />
         </div>

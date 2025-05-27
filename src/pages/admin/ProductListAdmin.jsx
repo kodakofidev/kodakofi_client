@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import HeadProductList from "../../components/Admin/listProducts/HeadProductList";
 import TableProducts from "../../components/Admin/listProducts/TableProducts";
 import { useSelector, useDispatch } from "react-redux";
-import {modalAction} from '../../redux/slices/modalsAdmin'
+import { modalAction } from "../../redux/slices/modalsAdmin";
 
 export default function ProductListAdmin() {
   const dispatch = useDispatch();
