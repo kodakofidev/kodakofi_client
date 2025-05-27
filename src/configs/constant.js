@@ -7,7 +7,7 @@ const constants = {
   googleClientSecret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
   baseURL: import.meta.env.VITE_APP_BASE_URL || "http://localhost:5173",
   profileUrl: import.meta.env.VITE_API_URL_PROFILE,
-  productUrl: import.meta.env.VITE_API_URL_PRODUCT,
+  productUrl: import.meta.env.VITE_API_URL_PRODUCT || "https://localhost:8080/public/product-image",
   isDevelopment,
 };
 
