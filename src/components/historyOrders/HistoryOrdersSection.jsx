@@ -77,7 +77,7 @@ export default function HistoryOrdersSection() {
   }
 
   function filterDate(e) {
-    const data = dataOrders.filter((order) => new Date(order.date) === e.target.value);
+    const data = dataOrders.filter((order) => order.date.slice(0, 10) === e.target.value);
     setFilterByDate(data);
     // setPage(1);
     // setChecked(1);
@@ -85,6 +85,10 @@ export default function HistoryOrdersSection() {
 
   function clearFilterDate() {
     setFilterByDate(null);
+    setPage(1);
+    setStart(0);
+    setEnd(4);
+    setMore(0);
   }
 
   return (

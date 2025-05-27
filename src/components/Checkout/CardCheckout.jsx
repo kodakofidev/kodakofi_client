@@ -50,7 +50,7 @@ export default function CardCheckout({
               <button onClick={() => {
                 dispatch(setQty({idx, qty: -1}))
               }} 
-              type="button" className="bg-orange w-5 h-5 text-[#fff] font-bold text-center leading-6 cursor-pointer hover:scale-[1.03] active:scale-[0.96] rounded-sm shadow-sm z-[3]">
+              type="button" className="bg-orange w-5 h-5 text-[#fff] font-bold text-center leading-6 cursor-pointer hover:scale-[1.03] active:scale-[0.96] rounded-sm shadow-sm">
                 <div className="w-full h-full flex justify-center items-center">-</div>
               </button>
               <input type="number" className="appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [MozAppearance:textfield] w-6 bg-[#fff] active:outline-orange text-center text-sm" value=   {quantity} onChange={(e) => {dispatch(setInputQty({idx, qty: Number((e.target.value))}))}}
@@ -59,8 +59,8 @@ export default function CardCheckout({
                onClick={() => {
                 dispatch(setQty({idx, qty: 1}))
               }}
-              type="button" className="bg-orange w-5 h-5 text-[#fff] font-bold text-center leading-6 cursor-pointer hover:scale-[1.03] active:scale-[0.96] rounded-sm shadow-sm z-[3]">
-                <div className="w-full h-full flex justify-center items-center z-[3]">+</div>
+              type="button" className="bg-orange w-5 h-5 text-[#fff] font-bold text-center leading-6 cursor-pointer hover:scale-[1.03] active:scale-[0.96] rounded-sm shadow-sm">
+                <div className="w-full h-full flex justify-center items-center">+</div>
               </button>
             </div>
             <p className="text-smmd:text-[17px] max-[1000px]:text-sm pt-0.5">

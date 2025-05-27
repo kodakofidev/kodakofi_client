@@ -4,7 +4,7 @@ import BRI from "../../assets/iconCheckoutPage/BRI.svg";
 import Dana from "../../assets/iconCheckoutPage/Dana.svg";
 import Gopay from "../../assets/iconCheckoutPage/Gopay.svg";
 import Ovo from "../../assets/iconCheckoutPage/Ovo.svg";
-import Paypal from "../../assets/iconCheckoutPage/Paypal.svg";
+import QRIS from "../../assets/iconCheckoutPage/QRIS.svg";
 
 export default function TotalPayment({
   productList,
@@ -77,7 +77,7 @@ export default function TotalPayment({
             <img src={BCA} alt="icon" />
             <img src={Gopay} alt="icon" />
             <img src={Ovo} alt="icon" />
-            <img src={Paypal} alt="icon" />
+            <img src={QRIS} alt="icon" className="scale-[0.8]"/>
           </div>
           <p className="col-span-2 text-gray-500">
             *Get Discount if you pay with Bank Central Asia
