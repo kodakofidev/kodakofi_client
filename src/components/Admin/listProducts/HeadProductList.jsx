@@ -4,7 +4,7 @@ import Filter from "../../../assets/iconProductListAdmin/Filter.svg";
 import { useDispatch } from 'react-redux';
 import { modalAction } from "../../../redux/slices/modalsAdmin";
 
-export default function HeadProductList() {
+export default function HeadProductList({ onRefresh }) {
     const dispatch = useDispatch();
   return (
     <>
@@ -48,6 +48,7 @@ export default function HeadProductList() {
             </button>
             </div>
         </section>
+
     </>
   )
 }
