@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import constant from "../../configs/constant"
 import { useNavigate } from "react-router";
 import { deleteOrder } from "../../redux/slices/orderSlice";
+import { toast } from 'react-toastify';
 
 export default function CheckoutPage() {
   const [productList, setProductList] = useState([]);
@@ -91,14 +92,16 @@ export default function CheckoutPage() {
           return response.json();
         })
         .then(result => {
+          toast.success("Successfully create an order");
           console.log('Response:', result);
+          setPaymentMethodeModal(false);
+          dispatch(deleteOrder());
+          navigate("/history");
         })
         .catch(error => {
+          toast.error('An error occurred, please try again');
           console.error('Error:', error);
         });
-        setPaymentMethodeModal(false);
-        dispatch(deleteOrder());
-        navigate("/history");
       }
     } else {
       email != "" ? setValidationEmail(true) : setValidationEmail(false);

@@ -4,6 +4,9 @@ import Mail from "../../assets/iconCheckoutPage/Mail.svg";
 import Profile from "../../assets/iconCheckoutPage/Profile.svg";
 import Location from "../../assets/iconCheckoutPage/Location.svg";
 import RadioCheckout from "../../components/Checkout/RadioCheckout";
+import InputEmailCheckout from "./InputEmailCheckout";
+import { useSelector } from "react-redux";
+
 
 export default function PaymentAndInfoDelivery({
   setDeliveryCost,
@@ -13,6 +16,8 @@ export default function PaymentAndInfoDelivery({
   validationDelivery,
   setDelivery,
 }) {
+  const user = useSelector((state) => state.auth.user);
+  const profile = useSelector((state) => state.profile.data);
   function deliveryCostHandler(e) {
     if (e.target.value === "2") {
       setDeliveryCost(15000);
@@ -28,11 +33,12 @@ export default function PaymentAndInfoDelivery({
       <div className="py-8 md:col-span-4">
         <h1 className="flex text-2xl pb-4">Payment & Info Delivery</h1>
         <div className="flex flex-col">
-          <InputCheckout
+          <InputEmailCheckout
             icon={Mail}
             id={"email"}
             label={"Email"}
             name={"email"}
+            email={user.email}
             placeHolder={"Enter Your Email"}
             type={"email"}
           />
@@ -48,6 +54,7 @@ export default function PaymentAndInfoDelivery({
             id={"fullName"}
             label={"Full Name"}
             name={"fullName"}
+            value={user.name}
             placeHolder={"Enter Your Full Name"}
             type={"text"}
           />
@@ -63,6 +70,7 @@ export default function PaymentAndInfoDelivery({
             id={"address"}
             label={"Address"}
             name={"address"}
+            value={profile.data.address}
             placeHolder={"Enter Your Address"}
             type={"text"}
           />
