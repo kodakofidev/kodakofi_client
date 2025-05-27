@@ -28,7 +28,7 @@ const persistedReducer = persistCombineReducers(persistConfig, {
 
 const store = configureStore({
   reducer: persistedReducer,
-  devTools: !constants.isDevelopment,
+  devTools: constants.isDevelopment,
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
       serializableCheck: {

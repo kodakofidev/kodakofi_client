@@ -12,6 +12,8 @@ import ProductDetails from "./pages/product/ProductDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProductListAdmin from "./pages/admin/ProductListAdmin";
 import OrdersAdmin from "./pages/admin/OrdersAdmin";
+import { DashBoard } from "./pages/admin/DashBoard";
+import UsersAdmin from "./pages/admin/UsersAdmin";
 
 const Router = () => {
   return (
@@ -37,8 +39,9 @@ const Router = () => {
         {/* Layouting Admin */}
         <Route path="admin" element={<AdminLayouts />}>
           <Route path="products" element={<ProductListAdmin />} />
-          <Route path="orders" element={<OrdersAdmin />} />
-          {/* <Route index element={<Dashboard />}></Route> */}
+          <Route path="orders" element={<OrdersAdmin />}/>
+          <Route index element={<DashBoard />}></Route>
+          <Route path="users" element={<UsersAdmin />}/>
         </Route>
       </Routes>
     </BrowserRouter>

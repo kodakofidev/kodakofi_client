@@ -4,31 +4,31 @@ import Filter from "../../../assets/iconProductListAdmin/Filter.svg";
 import { useDispatch } from 'react-redux';
 import { modalAction } from "../../../redux/slices/modalsAdmin";
 
-export default function HeadProductList({ onRefresh }) {
+export default function HeadUsersList() {
     const dispatch = useDispatch();
   return (
     <>
         <section className="grid grid-cols-4 gap-y-4 md:grid-cols-7 md:pr-7 lg:pr-3 xl:pr-18">
             <div className="flex flex-col gap-2 justify-center items-start col-span-4 md:row-start-1 md:col-start-1 md:col-span-3">
-            <h1 className="text-brown text-2xl font-semibold">Product List</h1>
+            <h1 className="text-brown text-2xl font-semibold">User List</h1>
             <button
                 onClick={(() => {
-                    dispatch(modalAction.toggleModalAddProduct())
+                    dispatch(modalAction.toggleAddUser())
                 })}
                 type="button"
                 className="text-sm font-semibold px-2 py-2 bg-orange rounded-md hover:scale-[1.01] active:scale-[1] cursor-pointer transition"
             >
-                + Add Product
+                + Add User
             </button>
             </div>
             <div className="flex flex-col gap-2 col-span-4 min-[500px]:col-span-3 md:col-start-4 md:row-start-1 md:justify-end lg:translate-x-12 xl:translate-x-18">
-            <p>Search Product</p>
+            <p>Search User</p>
             <div className="relative w-full h-8">
                 <input
                 type="search"
                 name="search"
                 id="search"
-                placeholder="Enter Product Name"
+                placeholder="Enter User Name"
                 className="h-full w-full outline-2 outline-gray-300 rounded-md px-2 focus:outline-orange peer"
                 />
                 <img
@@ -48,7 +48,6 @@ export default function HeadProductList({ onRefresh }) {
             </button>
             </div>
         </section>
-
     </>
   )
 }

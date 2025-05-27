@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import thumbsup from "../../assets/product-details/like.svg";
 import liked from "../../assets/product-details/liked.svg";
@@ -150,7 +150,7 @@ const ProductDetails = () => {
         <div className="mb-4 shrink-0 basis-[500px]">
           <div className="mb-[27px] flex justify-center">
             <img
-              src={`${constants.productUrl}${selectedImage}`}
+              src={`${constants.productUrl}/${selectedImage}`}
               alt={product?.name}
               className="aspect-square max-md:w-[357px] md:w-[578px] lg:w-[580px]"
             />
@@ -159,7 +159,7 @@ const ProductDetails = () => {
             {product?.images?.map((item, idx) => (
               <div key={idx} className="max-sm:snap-center max-sm:snap-always">
                 <img
-                  src={`${constants.productUrl}${item}`}
+                  src={`${constants.productUrl}/${item}`}
                   alt={product?.name}
                   onClick={() => setSelectedImage(item)}
                   className="aspect-square max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px]"

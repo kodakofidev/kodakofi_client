@@ -125,7 +125,7 @@ const SideBar = () => {
             </div>
 
             {/* Menu Items */}
-            <div className="flex-grow p-4 overflow-y-auto">
+            <div className="flex-grow p-4">
               {menuItems.map((item, index) => (
                 <Link
                   key={index}
@@ -205,7 +205,7 @@ const SideBar = () => {
         </div>
 
         {/* Menu Items */}
-        <div className="flex flex-col flex-grow py-4 overflow-y-auto overflow-x-hidden">
+        <div className="flex flex-col flex-grow py-4 overflow-x-hidden">
           {menuItems.map((item, index) => (
             <Link
               key={index}

@@ -9,41 +9,64 @@ import { modalAction } from "../../../redux/slices/modalsAdmin";
 
 export default function RowListProduct({
   id,
-  image,
   productName,
   price,
   description,
   productSize,
   method,
   stock,
-}) {
+  category,
+  image
+}) {  
   const dispatch = useDispatch();
   return (
-    <tr key={id}>
-      <td className="flex items-center justify-center">
-        <div className="flex h-22 w-full items-center justify-center">
-          <input
-            type="checkbox"
-            name="selectProduct"
-            id="selectProduct"
-            className="scale-[1.2] cursor-pointer"
+    <tr className="shadow-sm hover:shadow-md border-r cursor-pointer">
+      <td className="px-3 text-center">
+        <input type="checkbox" name={`select-${id}`} id={`select-${id}`} className="scale-[1.2] cursor-pointer" />
+      </td>
+      <td className="px-3 h-16">
+        {image ? (
+          <img 
+            src={image} 
+            alt={productName} 
+            className="w-16 h-16 object-cover rounded"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/placeholder-image.png"; // Fallback image if the main one fails
+            }}
           />
+        ) : (
+          <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
+            <span className="text-gray-500 text-xs">No image</span>
+          </div>
+        )}
+      </td>
+      <td className="px-3">
+        <div className="flex flex-col">
+          <h3 className="font-bold">{productName}</h3>
+          <p className="text-gray-400">{category || 'Uncategorized'}</p>
         </div>
       </td>
-      <td>
-        <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-md bg-amber-200">
-          <img src={Coffee} alt="img" />
-        </div>
+      <td className="px-3">Rp {Number(price).toLocaleString('id-ID')}</td>
+      <td className="px-3">{category || 'Uncategorized'}</td>
+      <td className="px-3">{description && description.length > 30 ? description.substring(0, 30) + '...' : description}</td>
+      <td className="px-3">
+        {productSize && productSize.length > 0
+          ? productSize.map((size, idx) => (
+              <span key={idx} className="inline-block mr-1 bg-gray-100 px-2 py-1 rounded text-xs">
+                {size}
+              </span>
+            ))
+          : <span className="text-gray-400 text-xs">No size data</span>
+        }
       </td>
-      <td className="min-w-[160px] px-4 text-center text-sm">{productName}</td>
-      <td className="min-w-[120px] px-4 text-center text-sm">IDR {price}</td>
-      <td className="line-clamp-3 max-w-[210px] min-w-[120px] px-4 text-sm">
-        {description}
+      <td className="px-3">
+        {method && method.map((m, idx) => (
+          <span key={idx} className="block text-sm">{m}</span>
+        ))}
       </td>
-      <td className="min-w-[120px] px-4 text-center text-sm">{productSize}</td>
-      <td className="min-w-[150px] px-4 text-center text-sm">{method}</td>
-      <td className="min-w-[120px] px-4 text-center text-sm">{stock}</td>
-      <td className="min-w-[120px] px-4 text-center text-sm">
+      <td className="px-3">{stock}</td>
+      <td className="px-3">
         <div className="grid grid-cols-2 place-items-center gap-4">
           <div
             onClick={() => {

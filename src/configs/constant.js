@@ -1,4 +1,4 @@
-const isDevelopment = import.meta.env.VITE_NODE_ENV === "development" || !import.meta.env.VITE_NODE_ENV;
+
 
 const constants = {
   // API URL with proper fallbacks
@@ -7,8 +7,8 @@ const constants = {
   googleClientSecret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
   baseURL: import.meta.env.VITE_APP_BASE_URL || "http://localhost:5173",
   profileUrl: import.meta.env.VITE_API_URL_PROFILE,
-  productUrl: import.meta.env.VITE_API_URL_PRODUCT,
-  isDevelopment,
+  productUrl: import.meta.env.VITE_API_URL_PRODUCT || "https://localhost:8080/public/product-image",
+  isDevelopment:import.meta.env.VITE_NODE_ENV === "development",
 };
 
 export default constants;

@@ -4,6 +4,8 @@ const initialState = {
     addProduct: false,
     editProduct: false,
     detailOrder: false,
+    addUser: false,
+    editUser: false,
 }
 
 const modalSlice = createSlice({
@@ -12,6 +14,19 @@ const modalSlice = createSlice({
     reducers: {
         toggleModalAddProduct: (state) => {
             state.addProduct = !state.addProduct;
+            // Close other modals when opening this one
+            if (state.addProduct) {
+                state.editProduct = false;
+                state.detailOrder = false;
+            }
+        },
+        openAddProduct: (state) => {
+            state.addProduct = true;
+            state.editProduct = false;
+            state.detailOrder = false;
+        },
+        closeAddProduct: (state) => {
+            state.addProduct = false;
         },
         toggleModalEditProduct: (state) => {
             state.editProduct = !state.editProduct;
@@ -20,9 +35,17 @@ const modalSlice = createSlice({
             state.addProduct = false;
             state.editProduct = false;
             state.detailOrder = false;
+            state.addUser = false;
+            state.editUser = false;
         },
         toggleModalDetailOrder: (state) => {
             state.detailOrder = !state.detailOrder;
+        },
+        toggleAddUser: (state) => {
+            state.addUser = !state.addUser;
+        },
+        toggleEditUser: (state) => {
+            state.editUser = !state.editUser;
         }
     }
 });

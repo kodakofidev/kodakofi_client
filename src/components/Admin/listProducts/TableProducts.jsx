@@ -1,32 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import RowListProduct from "../../../components/Admin/listProducts/RowListProduct";
-import PaginationProductListAdmin from './PaginationProductListAdmin';
-import { modalAction } from '../../../redux/slices/modalsAdmin';
 import { useDispatch } from "react-redux";
 
-export default function TableProducts({data}) {
+export default function TableProducts({data, pagination, onPageChange}) {
     const dispatch = useDispatch();
 
-    const [page, setPage] = useState(1);
-    const [start, setStart] = useState(0);
-    const [end, setEnd] = useState(5);
-    const [more, setMore] = useState(0);
-    const [checked, setChecked] = useState(1);
+    if (!data || data.length === 0) {
+      return (
+        <div className="text-center py-8">
+          <p>No products found</p>
+        </div>
+      );
+    }
 
-    useEffect(() => {
-    setStart(page * 5 - 5), setEnd(page * 5);
-    }, [page]);
-
-    const products = [];
-    const result = data.slice(start, end);
-    products.push(...result);
-
-    let pagination = 0;
-    pagination += Math.ceil(data.length / 5);
-
-  return (
-    <>
-    <section className="overflow-x-scroll overflow-y-hidden h-full pt-12 md:pr-7 lg:pr-3 xl:pr-18">
+    return (
+      <>
+        <section className="overflow-x-scroll overflow-y-hidden h-full pt-12 md:pr-7 lg:pr-3 xl:pr-18">
           <table className="table-auto min-w-5xl select-none w-full border-separate border-spacing-y-3">
             <thead>
               <tr>
@@ -36,6 +25,7 @@ export default function TableProducts({data}) {
                 <th className="px-3 py-2 text-sm">Image</th>
                 <th className="px-3 py-2 text-sm">Product Name</th>
                 <th className="px-3 py-2 text-sm">Price</th>
+                <th className="px-3 py-2 text-sm">Category</th>
                 <th className="px-3 py-2 text-sm">Desc</th>
                 <th className="px-3 py-2 text-sm">Product Size</th>
                 <th className="px-3 py-2 text-sm">Method</th>
@@ -44,8 +34,19 @@ export default function TableProducts({data}) {
               </tr>
             </thead>
             <tbody>
-                {products.map((product, index) => (
-                    <RowListProduct id={product.id} description={product.description} method={product.deliveryMethods} price={product.price} productName={product.name} productSize={product.sizes} stock={product.stock} key={index}/>
+                {data.map((product, index) => (
+                    <RowListProduct 
+                      key={product.id} 
+                      id={product.id} 
+                      description={product.description} 
+                      method={product.deliveryMethods} 
+                      price={product.price} 
+                      productName={product.name} 
+                      productSize={product.sizes} 
+                      stock={product.stock}
+                      category={product.category}
+                      image={product.images && product.images.length > 0 ? product.images[0] : null}
+                    />
                 ))}
             </tbody>
           </table>
@@ -53,41 +54,54 @@ export default function TableProducts({data}) {
         <section className='pt-5'>
             <div className="flex gap-2 flex-col justify-center lg:grid lg:grid-cols-7">
                 <div className="lg:col-span-2 text-center">
-                    Show {products.length} product of {data.length} product
+                    Showing {data.length} products of {pagination.totalItems} products
                 </div>
-                <div className="flex gap-5 justify-center lg:col-start-5 lg:col-span-3 lg:flex lg:gap-6 lg:justify-center">
-                    {(() => {
-                        if (data.length > 25) {
-                            return <h1 className={`${more === 0 ? "text-gray-400 cursor-not-allowed" : "text-orange  cursor-pointer"} font-semibold`} onClick={() => {
-                                if (more > 0) {
-                                    setMore(more - 1);
-                                    setPage(page - 1);
-                                    setChecked(checked - 1);
-                                }
-                            }}>Prev</h1>
+                <div className="flex gap-5 justify-center lg:col-start-4 lg:col-span-3 lg:flex lg:gap-6 lg:justify-center">
+                    <button 
+                      className={`font-semibold ${pagination.page > 1 ? "text-orange cursor-pointer" : "text-gray-400 cursor-not-allowed"}`}
+                      onClick={() => pagination.page > 1 && onPageChange(pagination.page - 1)}
+                    >
+                      Prev
+                    </button>
+                    
+                    {Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
+                      .filter(page => Math.abs(page - pagination.page) < 3 || page === 1 || page === pagination.totalPages)
+                      .map((page, idx, arr) => {
+                        // Add ellipsis
+                        if (idx > 0 && page > arr[idx - 1] + 1) {
+                          return (
+                            <React.Fragment key={`ellipsis-${page}`}>
+                              <span className="text-gray-400">...</span>
+                              <button 
+                                key={page}
+                                className={`${pagination.page === page ? "text-orange font-bold" : "text-gray-600"} cursor-pointer`}
+                                onClick={() => onPageChange(page)}
+                              >
+                                {page}
+                              </button>
+                            </React.Fragment>
+                          );
                         }
-                    })()}
-                    {(() => {
-                        const elPage = []
-                        for (let idx = 0; idx < pagination - 6; idx++) {
-                            elPage.push(<PaginationProductListAdmin key={idx + 1 + more} id={idx + 1 + more} setPage={setPage} checked={checked} setChecked={setChecked}/>)
-                        }
-                        return elPage
-                    })()}
-                    {(() => {
-                        if (data.length > 25) {
-                            return <h1 className={`${more < pagination - 5 ? "text-orange cursor-pointer" : "text-gray-400 cursor-not-allowed"} font-semibold`} onClick={() => {
-                                if (more < pagination - 5) {
-                                    setMore(more + 1)
-                                    setPage(page + 1)
-                                    setChecked(checked + 1)
-                                }
-                            }}>Next</h1>
-                        }
-                    })()}
+                        return (
+                          <button 
+                            key={page}
+                            className={`${pagination.page === page ? "text-orange font-bold" : "text-gray-600"} cursor-pointer`}
+                            onClick={() => onPageChange(page)}
+                          >
+                            {page}
+                          </button>
+                        );
+                      })}
+                    
+                    <button 
+                      className={`font-semibold ${pagination.page < pagination.totalPages ? "text-orange cursor-pointer" : "text-gray-400 cursor-not-allowed"}`}
+                      onClick={() => pagination.page < pagination.totalPages && onPageChange(pagination.page + 1)}
+                    >
+                      Next
+                    </button>
                 </div>
             </div>
         </section>
-    </>
-  )
+      </>
+    )
 }
