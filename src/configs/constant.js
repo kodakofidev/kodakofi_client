@@ -8,7 +8,6 @@ const constants = {
   baseURL: import.meta.env.VITE_APP_BASE_URL || "http://localhost:5173",
   profileUrl: import.meta.env.VITE_API_URL_PROFILE,
   productUrl: import.meta.env.VITE_API_URL_PRODUCT || "https://localhost:8080/public/product-image",
-  productUrl: import.meta.env.VITE_API_URL_PRODUCT,
   isDevelopment:import.meta.env.VITE_NODE_ENV === "development",
 };
 
