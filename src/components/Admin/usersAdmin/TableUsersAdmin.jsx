@@ -34,8 +34,10 @@ export default function TableUsersAdmin({data}) {
                 <th className="px-3 py-2 text-sm">Image</th>
                 <th className="px-3 py-2 text-sm">Full Name</th>
                 <th className="px-3 py-2 text-sm">Phone</th>
-                <th className="px-3 py-2 text-sm">Address</th>
+                <th className="px-3 py-2 text-sm min-w-xs">Address</th>
                 <th className="px-3 py-2 text-sm">Email</th>
+                <th className="px-3 py-2 text-sm">Verified</th>
+                <th className="px-3 py-2 text-sm">Created at</th>
                 <th className="px-3 py-2 text-sm">Action</th>
                 {/* <th className="px-3 py-2 text-sm">Stock</th>
                 <th className="px-3 py-2 text-sm">Action</th> */}
