@@ -5,6 +5,7 @@ import liked from "../../assets/product-details/liked.svg";
 import shoppingCart from "../../assets/product-details/shoppingCart.svg";
 import prev from "../../assets/product-details/arrow-right.svg";
 import Card from "../../components/Card";
+import constants from "../../configs/constant";
 
 const ProductDetails = () => {
   const URL = import.meta.env.VITE_API_URL
@@ -133,7 +134,7 @@ const handleAddToCart = () => {
         <div className="mb-4 shrink-0 basis-[500px]">
           <div className="mb-[27px] flex justify-center">
             <img
-              src={`${URL}/public/product-image/${selectedImage}`}
+              src={`${constants.productUrl}/${selectedImage}`}
               alt={product?.name}
               className="aspect-square max-md:w-[357px] md:w-[578px] lg:w-[580px]"
             />
@@ -142,7 +143,7 @@ const handleAddToCart = () => {
             {product?.images?.map((item, idx) => (
               <div key={idx} className="max-sm:snap-center max-sm:snap-always">
                 <img
-                  src={`${URL}/public/product-image/${item}`}
+                  src={`${constants.productUrl}/${item}`}
                   alt={product?.name}
                   onClick={() => setSelectedImage(item)}
                   className="max-md:max-w-[104px] max-sm:w-full md:h-[172px] md:w-[180px] aspect-square"
