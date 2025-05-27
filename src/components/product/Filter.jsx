@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+// import DualSlider from "./DualSlider";
 
 function Filter({ filters, onFilterApply }) {
   const formRef = useRef(null);
@@ -26,6 +27,7 @@ function Filter({ filters, onFilterApply }) {
 
   const sortOptions = [
     { label: "Best Seller", value: "favorite" },
+    { label: "Rating", value: "rating" },
     { label: "Cheapest", value: "cheapest" },
     { label: "Oldest", value: "oldest" },
     { label: "A-Z", value: "asc" },
@@ -68,7 +70,7 @@ function Filter({ filters, onFilterApply }) {
   };
 
   return (
-    <section className="my-5 hidden h-[650px] w-1/3 rounded-lg bg-black p-5 md:block lg:block xl:block">
+    <section className="my-5 hidden h-[680px] w-1/3 rounded-lg bg-black p-5 md:block lg:block xl:block">
       <div className="flex flex-row items-center justify-between">
         <p className="text-sm font-semibold text-white">Filter</p>
         <p
@@ -156,7 +158,13 @@ function Filter({ filters, onFilterApply }) {
           <label className="text-xs font-semibold text-white">
             Price Range
           </label>
-          <div className="relative h-7">
+          <div onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left; // mouse position within slider
+              const middle = rect.width / 2;
+              setActiveSlider(x < middle ? "min" : "max");
+            }} 
+            className="relative h-7">
             <div className="absolute top-1/2 h-1 w-full -translate-y-1/2 transform rounded-md bg-[#c3beb7]" />
             <div
               className="absolute top-1/2 h-1 -translate-y-1/2 transform rounded bg-[#ff8906]"

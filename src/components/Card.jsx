@@ -7,10 +7,11 @@ import Cart from "../assets/icon/ShoppingCart.svg";
 import image from "../assets/icon/default-image.jpg";
 import constants from "../configs/constant";
 import close from "../assets/icon/close-x.svg"
+import check from "../assets/icon/check.svg"
 
 function Card({ product }) {
-  const URL = import.meta.env.VITE_API_URL
   const [isOpen, setIsOpen] = useState(false)
+  const [isInCart, setIsInCart] = useState(false)
   const [order, setOrder] = useState(null)
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -26,22 +27,37 @@ function Card({ product }) {
   }
 
   const closeModal = () => {
-    setIsOpen(false)
-  }
-  
-  const addToCart = () => {
-    setIsOpen(true)
-  }
+  setIsOpen(false);
+  setIsInCart(false);
+}
 
-  const addToOrder = () => {
-    dispatch(addOrder(order))
-    setIsOpen(false)
+  const openModal = () => {
+  setIsOpen(true);
+  if (product.category_id >= 3) {
+    dispatch(addOrder)
+    setIsInCart(true)
+
+    setTimeout(() => {
+      setIsOpen(false)
+      setIsInCart(false)
+    }, 3000)
   }
+}
+
+const addToCart = () => {
+  dispatch(addOrder)
+  setIsInCart(true)
+
+  setTimeout(() => {
+      setIsOpen(false);
+      setIsInCart(false);
+    }, 3000);
+}
 
   return (
     <div className="relative top-8 max-h-[360px] max-w-[377px] min-w-[158px] snap-center transition duration-150 ease-linear hover:scale-105">
       <img
-        src={`${constants.productUrl}${product?.images?.[0] || image}`}
+        src={product?.images?.[0] ? `${constants.productUrl}${product.images[0]}` : image}
         alt={product?.name || "image"}
         className="h-[215px] w-full object-cover sm:h-[240px] lg:h-[360px]"
       />
@@ -111,88 +127,100 @@ function Card({ product }) {
             >
               Buy
             </button>
-            <button onClick={addToCart} className="flex w-1/3 cursor-pointer flex-col items-center justify-center rounded-md border border-[#FF8906] p-2 max-sm:w-full">
+            <button onClick={openModal} className="flex w-1/3 cursor-pointer flex-col items-center justify-center rounded-md border border-[#FF8906] p-2 max-sm:w-full">
               <img src={Cart} alt="Add to cart" width={24} height={24} />
             </button>
           </div>
         </div>
       </div>
-      {product?.category_id < 3 ? (
-      <div className={`${isOpen ? "visible" : "invisible"} fixed inset-0 mt-8 bg-[#000000cc] flex items-center justify-center transition-all duration-300 ease-in-out`}>
+      <div className={`${isOpen ? "visible" : "invisible"} fixed inset-0 h-[420px] lg:h-[550px] mt-8 hover:mt-0 bg-[#000000cc] flex items-center justify-center`}>
         <div className="relative rounded-lg bg-[#e8e8e8] p-5">
+          {isInCart ? (
+            <div className="p-5 flex flex-col items-center gap-[10px]">
+              <img src={check} alt="Done" />
+              <p className="font-semibold">Added to cart</p>
+            </div>
+          ) : (
             <>
-              <div className="border-b border-[#ff8906] h-5">
-                <img onClick={closeModal} src={close} alt="Close" className="absolute right-4 lg:right-4 top-4 lg:top-3 w-5 lg:w-7 h-5 lg:h-7 cursor-pointer"/>
-              </div>
-              <h3 className="mt-4 md:mb-2 text-lg md:text-md font-bold text-[#0B0909]">
-                Choose Size
-              </h3>
-              {product.category_id < 3 ? (
-                <div className="mb-4 flex w-full flex-wrap gap-2">
-                  {product?.sizes?.map((item, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() =>
-                        setOrder((prev) => ({
-                          ...prev,
-                          size: item.size,
-                          size_id: item.id,
-                        }))
-                      }
-                      className={`${
-                        order?.size === item.size
-                          ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909] md:text-sm rounded-md p-1 lg:p-2"
-                          : "border border-(--secondary-color) font-medium text-[#4F5665] md:text-sm rounded-md p-1 lg:p-2"
-                      } flex-1 cursor-pointer p-[10px] hover:bg-(--secondary-color) hover:text-[#0B0909] md:text-sm rounded-md p-1 lg:p-2`}
-                    >
-                      {item.size}
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <></>
-              )}
-
-              <div>
-                <h3 className="mt-4 md:mb-2 text-lg md:text-md font-bold text-[#0B0909]">
-                  Hot/Ice?
-                </h3>
-                <div className="mb-10 flex w-full flex-wrap gap-2 lg:mb-24">
-                  {product?.toping?.map((item, index) => (
-                    <button
-                      key={index}
-                      onClick={() =>
-                        setOrder((prev) => ({
-                          ...prev,
-                          toping: item,
-                          is_iced: item === "Ice" ? true : false,
-                        }))
-                      }
-                      className={`${
-                        order?.toping === item
-                          ? "border border-(--secondary-color) bg-(--secondary-color) font-semibold text-[#0B0909] md:text-sm rounded-md p-1 lg:p-2"
-                          : "border border-(--secondary-color) font-medium text-[#4F5665] md:text-sm rounded-md p-1 lg:p-2"
-                      } flex-1 cursor-pointer p-[10px] hover:bg-(--secondary-color) hover:font-semibold hover:text-[#0B0909] md:text-sm rounded-md p-1 lg:p-2`}
-                    >
-                      {item}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <button 
-                onClick={addToOrder}
-                className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border border-[#FF8906] p-2 max-sm:w-full">
-                  <div className="flex flex-row justify-between md:gap-[15px] lg:gap-[10px]">
-                    <p className="md:text-sm"> Add to cart </p>
-                    <img src={Cart} alt="Add to order" width={24} height={24} />
+              {product.category_id < 3 && (
+                <>
+                  <div className="border-b border-[#ff8906] h-5">
+                    <img
+                      onClick={closeModal}
+                      src={close}
+                      alt="Close"
+                      className="absolute right-4 lg:right-4 top-4 w-5 h-5 cursor-pointer"
+                    />
                   </div>
-              </button>
+                  
+                  <h3 className="mt-4 md:mb-2 text-lg md:text-md font-bold text-[#0B0909]">
+                    Choose Size
+                  </h3>
+                  <div className="mb-4 flex w-full flex-wrap gap-2">
+                    {product?.sizes?.map((item, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() =>
+                          setOrder((prev) => ({
+                            ...prev,
+                            size: item.size,
+                            size_id: item.id,
+                          }))
+                        }
+                        className={`${
+                          order?.size === item.size
+                            ? "border border-[#FF8906] bg-[#FF8906] font-semibold text-[#0B0909]"
+                            : "border border-[#FF8906] font-medium text-[#4F5665]"
+                        } flex-1 cursor-pointer rounded-md p-2 hover:bg-[#FF8906] hover:text-[#0B0909]`}
+                      >
+                        {item.size}
+                      </button>
+                    ))}
+                  </div>
+                  
+                  <div>
+                    <h3 className="mt-4 md:mb-2 text-lg md:text-md font-bold text-[#0B0909]">
+                      Hot/Ice?
+                    </h3>
+                    <div className="mb-10 flex w-full flex-wrap gap-2 lg:mb-24">
+                      {product?.toping?.map((item, index) => (
+                        <button
+                          key={index}
+                          onClick={() =>
+                            setOrder((prev) => ({
+                              ...prev,
+                              toping: item,
+                              is_iced: item === "Ice",
+                            }))
+                          }
+                          className={`${
+                            order?.toping === item
+                              ? "border border-[#FF8906] bg-[#FF8906] font-semibold text-[#0B0909]"
+                              : "border border-[#FF8906] font-medium text-[#4F5665]"
+                          } flex-1 cursor-pointer rounded-md p-2 hover:bg-[#FF8906] hover:text-[#0B0909]`}
+                        >
+                          {item}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                    
+                  <button
+                    onClick={addToCart}
+                    className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border border-[#FF8906] p-2 max-sm:w-full"
+                  >
+                    <div className="flex flex-row justify-between gap-2">
+                      <p className="md:text-sm">Add to cart</p>
+                      <img src={Cart} alt="Add to order" width={24} height={24} />
+                    </div>
+                  </button>
+                </>
+              )}
             </>
+          )}
         </div>
       </div>
-      ) : (
-        <> </>
-      )}
+
     </div>
   );
 }
