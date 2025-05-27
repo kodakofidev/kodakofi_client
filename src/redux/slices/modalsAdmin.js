@@ -6,6 +6,7 @@ const initialState = {
     detailOrder: false,
     addUser: false,
     editUser: false,
+    idEditUser: "",
 }
 
 const modalSlice = createSlice({
@@ -46,7 +47,10 @@ const modalSlice = createSlice({
         },
         toggleEditUser: (state) => {
             state.editUser = !state.editUser;
-        }
+        },
+        setIdEditUser: (state, {payload}) => {
+            state.idEditUser = payload;
+        } 
     }
 });
 
