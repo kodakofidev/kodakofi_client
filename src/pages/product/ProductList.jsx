@@ -16,7 +16,7 @@ function ProductList() {
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState({
     search: searchParams.get("search") || "",
-    category: searchParams.get("category") || "",
+    category: searchParams.get("category") || [],
     options: searchParams.get("options") || "",
     minPrice: Number(searchParams.get("min")),
     maxPrice: Number(searchParams.get("max")),
@@ -30,7 +30,7 @@ function ProductList() {
   useEffect(() => {
     const query = {
       page: currentPage,
-      search: filters.search,
+      search: filters.search.trim(),
       category: filters.category,
       options: filters.options,
     };
@@ -55,6 +55,9 @@ function ProductList() {
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
         setProducts(data.data.data);
+        if (!data.data.data.toping) {
+          data.data.data.toping = ["Hot", "Ice"];
+        }
         setTotalPages(data.data.pagination.total_pages || 1);
       } catch (err) {
         setError(err.message);
@@ -78,7 +81,9 @@ function ProductList() {
         <div className="flex flex-row md:gap-[10px] lg:gap-[50px]">
           <Filter filters={filters} onFilterApply={handleFilterApply} />
           {loading ? (
-            <p>Loading products...</p>
+            <div className="flex justify-center items-center h-40 w-full">
+              <div className="loader"></div>
+            </div>
           ) : error ? (
             <p>Error: {error}</p>
           ) : (
