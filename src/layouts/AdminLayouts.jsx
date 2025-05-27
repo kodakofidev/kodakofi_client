@@ -28,7 +28,7 @@ const AdminLayouts = () => {
   return (
     <main className="overflow-x-hidden">
       <Header />
-      <div className="relative min-h-[calc(100vh-64px)] pt-16">
+      <div className="relative min-h-[calc(100vh-64px)] pt-16 overflow-y-hidden overflow-x-hidden">
         <SideBar />
         <div
           className={`transition-all duration-300 px-6 py-4 ${

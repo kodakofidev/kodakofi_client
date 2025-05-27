@@ -3,7 +3,6 @@ import thumbs from "../assets/icon/ThumbsUp.svg";
 import Cart from "../assets/icon/ShoppingCart.svg";
 import image from "../assets/icon/default-image.jpg";
 import constants from "../configs/constant";
-const URL = import.meta.env.VITE_API_URL;
 
 function Card({ product }) {
   const navigate = useNavigate();
@@ -14,7 +13,7 @@ function Card({ product }) {
   return (
     <div className="relative top-8 max-h-[360px] max-w-[377px] min-w-[158px] snap-center transition duration-150 ease-linear hover:scale-105">
       <img
-        src={`${constants.productUrl}${product?.images?.[0] || image}`}
+        src={`${constants.productUrl}/${product?.images?.[0] || image}`}
         alt={product?.name || "image"}
         className="h-[215px] w-full object-cover sm:h-[240px] lg:h-[360px]"
       />
