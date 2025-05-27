@@ -26,6 +26,8 @@ export default function RowListUsersAdmin({image, fullName, phone, address, emai
       <td className="px-4 min-w-[120px] text-center text-sm">{phone}</td>
       <td className="px-4 min-w-[120px] text-sm">{address}</td>
       <td className="px-4 min-w-[120px] text-center text-sm">{email}</td>
+      <td className="px-4 min-w-[120px] text-center text-sm">Unverified</td>
+      <td className="px-4 min-w-[120px] text-center text-sm">2025-12-10</td>
       <td className="px-4 min-w-[150px] text-center text-sm">
         <div className="grid grid-cols-3 place-items-center gap-4">
             <div onClick={() => {
