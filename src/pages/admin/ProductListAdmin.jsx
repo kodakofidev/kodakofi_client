@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import HeadProductList from "../../components/Admin/listProducts/HeadProductList";
 import TableProducts from "../../components/Admin/listProducts/TableProducts";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,374 +7,117 @@ import {modalAction} from '../../redux/slices/modalsAdmin'
 export default function ProductListAdmin() {
   const dispatch = useDispatch();
   const {addProduct, editProduct} = useSelector((state) => state.modals);
-  const data = [{'id': 1,
-  'name': 'Flat White',
-  'price': 43708,
-  'description': 'Smooth and naturally sweet, made with quality ingredients.',
-  'sizes': ['L', 'XL', '500ml'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 87},
- {'id': 2,
-  'name': 'Café Bombón',
-  'price': 52889,
-  'description': 'Smooth and naturally sweet, made with quality ingredients.',
-  'sizes': ['R', 'L', 'XL', '250gr'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 229},
- {'id': 3,
-  'name': 'Mocha Latte',
-  'price': 48593,
-  'description': 'Sweet, savory, and satisfying from the first sip.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 192},
- {'id': 4,
-  'name': 'Kopi Vietnam',
-  'price': 32121,
-  'description': 'A traditional coffee made with a modern twist.',
-  'sizes': ['L', 'XL', '500ml'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 131},
- {'id': 5,
-  'name': 'Kopi Lemon',
-  'price': 39175,
-  'description': 'Aromatic and refreshing with a nutty finish.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 93},
- {'id': 6,
-  'name': 'Kopi Tubruk',
-  'price': 52494,
-  'description': 'Bold espresso with a soft and silky milk layer.',
-  'sizes': ['S', 'M', 'L'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 120},
- {'id': 7,
-  'name': 'Kopi Rempah',
-  'price': 51316,
-  'description': 'A unique layered drink with rich flavor and creamy texture.',
-  'sizes': ['250gr', '500gr'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 115},
- {'id': 8,
-  'name': 'Nitro Cold Brew',
-  'price': 45472,
-  'description': 'Smooth and naturally sweet, made with quality ingredients.',
-  'sizes': ['L', 'XL', '500ml'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 241},
- {'id': 9,
-  'name': 'Cold Brew',
-  'price': 26635,
-  'description': 'Crafted for those who enjoy both strength and elegance.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 63},
- {'id': 10,
-  'name': 'Kopi Alpukat',
-  'price': 32356,
-  'description': 'Bold espresso with a soft and silky milk layer.',
-  'sizes': ['250gr', '500gr'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 298},
- {'id': 11,
-  'name': 'Café au Lait',
-  'price': 33474,
-  'description': 'Aromatic and refreshing with a nutty finish.',
-  'sizes': ['250gr', '500gr'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 99},
- {'id': 12,
-  'name': 'Es Kopi Gula Aren',
-  'price': 38000,
-  'description': 'Crafted for those who enjoy both strength and elegance.',
-  'sizes': ['R', 'L', 'XL', '250gr'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 277},
- {'id': 13,
-  'name': 'Kopi Tarik',
-  'price': 39643,
-  'description': 'A unique layered drink with rich flavor and creamy texture.',
-  'sizes': ['R', 'L', 'XL', '250gr'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 207},
- {'id': 14,
-  'name': 'Flat White',
-  'price': 37396,
-  'description': 'A traditional coffee made with a modern twist.',
-  'sizes': ['L', 'XL', '500ml'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 165},
- {'id': 15,
-  'name': 'Green Coffee',
-  'price': 32678,
-  'description': 'A mix of exotic spices and premium coffee beans.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 180},
- {'id': 16,
-  'name': 'Kopi Alpukat',
-  'price': 51427,
-  'description': 'Smooth and naturally sweet, made with quality ingredients.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 142},
- {'id': 17,
-  'name': 'Espresso',
-  'price': 31307,
-  'description': 'Crafted for those who enjoy both strength and elegance.',
-  'sizes': ['S', 'M', 'L'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 56},
- {'id': 18,
-  'name': 'Iced Mocha',
-  'price': 43417,
-  'description': 'A mix of exotic spices and premium coffee beans.',
-  'sizes': ['R', 'L', 'XL', '250gr'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 242},
- {'id': 19,
-  'name': 'Black Eye',
-  'price': 48355,
-  'description': 'A unique layered drink with rich flavor and creamy texture.',
-  'sizes': ['250gr', '500gr'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 171},
- {'id': 20,
-  'name': 'Kopi Jahe',
-  'price': 49638,
-  'description': 'Cold brewed and steeped for hours for a smoother taste.',
-  'sizes': ['250gr', '500gr'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 213},
- {'id': 21,
-  'name': 'Long Black',
-  'price': 27853,
-  'description': 'A unique layered drink with rich flavor and creamy texture.',
-  'sizes': ['L', 'XL', '500ml'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 217},
- {'id': 22,
-  'name': 'Ristretto',
-  'price': 51531,
-  'description': 'Aromatic and refreshing with a nutty finish.',
-  'sizes': ['S', 'M', 'L'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 86},
- {'id': 23,
-  'name': 'Mocha Latte',
-  'price': 50271,
-  'description': 'Bold espresso with a soft and silky milk layer.',
-  'sizes': ['S', 'M', 'L'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 100},
- {'id': 24,
-  'name': 'Long Black',
-  'price': 37677,
-  'description': 'Crafted for those who enjoy both strength and elegance.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 115},
- {'id': 25,
-  'name': 'Long Black',
-  'price': 26396,
-  'description': 'Earthy, creamy, and perfect for relaxing moments.',
-  'sizes': ['R', 'L', 'XL', '250gr'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 201},
- {'id': 26,
-  'name': 'Kopi Vietnam',
-  'price': 28772,
-  'description': 'A unique layered drink with rich flavor and creamy texture.',
-  'sizes': ['S', 'M', 'L'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 244},
- {'id': 27,
-  'name': 'Kopi Madu',
-  'price': 43800,
-  'description': 'A traditional coffee made with a modern twist.',
-  'sizes': ['R', 'L', 'XL', '250gr'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 94},
- {'id': 28,
-  'name': 'Espresso',
-  'price': 53558,
-  'description': 'Cold brewed and steeped for hours for a smoother taste.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 285},
- {'id': 29,
-  'name': 'Kopi Rempah',
-  'price': 28960,
-  'description': 'Aromatic and refreshing with a nutty finish.',
-  'sizes': ['L', 'XL', '500ml'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 116},
- {'id': 30,
-  'name': 'Kopi Pisang',
-  'price': 40641,
-  'description': 'Cold brewed and steeped for hours for a smoother taste.',
-  'sizes': ['S', 'M', 'L'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 297},
- {'id': 31,
-  'name': 'Es Kopi Gula Aren',
-  'price': 45259,
-  'description': 'Earthy, creamy, and perfect for relaxing moments.',
-  'sizes': ['S', 'M', 'L'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 298},
- {'id': 32,
-  'name': 'Coffee Jelly',
-  'price': 26287,
-  'description': 'A traditional coffee made with a modern twist.',
-  'sizes': ['250gr', '500gr'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 270},
- {'id': 33,
-  'name': 'Coffee Jelly',
-  'price': 40303,
-  'description': 'Smooth and naturally sweet, made with quality ingredients.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 183},
- {'id': 34,
-  'name': 'Caramel Macchiato',
-  'price': 28352,
-  'description': 'Aromatic and refreshing with a nutty finish.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 136},
- {'id': 35,
-  'name': 'Cold Brew',
-  'price': 37827,
-  'description': 'Aromatic and refreshing with a nutty finish.',
-  'sizes': ['250gr', '500gr'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 78},
- {'id': 36,
-  'name': 'Cappuccino',
-  'price': 27703,
-  'description': 'Sweet, savory, and satisfying from the first sip.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 185},
- {'id': 37,
-  'name': 'Coffee Tonic',
-  'price': 53956,
-  'description': 'Smooth and naturally sweet, made with quality ingredients.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 242},
- {'id': 38,
-  'name': 'Kopi Kelapa',
-  'price': 32946,
-  'description': 'A traditional coffee made with a modern twist.',
-  'sizes': ['250gr', '500gr'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 206},
- {'id': 39,
-  'name': 'Kopi Alpukat',
-  'price': 40368,
-  'description': 'A mix of exotic spices and premium coffee beans.',
-  'sizes': ['R', 'L', 'XL', '250gr'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 176},
- {'id': 40,
-  'name': 'Macchiato',
-  'price': 40865,
-  'description': 'Cold brewed and steeped for hours for a smoother taste.',
-  'sizes': ['R', 'L', 'XL', '250gr'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 183},
- {'id': 41,
-  'name': 'Kopi Cokelat',
-  'price': 44668,
-  'description': 'Earthy, creamy, and perfect for relaxing moments.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 209},
- {'id': 42,
-  'name': 'Kopi Lemon',
-  'price': 43987,
-  'description': 'Aromatic and refreshing with a nutty finish.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 135},
- {'id': 43,
-  'name': 'Cappuccino',
-  'price': 33756,
-  'description': 'Crafted for those who enjoy both strength and elegance.',
-  'sizes': ['S', 'M', 'L'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 216},
- {'id': 44,
-  'name': 'Cold Brew',
-  'price': 47041,
-  'description': 'A unique layered drink with rich flavor and creamy texture.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 277},
- {'id': 45,
-  'name': 'Matcha Espresso Fusion',
-  'price': 48722,
-  'description': 'Smooth and naturally sweet, made with quality ingredients.',
-  'sizes': ['R', 'L', 'XL', '250gr'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 157},
- {'id': 46,
-  'name': 'Kopi Alpukat',
-  'price': 51623,
-  'description': 'A unique layered drink with rich flavor and creamy texture.',
-  'sizes': ['M', 'L', '350ml'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 278},
- {'id': 47,
-  'name': 'Matcha Espresso Fusion',
-  'price': 54846,
-  'description': 'A traditional coffee made with a modern twist.',
-  'sizes': ['L', 'XL', '500ml'],
-  'deliveryMethods': ['Deliver', 'Dine In'],
-  'stock': 282},
- {'id': 48,
-  'name': 'Kopi Madu',
-  'price': 46565,
-  'description': 'Sweet, savory, and satisfying from the first sip.',
-  'sizes': ['R', 'L', 'XL', '250gr'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 154},
- {'id': 49,
-  'name': 'Flat White',
-  'price': 51597,
-  'description': 'Sweet, savory, and satisfying from the first sip.',
-  'sizes': ['250gr', '500gr'],
-  'deliveryMethods': ['Dine In'],
-  'stock': 68},
- {'id': 50,
-  'name': 'Macchiato',
-  'price': 40465,
-  'description': 'A unique layered drink with rich flavor and creamy texture.',
-  'sizes': ['250gr', '500gr'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 230}, 
-  {'id': 51,
-  'name': 'Macchiato Philipines',
-  'price': 40466,
-  'description': 'A unique layered drink with rich flavor and creamy texture.',
-  'sizes': ['250gr', '500gr'],
-  'deliveryMethods': ['Deliver'],
-  'stock': 230}]
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    totalPages: 1,
+    totalItems: 0
+  });
+  
+  useEffect(() => {
+    fetchProducts(1);
+  }, []);
+  
+  const fetchProducts = async (page = 1) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`http://localhost:8080/api/product?page=${page}`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      
+      const result = await response.json();
+      console.log('API response:', result);
+      
+      if (!result.data || !result.data.data || !Array.isArray(result.data.data)) {
+        console.error('API returned invalid data format:', result);
+        setProducts([]);
+        return;
+      }
+      
+      // Transform backend data to match frontend structure
+      const transformedData = result.data.data.map(product => transformProduct(product));
+      
+      setProducts(transformedData);
+      
+      // Store pagination info
+      if (result.data.pagination) {
+        setPagination({
+          page: result.data.pagination.page,
+          totalPages: result.data.pagination.total_pages,
+          totalItems: result.data.pagination.total_items
+        });
+      }
+      
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching products:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  // Helper function to transform product data
+  const transformProduct = (product) => {
+    return {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      // Format image URLs properly
+      images: product.images ? product.images.map(img => `http://localhost:8080/public/product-image/${img}`) : [],
+      category: product.category_name,
+      categoryId: product.category_id,
+      // Handle sizes array correctly - API uses 'sizes' property
+      sizes: Array.isArray(product.sizes) ? product.sizes.map(s => s.size) : [],
+      deliveryMethods: ['Deliver', 'Dine In'], // Default since backend doesn't have this field
+      // Calculate total stock from all sizes
+      stock: Array.isArray(product.sizes) 
+        ? product.sizes.reduce((total, s) => total + s.stock, 0) 
+        : 0,
+      // Include discount info if available
+      discount: product.discount || 0,
+      discountName: product.discount_name || ''
+    };
+  };
+  
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= pagination.totalPages) {
+      fetchProducts(newPage);
+    }
+  };
   
   return (
     <>
-      <section className="outline-8 outline-[#fff] overscroll-none overflow-y-hidden">
-        <HeadProductList />
-        <TableProducts data={data}/>
-        <div 
-          className={`fixed top-0 bottom-0 left-0 right-[50.5%] z-10 bg-black opacity-70 transition duration-300 ${addProduct || editProduct ? "translate-x-0" : "translate-x-[200%]"}`} onClick={() => (
-            dispatch(modalAction.closeAllModal())
-          )}>
-        </div>
+      <section className="outline-8 outline-[#fff] overscroll-none">
+        <HeadProductList onRefresh={() => fetchProducts(pagination.page)} />
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <p className="text-xl">Loading products...</p>
+          </div>
+        ) : error ? (
+          <div className="flex justify-center items-center h-64">
+            <p className="text-red-500">Error: {error}</p>
+            <button 
+              className="ml-4 px-4 py-2 bg-orange text-white rounded-md"
+              onClick={() => fetchProducts(pagination.page)}
+            >
+              Try Again
+            </button>
+          </div>
+        ) : (
+          <>
+            <TableProducts 
+              data={products} 
+              pagination={pagination}
+              onPageChange={handlePageChange}
+            />
+          </>
+        )}
       </section>
     </>
   );
