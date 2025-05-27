@@ -4,7 +4,7 @@ import Filter from "../../../assets/iconProductListAdmin/Filter.svg";
 import { useDispatch } from 'react-redux';
 import { modalAction } from "../../../redux/slices/modalsAdmin";
 
-export default function HeadUsersList() {
+export default function HeadUsersList({setSearch}) {
     const dispatch = useDispatch();
   return (
     <>
@@ -25,6 +25,9 @@ export default function HeadUsersList() {
             <p>Search User</p>
             <div className="relative w-full h-8">
                 <input
+                onChange={(e) => {
+                    setSearch(e.target.value)
+                }}
                 type="search"
                 name="search"
                 id="search"
