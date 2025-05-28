@@ -89,7 +89,7 @@ export default function EditUserAdmin() {
                     {previewUrls.length === 0 ? 
                     <>  
                         <div className="w-24 h-24 shadow-lg rounded overflow-hidden">
-                            <img src={`http://localhost:8080/${dataUser[0]?.image}`} alt={`Preview`} className="w-full h-full object-cover" />
+                            <img src={`${dataUser[0]?.image}`} alt={`Preview`} className="w-full h-full object-cover" />
                         </div>
                     </>
                     : 
