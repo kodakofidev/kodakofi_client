@@ -39,10 +39,11 @@ function Promo() {
               <Banner />
               <Banner />
               <Banner />
+              <Banner />
+              <Banner />
+              <Banner />
             </div>
           </div>
-
-
       </section>
     </>
   )
