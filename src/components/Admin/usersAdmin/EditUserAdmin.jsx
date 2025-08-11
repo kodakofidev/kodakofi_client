@@ -6,11 +6,36 @@ import Close from "../../../assets/iconCheckoutPage/XCircle.svg"
 import Coffee from "../../../assets/iconCheckoutPage/Coffee.jpg"
 import InputUserAdmin from './InputUserAdmin'
 import InputPasswordUserAdmin from './InputPasswordUserAdmin'
+import constant from "../../../configs/constant"
 
 export default function EditUserAdmin() {
     const [images, setImages] = useState([]);
     const [previewUrls, setPreviewUrls] = useState([]);
     const {editUser} = useSelector((state) => state.modals);
+    const [users, setUsers] = useState([]);
+    const token = useSelector((state) => state.auth.user.token);
+    const { idEditUser } = useSelector((state) => state.modals)
+
+    useEffect(() => {
+        fetch(`${constant.apiUrl}/admin/users`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            }
+        }).then((res) => {
+            if (!res.ok) {
+                throw new Error("failed fetch data");
+            }
+            return res.json();
+        }).then((res) => {
+            setUsers(res.data);
+        }).catch((err) => {
+            console.log("ERROR : ", err);
+        })
+    }, [idEditUser])
+
+    const dataUser = users?.filter(user => user.email === idEditUser);
 
     const dispatch = useDispatch();
 
@@ -53,7 +78,7 @@ export default function EditUserAdmin() {
     <>
         <form onSubmit={submitHandler} className={`h-full overflow-y-hidden p-8 absolute top-16 left-0 right-0 bottom-0 bg-[#fff]  ${editUser ? "translate-x-0" : "translate-x-[100%]"} transition duration-300  md:w-1/2 md:left-1/2 md:rigth-0 md:p-4 md:shadow-lg`}>
             <div className="flex justify-between items-center">
-                <h1 className='text-2xl font-semibold'>Darlene Robertson</h1>
+                <h1 className='text-2xl font-semibold'>{dataUser[0]?.fullname}</h1>
                 <img src={Close} alt="close" className="cursor-pointer" onClick={(() => {
                     dispatch(modalAction.toggleEditUser())
                 })}/>
@@ -61,22 +86,32 @@ export default function EditUserAdmin() {
             <div className='flex flex-col gap-3 pt-4'>
                 <h1>Image User</h1>
                 <div className="flex flex-wrap gap-4 mt-4">
-                    {previewUrls.map((url, index) => (
-                    <div key={index} className="w-24 h-24 shadow-lg rounded overflow-hidden">
-                        <img src={url} alt={`Preview ${index}`} className="w-full h-full object-cover" />
-                    </div>
-                    ))}
+                    {previewUrls.length === 0 ? 
+                    <>  
+                        <div className="w-24 h-24 shadow-lg rounded overflow-hidden">
+                            <img src={`${dataUser[0]?.image}`} alt={`Preview`} className="w-full h-full object-cover" />
+                        </div>
+                    </>
+                    : 
+                    <>
+                        {previewUrls.map((url, index) => (
+                        <div key={index} className="w-24 h-24 shadow-lg rounded overflow-hidden">
+                            <img src={url} alt={`Preview ${index}`} className="w-full h-full object-cover" />
+                        </div>
+                        ))}
+                    </>
+                    }
                 </div>
                 <div>
                     <label htmlFor='inputImgEditUser' className='py-1 px-2 bg-orange rounded-md cursor-pointer hover:scale-[1.03] active:scale-[1]' >Upload</label>
                     <input type="file" name="inputImgEditUser" id="inputImgEditUser" accept='image/*' hidden onChange={handleImageChange}/>
                 </div>
             </div>
-            <InputUserAdmin id={"fullNameEditUser"} label={"Full Name"} name={"fullNameEditUser"} placeholder={"Enter Full Name"} type={"input"}/>
-            <InputUserAdmin id={"emailEditUser"} label={"Email"} name={"emailEditUser"} placeholder={"Enter Your Email"} type={"input"}/>
-            <InputUserAdmin id={"phoneEditUser"} label={"Phone"} name={"phoneEditUser"} placeholder={"Enter Your Number"} type={"input"}/>
+            <InputUserAdmin id={"fullNameEditUser"} label={"Full Name"} name={"fullNameEditUser"} placeholder={"Enter Full Name"} type={"input"} defaultValue={dataUser[0]?.fullname}/>
+            <InputUserAdmin id={"emailEditUser"} label={"Email"} name={"emailEditUser"} placeholder={"Enter Your Email"} type={"input"} defaultValue={dataUser[0]?.email}/>
+            <InputUserAdmin id={"phoneEditUser"} label={"Phone"} name={"phoneEditUser"} placeholder={"Enter Your Number"} type={"input"} defaultValue={dataUser[0]?.phone}/>
             <InputPasswordUserAdmin id={"passEdituser"} label={"Password"} name={"passEdituser"} placeholder={"Enter Your Password"} type={"input"}/>
-            <InputUserAdmin id={"addressEdituser"} label={"Address"} name={"addressEdituser"} placeholder={"Enter Your Address"} type={"input"}/>
+            <InputUserAdmin id={"addressEdituser"} label={"Address"} name={"addressEdituser"} placeholder={"Enter Your Address"} type={"input"} defaultValue={dataUser[0]?.address}/>
             <button type="submit" className='mt-4 py-1 px-2 bg-orange rounded-md hover:scale-[1.03] active:scale-[1] cursor-pointer w-full'>Update</button>
         </form>
     </>

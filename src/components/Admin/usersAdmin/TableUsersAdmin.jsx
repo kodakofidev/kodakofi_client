@@ -13,14 +13,17 @@ export default function TableUsersAdmin({data}) {
     useEffect(() => {
     setStart(page * 5 - 5), setEnd(page * 5);
     }, [page]);
-
+    
     const users = [];
-    const result = data.slice(start, end);
-    users.push(...result);
-
+    if (data !== null) {
+        const result = data.slice(start, end);
+        users.push(...result);
+    }
+    
     let pagination = 0;
-    pagination += Math.ceil(data.length / 5);
-
+    if (data != null) {
+        pagination += Math.ceil(data.length / 5);
+    }
 
   return (
     <>
@@ -34,30 +37,35 @@ export default function TableUsersAdmin({data}) {
                 <th className="px-3 py-2 text-sm">Image</th>
                 <th className="px-3 py-2 text-sm">Full Name</th>
                 <th className="px-3 py-2 text-sm">Phone</th>
-                <th className="px-3 py-2 text-sm min-w-xs">Address</th>
+                <th className="px-3 py-2 text-sm min-w-[200px]">Address</th>
                 <th className="px-3 py-2 text-sm">Email</th>
                 <th className="px-3 py-2 text-sm">Verified</th>
                 <th className="px-3 py-2 text-sm">Created at</th>
                 <th className="px-3 py-2 text-sm">Action</th>
-                {/* <th className="px-3 py-2 text-sm">Stock</th>
-                <th className="px-3 py-2 text-sm">Action</th> */}
               </tr>
             </thead>
             <tbody>
-                {users.map((user, index) => (
-                    <RowListUsersAdmin fullName={user.full_name} phone={user.phone} address={user.address} email={user.email} key={index}/>
-                ))}
+                {users.length === 0 ? 
+                <>
+                    <tr>
+                        <td colSpan={9} className='text-center font-bold text-3xl'>User Not Found :)</td>
+                    </tr>
+                </> :
+                    users.map((user, index) => (
+                        <RowListUsersAdmin image={user.image} fullName={user.fullname} phone={user.phone} address={user.address} email={user.email} key={index} is_verified={user.is_verified} created_at={user.created_at}/>
+                    ))
+                }
             </tbody>
           </table>
         </section>
         <section className='pt-5'>
             <div className="flex gap-2 flex-col justify-center lg:grid lg:grid-cols-7">
                 <div className="lg:col-span-2 text-center">
-                    Show {users.length} users of {data.length} user
+                    Show {users.length} users of {data === null ? "0" : data.length} user
                 </div>
                 <div className="flex gap-5 justify-center lg:col-start-5 lg:col-span-3 lg:flex lg:gap-6 lg:justify-center">
                     {(() => {
-                        if (data.length > 25) {
+                        if (data?.length > 25) {
                             return <h1 className={`${more === 0 ? "text-gray-400 cursor-not-allowed" : "text-orange  cursor-pointer"} font-semibold`} onClick={() => {
                                 if (more > 0) {
                                     setMore(more - 1);
@@ -69,14 +77,13 @@ export default function TableUsersAdmin({data}) {
                     })()}
                     {(() => { 
                         const elPages = []
-                        console.log("pagination", pagination)
-                        for (let idx = 0; idx < pagination - 1; idx++) {
+                        for (let idx = 0; idx < pagination; idx++) {
                             elPages.push(<PaginationUsersListAdmin key={idx + 1 + more} id={idx + 1 + more} setPage={setPage} checked={checked} setChecked={setChecked}/>)
                         }
                         return elPages
                     })()}
                     {(() => {
-                        if (data.length > 25) {
+                        if (data?.length > 25) {
                             return <h1 className={`${more < pagination - 6 ? "text-orange cursor-pointer" : "text-gray-400 cursor-not-allowed"} font-semibold`} onClick={() => {
                                 if (more < pagination - 6) {
                                     setMore(more + 1)

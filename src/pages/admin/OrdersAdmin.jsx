@@ -229,7 +229,7 @@ export default function OrdersAdmin() {
               <ModalsDetailOrder />
             </section>
             <div 
-              className={`fixed top-0 bottom-0 left-0 right-[50.5%] z-10 bg-black opacity-70 transition duration-300 ${detailOrder ? "translate-x-0" : "translate-x-[200%]"}`} onClick={() => (
+              className={`fixed top-0 bottom-0 left-0 right-[49.75%] z-10 bg-black opacity-70 transition duration-300 ${detailOrder ? "translate-x-0" : "translate-x-[200%]"}`} onClick={() => (
                 dispatch(modalAction.closeAllModal())
               )}>
             </div>

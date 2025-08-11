@@ -70,7 +70,7 @@ export default function PaymentAndInfoDelivery({
             id={"address"}
             label={"Address"}
             name={"address"}
-            value={profile.address}
+            value={profile.data.address}
             placeHolder={"Enter Your Address"}
             type={"text"}
           />
